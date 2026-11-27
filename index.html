@@ -251,6 +251,28 @@ input,select{font:inherit}
 .yt-rows .yt-row:first-child{margin-top:9px}
 .habit.habit-strength{display:block;padding:12px 13px}
 
+/* ============ english app links ============ */
+.habit.habit-english{display:block;padding:12px 13px}
+.app-row{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0 1px 55px}
+.app-btn{
+  display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:999px;
+  font-size:12px;font-weight:800;letter-spacing:-.01em;text-decoration:none;line-height:1.2;
+  color:var(--app-ink,#3B7A05);background:var(--card);border:1px solid var(--app-line,rgba(88,204,2,.3));
+  box-shadow:0 4px 10px -8px rgba(0,0,0,.4);transition:transform .16s,background .18s,border-color .18s;
+}
+.app-btn:active{transform:scale(.96)}
+.app-btn .tri{font-size:9px;line-height:1}
+.app-btn.duo{--app-ink:#3B7A05;--app-line:rgba(88,204,2,.38)}
+.app-btn.mhb{--app-ink:#5B45D6;--app-line:rgba(124,92,252,.3)}
+:root[data-theme="dark"] .app-btn{background:rgba(255,255,255,.05)}
+:root[data-theme="dark"] .app-btn.duo{--app-ink:#9BE86A;--app-line:rgba(88,204,2,.42)}
+:root[data-theme="dark"] .app-btn.mhb{--app-ink:#BFAEFF;--app-line:rgba(167,139,250,.36)}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .app-btn{background:rgba(255,255,255,.05)}
+  :root:not([data-theme="light"]) .app-btn.duo{--app-ink:#9BE86A;--app-line:rgba(88,204,2,.42)}
+  :root:not([data-theme="light"]) .app-btn.mhb{--app-ink:#BFAEFF;--app-line:rgba(167,139,250,.36)}
+}
+
 /* ============ coach strip ============ */
 .strip{
   display:flex;gap:11px;align-items:flex-start;
@@ -1735,6 +1757,30 @@ input,select{font:inherit}
     return '<a class="yt-btn" data-yt href="' + esc(href) + '" target="_blank" rel="noopener noreferrer"'
       + (title ? ' title="' + esc(title) + '"' : '') + '><span class="tri" aria-hidden="true">▶</span> ' + esc(label) + '</a>';
   }
+  /* =================영어 공부 앱 링크================= */
+  /* 공식 주소만 씁니다. 말해보카는 학습이 앱에서만 되므로 안드로이드에서는 공식 플레이스토어
+     앱 페이지로, 그 밖의 기기에서는 공식 홈페이지로 보냅니다. */
+  var DUOLINGO_URL = 'https://www.duolingo.com/';
+  var MALHAEBOCA_ANDROID_URL = 'https://play.google.com/store/apps/details?id=kr.epopsoft.word';
+  var MALHAEBOCA_WEB_URL = 'https://epop.ai/ko';
+  function isAndroid(){
+    try{ return /Android/i.test(navigator.userAgent || ''); }catch(e){ return false; }
+  }
+  function malhaebocaUrl(){
+    return isAndroid() ? MALHAEBOCA_ANDROID_URL : MALHAEBOCA_WEB_URL;
+  }
+  function appLink(cls, href, label, title){
+    return '<a class="app-btn ' + cls + '" data-app href="' + esc(href) + '" target="_blank" rel="noopener noreferrer"'
+      + (title ? ' title="' + esc(title) + '"' : '') + '><span class="tri" aria-hidden="true">▶</span> ' + esc(label) + '</a>';
+  }
+  function bindAppLinks(root){
+    $$('a[data-app]', root || document).forEach(function(a){
+      if(a.dataset.appBound) return;
+      a.dataset.appBound = '1';
+      /* 앱 링크 탭이 루틴 체크까지 토글하지 않도록 막음 */
+      a.addEventListener('click', function(e){ e.stopPropagation(); });
+    });
+  }
   function bindYtLinks(root){
     $$('a[data-yt]', root || document).forEach(function(a){
       if(a.dataset.ytBound) return;
@@ -1891,6 +1937,7 @@ input,select{font:inherit}
       if(h.id === 'challenge') return;
       if(h.id === 'music'){ html += musicCardHtml(); return; }
       if(h.id === 'strength'){ html += strengthCardHtml(); return; }
+      if(h.id === 'english'){ html += englishCardHtml(); return; }
       var done = isChecked(key, h.id);
       var weekend = h.weekend && isWeekendKey(key);
       var title = habitTitle(h.id);
@@ -1928,6 +1975,26 @@ input,select{font:inherit}
       }
     }
     bindYtLinks();
+    bindAppLinks();
+  }
+
+  function englishCardHtml(){
+    var key = todayKey();
+    var done = isChecked(key, 'english');
+    var h = habitMeta('english');
+    return '<div class="habit habit-english t-violet' + (done ? ' done' : '') + '">'
+      + '<button type="button" class="m-top" data-habit="english" aria-pressed="' + (done ? 'true' : 'false') + '">'
+      + '<span class="ico" aria-hidden="true">' + h.icon + '</span>'
+      + '<span class="txt"><span class="t">' + esc(h.title) + '</span>'
+      + '<span class="d">' + esc(habitDesc('english')) + '</span></span>'
+      + '<span class="plus">+' + h.minutes + '분</span>'
+      + checkSvg()
+      + '</button>'
+      + '<div class="app-row" role="group" aria-label="영어 공부 앱 열기">'
+      + appLink('duo', DUOLINGO_URL, '듀오링고', '듀오링고 열기 (duolingo.com)')
+      + appLink('mhb', malhaebocaUrl(), '말해보카', isAndroid() ? '말해보카 앱 열기 (Google Play)' : '말해보카 공식 홈페이지 열기 (epop.ai)')
+      + '</div>'
+      + '</div>';
   }
 
   function practiceList(key){
