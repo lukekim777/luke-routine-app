@@ -231,7 +231,22 @@ input,select{font:inherit}
 :root[data-theme="dark"] .yt-btn{color:#FF9B93;background:rgba(255,255,255,.05);border-color:rgba(255,140,130,.3)}
 .yt-btn:active{transform:scale(.96)}
 .yt-btn .tri{font-size:9px;line-height:1}
-.yt-note{font-size:10.5px;font-weight:750;color:var(--ink-3);letter-spacing:-.01em;line-height:1.35}
+.yt-line{display:flex;align-items:center;gap:6px;max-width:100%}
+.yt-next{
+  flex:0 0 auto;width:26px;height:26px;padding:0;border-radius:999px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:900;line-height:1;color:var(--ink-3);
+  background:var(--card-soft);border:1px solid var(--line);
+  transition:transform .16s,color .18s,border-color .18s,background .18s;
+}
+.yt-next:hover{color:var(--ink);border-color:var(--ink-3)}
+.yt-next:active{transform:scale(.9)}
+:root[data-theme="dark"] .yt-next{color:#C9C9CF;background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.15)}
+.yt-note{display:flex;align-items:center;gap:6px;width:100%;max-width:100%;font-size:10.5px;font-weight:750;color:var(--ink-3);letter-spacing:-.01em;line-height:1.35}
+.yt-note-t{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.yt-count{flex:0 0 auto;font-variant-numeric:tabular-nums;font-weight:800;opacity:.66}
+#chVideoRow{margin-top:11px;padding-right:36px}
+#chVideoRow .yt-row{margin:0}
 .yt-rows .yt-row{margin:7px 0 0 55px}
 .yt-rows .yt-row:first-child{margin-top:9px}
 .habit.habit-strength{display:block;padding:12px 13px}
@@ -488,10 +503,7 @@ input,select{font:inherit}
           </div>
           <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.5 12.5 10 18l9.5-11"/></svg></span>
         </button>
-        <div class="yt-row yt-row-wide" id="chVideoRow" hidden>
-          <a class="yt-btn" id="chVideoLink" data-yt href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"><span class="tri">▶</span> 참고 영상</a>
-          <span class="yt-note" id="chVideoNote"></span>
-        </div>
+        <div id="chVideoRow" hidden></div>
       </div>
 
       <div class="sec-head">
@@ -635,86 +647,727 @@ input,select{font:inherit}
     { id:'challenge', title:'오늘의 도전', icon:'🎲', minutes:12, coach:'mind', tone:'t-amber' }
   ];
 
-  /* 요일별 근력 미니 포커스 (0=일 … 6=토) + 그날 따라할 유튜브 영상
-     video.id 는 유튜브 oembed 로 실제 존재를 확인한 단일 영상 주소(11자리)예요. */
+  /* ===== 검증된 유튜브 영상 라이브러리: 총 654개 =====
+     유튜브 oembed(HTTP 200)로 제목·채널을 확인한 영상만 담았어요. id -> [제목, 채널] */
+  var YT_META = {
+    "50WCSpZtdmA":["[ENG] 심으뜸 매일 아침 10분 스트레칭ㅣ2023 리뉴얼","힙으뜸"],
+    "jw1gxrzRgeU":["[ENG, CHN] 왜, 스트레칭만 하고 싶은 그런 날 있잖아요..🥹ㅣ25분 심으뜸 전신 스트레칭","힙으뜸"],
+    "dn_oJ7SCseU":["기상 스트레칭(MORNING STRETCHING) - 강하나 스트레칭(2018)","강하나 스트레칭_stretching"],
+    "8VtkpMGw0hw":["자기전 숙면을 도와주는 10분 스트레칭 ㅣ저녁, 운동 전후 스트레칭 ㅣ 심으뜸ㅣ10 min bedtime stretch","힙으뜸"],
+    "EbGh3ME7NLI":["매일 아침 꼭 해야하는 10분 기상 스트레칭👑 (2024)","빵느"],
+    "F0VqX7LzyvQ":["매일 꼭 해야하는 20분 전신순환 스트레칭 Ep.14 - 피로회복, 혈액순환, 긴장완화, 스트레스 감소, 바른자세 효과","빵느"],
+    "S_XjbPjWL3o":["아침 눈뜨자마자 스트레칭🌤  한번만 따라 해도 가볍고 가뿐한 몸 완성! 5분 아침 스트레칭ㅣ다노티비","Stretch with Jessie"],
+    "U6nnxml9GRs":["운동 전 필수! 8분으로 빠르게 끝내는 초간단 전신 스트레칭ㅣ다노티비","Stretch with Jessie"],
+    "QhRcs9d2Y9E":["과학적으로 검증된 허리 스트레칭! 8분이면 그냥 끝! 허리 아프신 분들 필독!","건강의학전문채널 하이닥"],
+    "sLe6jgHoYtk":["매일아침 꼭 해야하는 10분 모닝스트레칭 l 피로회복, 혈액순환, 독소배출, 목허리뻐근함 완화 (morning stretch)","자세요정 JSYJ"],
+    "aob4Lh1Vebk":["하루 9분! 전신 스트레칭 BEST (운동전후⭕)","Thankyou BUBU"],
+    "5NsJ5CVJp-E":["2024버전 NEW 눈뜨자마자 스트레칭🧘‍♀️어깨, 허리, 골반 뻐근한 사람 모두 모여! 가뿐한 하루 시작해요ㅣ다노티비","Stretch with Jessie"],
+    "5DcdUr5hhhU":["운동 전에 따라하는 서서하는 스트레칭 ⬆️운동효과 두배로 업⬆️","MIZI"],
+    "CznpNXToLbM":["워밍업 10분 데일리 스트레칭 | 웜업 전신 스트레칭, 운동전 스트레칭, 요가 스트레칭","에일린 mind yoga"],
+    "6_LYz_XxD-g":["[EN/CH]눈뜨스:아침에 눈뜨자마자 따라하는 스트레칭 (First Thing in the Morning Stretching, Morning Stretching)ㅣ다노티비","Stretch with Jessie"],
+    "xCIid6LG354":["매일 아침 꼭 해야하는 15분 기상 스트레칭｜혈액순환, 피로회복, 신진대사 향상 (Morning stretch)","빵느"],
+    "t6YlREDAiN0":["[아침 스트레칭 특집 2탄] 누워서 시작해서 앉아서 끝나는 '자세 교정 운동'","모스틱 자세연구소"],
+    "Z9SnKphUu7s":["운동 전에 필수! 최고의 전신 스트레칭 꼭 따라해 보세요! 운동효과 2배로 향상됩니다! [혈액순환, 햄스트링, 고관절, 어깨, 허리, 동적, 중년, 50대, 40대]","함께해요 운동채널"],
+    "n8t3EM-XeBo":["[ENG] 시간알람,동작설명 추가_매일매일 꼭 하고 자는 10분 스트레칭! (워밍업,아침, 저녁용 스트레칭영상) 10 Minutes Total Body Stretch | 다노티비","Stretch with Jessie"],
+    "iCndwkvhcmY":["아침을 여는 스트레칭. 상쾌한 하루를 맞이해보세요. 매일 10분 몸을 깨워요!","건강의학전문채널 하이닥"],
+    "eTuWJbdqHMc":["(10분) 정말 매일 해야 하는 전신 요가 스트레칭(아침, 저녁 수시로!) fullbody morning yoga stretch","크리스탈나우crystalnow"],
+    "djnCTOctbrY":["전신의 피로를 풀어 깃털처럼 가벼워지는 전신스트레칭","강하나 스트레칭_stretching"],
+    "-PCYdMvO3qM":["[서리요가#26] 전신스트레칭, 허리통증완화 / 천천히 진행되는 40분 요가 / 모든레벨","서리요가seoriyoga"],
+    "Csq14WHG6q8":["[아침 스트레칭 특집] 누워서 시작해서 누워서 끝나는 '자세 교정 운동'","모스틱 자세연구소"],
+    "tZEZNsuDkLY":["매일하기 좋은 15분 데일리 스트레칭 | 기초 요가 스트레칭, 전신 스트레칭","에일린 mind yoga"],
+    "yyjOhsNEqtE":["[ENG] 운동 전 최고의 스트레칭! 10분만 따라해도 운동효과 대박!","힙으뜸"],
+    "w2AG6dPBlZU":["매일 꼭 해야하는 15분 전신순환 스트레칭 Ep.27 - 디톡스, 혈액순환, 피로회복 효과","빵느"],
+    "TbZZsD_bYko":["아침 스트레칭☀️ 매일 7분만 하면 뻣뻣한 관절이 시원하게 풀립니다","건강되찾기 프로젝트"],
+    "9C7jUnkT9sA":["하루 두 번🧘🏻‍♀️꼭 해야하는 25분 전신순환 스트레칭 Ep.12 - 초급 - 피로회복, 림프순환, 심신안정, 독소제거 (Whole body stretch)","빵느"],
+    "PMfN-xMKyaI":["밤새 굳은몸을 풀어주는🌞 매일아침, 눈뜨자마자 따라하는 10분 스트레칭 (morning stretch)","자세요정 JSYJ"],
+    "4wUS_-xWGyY":["매일 꼭 해야하는 20분 전신순환 스트레칭 Ep.29 - 피로회복, 혈액순환, 라인정리 효과","빵느"],
+    "X2s3RZR8lPI":["피로와 긴장을 해소시키는 데일리 전신스트레칭! | 소미핏","SomiFit"],
+    "XZCJRfhYJ-w":["전신 스트레칭 루틴","물리치료사.PT재석"],
+    "DWYDL-WxF1U":["하체 날, 딱 10분 밖에 없다면 - 스쿼트 10가지 동작 - 하체운동 홈트 루틴","빅씨스 Bigsis"],
+    "wYg3W24w99A":["[10분하체근력운동] 카운트송-비니쌤(의정부시체육회)","김소영건강체조티비-Health gymnastics"],
+    "kqBmsMb5nnE":["Do This Over‑50 Squat Routine to Feel Younger & Stronger In Just 7 Minutes!","fabulous50s"],
+    "wfiT1DUjzAY":["하루 10분 런지 운동 - 하체는 이거 하나로 끝! 힙업, 엉밑살, 안벅지, 중둔근 강화","빵느"],
+    "jSHEjB_3sRA":["매일 스쿼트 100개를 하면 생기는 놀라운 다리 라인 변화🔥칼로리 소모 끝판왕 전신 운동 + 힙업 운동 + 허벅지 살빼는 법 // 하체 비만 다이어트 운동 루틴","발레테라핏 Ballet TheraFit"],
+    "FS_hmVHlFVs":["달리기에 최적화된 5분하체운동! 하체 중량운동을 하지 않는 이유?","홍범석 hongbeomseok"],
+    "HTthpM84ILQ":["하루 한 번! 기초체력 기르는 5분 스쿼트 운동 - 초급자 루틴","빵느"],
+    "C4_2puAkxfs":["하루 한 번! 꼭 해야하는 10분 기본 하체근력 운동 홈트 (층간소음🙅🏻‍♀️)","빵느"],
+    "0LaoF369azs":["2 min Squat Workout/ For Beginners!/ Easy!/ No Jumping","Mariness Fit (English)"],
+    "7erin-2cpRo":["하체운동 허벅지운동 런지! 홈트에서 많이 하는 운동!  잘못하시면 무릎박살납니다","이득근"],
+    "tDhPStGIuDU":["스쿼트 35X3 (squat35X3) 데스런.","데스런 홈트레이닝"],
+    "KXYi6bI-UPE":["Lv.5 13분만에 하체 마비시키는 루틴! 근육통100% 옵니다. (누구나 집에서 가능) 13mins intense Legs Workout","권혁"],
+    "urOSaROmTIk":["힙으뜸 스쿼트 100개 챌린지 I 2025 리뉴얼ver","힙으뜸"],
+    "0gi0uE6ZFE4":["\"매일 걷기소용없다\" 하루 10분 했더니 중년근육에 놀라운 변화가 생깁니다 하체노화 막는 최고의 운동법","건나물TV"],
+    "_qiqzSkaNI4":["10 Min Squat Workout ( BEST 10 EXERCICES ) /  No Talking & No Repeat For Beginner","ThePelicanGirl"],
+    "CaT6kHxngJE":["ENG)하루 10분 런지 (feat. 중둔근 강화, 힙업, 하체다이어트)","힙으뜸"],
+    "pDFuLG0xrsU":["🏅요일별운동🏅 금요일 하체집중 근력운동 15분 루틴!","힙으뜸"],
+    "9WhpAVOSyl8":["하루 딱6분! 다리라인 살리는 운동 [허벅지&엉덩이]","Thankyou BUBU"],
+    "5HWOgV9xQgM":["무릎 부담 없이 살 빠지는 운동! 40대 이상 필수 하체 루틴 (관절 보호 OK)","임피티IMPT"],
+    "dO-51htz_eA":["How to Squat Safely Without Pain (Ages 50+)","Will Harlow – Over-Fifties Specialist Physio"],
+    "2AbLu3lQXLc":["하체 운동을 '한 종목'으로 끝내는 미친 방법 (반박불가)","헬마드 (헬스 건강 정보)"],
+    "bce7hAfUmF8":["매일 할 수 있는 초보자 하체 운동 | 10분 맨몸운동 루틴","프롬더스트릿"],
+    "6pfnCo2SoMQ":["하루 한 번! 기초체력 기르는 5분 스쿼트 운동👑(2025) - 초급자 루틴","빵느"],
+    "AD9HNQCpD8o":["10분 하체 운동🔥 힙업 & 허벅지 탄력 만들기 | Lower Body Workout (No Jumping)","GinaFit 지나핏"],
+    "HFnSsLIB7a4":["Everyone should do this Basic Squat: Here's How","Strength Side"],
+    "1RW8sjPNLRA":["하루 한 번! 기본근력 기르는 10분 런지 운동👑(2026)","빵느"],
+    "zzfBYEZM_Y4":["기구 없이 맨몸으로 하는 하체운동 4가지","임팩트"],
+    "8a9M0lNY37s":["하체 지방 완전히 태우는 10분 스쿼트 운동 - 영상 하나로 운동 끝! 힙업, 하체 군살 제거, 전신순환 (Squat workout 10min)","빵느"],
+    "orEGOGBRldQ":["(스쿼트, 런지 없는) 초급 하체 운동 10분 루틴 - 힘들진 않은데 자극이 너무 좋아요!!","빵느"],
+    "v4qKCoZ-SQ0":["How Beginner/Seniors Should Do Squats","Bob & Brad"],
+    "fe2fDQcW6cg":["하체 운동에서 가장 기본이 되는 4가지 | 요일별 루틴 하체편","탄단지혜 TanDanJihye"],
+    "xXcEhTR3u7w":["초보자 푸쉬업 한 달 루틴","고기남자 본캐"],
+    "eiMOxvZKyvM":["10 Minute Push-Up Progression Workout [Beginner Strength Training]","Juice & Toya"],
+    "l3gVu7M4H8Q":["과학적으로 완성된 15세트 '맨몸 상체 운동' 루틴","헬마드 (헬스 건강 정보)"],
+    "BR0gttNmsss":["팔굽혀펴기 매일 100개 100일 결과","썬건 SunGun"],
+    "j9iD8faGWEo":["하루 10분 가슴 펌핑 🔥 푸쉬업 100개 챌린지 자동 카운트 영상","운동 다이어리"],
+    "Jf5_PJCFs-g":["The BEST Push Up Workout for Chest & Triceps Growth","TIFF x DAN"],
+    "-wU_pG-P-8c":["[어깨,가슴 운동] \"강력한 어깨를 만들어줄 홈트 (중급자 추천)\"","GILHWAN 길환TV"],
+    "IwKzmnskihI":["매일 100개 푸쉬업? 결과가 충격입니다","피트니스 체인지"],
+    "blzrPdzxzHQ":["집에서 오직 ‘푸쉬업 6주’만 하면 몸은 놀랍게 변합니다.(가슴/어깨 강화를 위한 '푸쉬업 100개' 맨몸루틴)","보통사람을 위한 운동채널"],
+    "EUSxmgyGEYg":["10 Min PUSH UP WORKOUT | Bodyweight Only Upper Body Workout at Home (Follow Along!)","Maxx Stewart"],
+    "2phzIaSvyqc":["무분할 상체완성 맨몸운동루틴 (도구 필요X) [오늘의루틴]","키다리형"],
+    "Nl-R5NESKV8":["매일 팔굽혀펴기 100개씩 하면 몸이 얼마나 달라질까? l 현실 몸변화 과정 공개","범프업"],
+    "c_5ENJWekbQ":["Lv.4 10분 만에 집에서 가슴 작살내는 루틴 (누구나 쉽게 가능) [10mins Intense Chest Workout]","권혁"],
+    "yxA2Rqw5SeA":["Home Chest Workout with No Equipment | Intense 10 Min Push Up Challenge","Maxx Stewart"],
+    "uTmsvZOAh5U":["Lv.3 8분만에 상체전체를 탈탈 털어버리는 홈트루틴 (누구나 쉽게 가능)","권혁"],
+    "SZ7ZJC28VG4":["매일 팔굽혀펴기 100개 하면 생기는 일","동우의 시간"],
+    "RSNyOoAOpJQ":["무릎꿇고 진행하는 10분 푸쉬업운동 초보자편","김흑구"],
+    "N0RPCmtR_6Q":["10 Min PUSH UP WORKOUT + TIPS | Beginner to Advanced","Caroline Girvan"],
+    "Bs1xoAgiBlA":["[ENG](주의) 기존 홈트랑 조금 다릅니다.. 이렇게 하면 중량운동 필요없음...","홍범석 hongbeomseok"],
+    "XHPtXkzciLU":["[Lv7] 푸쉬업 하루에 딱 100개씩 합시다!! (pushup 20x5)","장임태ㅣ림태"],
+    "WWYKWBsE9f4":["10min 200push ups | 10분에 푸쉬업 200개 따라하기","Allblanc TV"],
+    "JEEhNeOZr50":["10 Min PUSH UP CHALLENGE at Home Workout | How many can you do?","Caroline Girvan"],
+    "cUjNYSSlwts":["기구없이❌ 따라하는 ALL 상체근육 홈트레이닝 루틴 (등, 가슴, 어깨, 팔, 복근)","바벨라토르 홈트레이닝 BARBELLATOR"],
+    "nrGPP0rY37U":["푸쉬업 50일만 해보세요 무조건 변합니다(운동 초보자의 50일간의 몸 변화 과정) 50days push up - transformation challenge motivational","화수라이프, 좌충우돌 성장 이야기"],
+    "ZfGZmjEZhOw":["10분 푸쉬업 타바타(10Min pushups Tabata)","데스런 홈트레이닝"],
+    "usaET3A9YUQ":["10 MIN PUSH UP WORKOUT - Chest & Triceps // No Equipment","Pilous"],
+    "w0WQHVYKsss":["과학적으로 증명된 세계적인 맨몸 전신 운동 루틴!","헬마드 (헬스 건강 정보)"],
+    "XlBat-AaCy8":["한달동안 매일 팔굽혀펴기 100개 변화있을까?","구일오 [9ILO]"],
+    "mKXy-5mRxNI":["상체터는 푸쉬업 운동루틴(조금힘듦) [홈트레이닝 루틴]","김흑구"],
+    "uNSN16MbPco":["10 MINS CHEST PUSH UP WORKOUT AT HOME (NO EQUIPMENT)","HOME WORKOUT STUDIO"],
+    "C3TqpGgnIoI":["상체 다이어트 운동 BEST [팔뚝살/겨드랑이살/가슴어깨/등살]","Thankyou BUBU"],
+    "kpr_sotq7es":["'푸쉬업100개' 매일하면 일어나는 충격적 변화!? (맨몸운동 근육성장 3주 루틴!)","보통사람을 위한 운동채널"],
+    "vfLVQQ0CsNw":["푸쉬업 초보 탈출하는 법","채코치의 운동생활"],
+    "gF9CyHNgaxA":["10 Min Plank & Push-Up Workout","Amy's Beach Fitness"],
+    "v54Jtmi2BwU":["ENG)매일하는 30일 플랭크 챌린지 (feat.기초근력, 코어힘 기르기)","힙으뜸"],
+    "vckr1GJ0JMs":["아랫배, 옆구리, 허리라인을 매끈하고 탄탄하게 - 코어 힘도 길러주는 복근운동 10분 홈트 루틴","빅씨스 Bigsis"],
+    "Z4Rei7zBwuo":["10 Min Plank Workout with 10 variations - No Repeats No Talking","BIGSIS Workout"],
+    "tNtiUsdL5_8":["매일 7분!  누워서하는 코어, 복부 운동 (체형 교정 첫단계-몸통 중심 안정화 한달 챌린지)","필라테스하는 물리치료사,람PT"],
+    "RKJHisWyejc":["하루 7분 전신운동으로 뱃살파괴! [플랭크 30일 챌린지]","Thankyou BUBU"],
+    "dzs4bADSVN0":["전문가 추천! 허리디스크 예방하는 데드버그 운동!","건강의학전문채널 하이닥"],
+    "DuEIVr86Pn8":["[3분 플랭크 챌린지] 바른자세로 효과 100% | 코어근육 강화, 기초체력 기르기","에일린 mind yoga"],
+    "hJuO1AUqLUc":["ENG) 10MIN CORE WORKOUT I 하루10분 코어운동","힙으뜸"],
+    "hS4YLDWNKUw":["Intense 10 Minute PLANK WORKOUT! (Follow Along)","Richard Duchon"],
+    "JIl8xQ4ncdE":["[코어 운동 특집]최고의 코어(허리) 운동을 한 곳에 모았습니다.","모스틱 자세연구소"],
+    "66jG-GPsd9o":["Plank Timer💙 day 1 - 30 days challenge with music ( 20 sec )  |  플랭크 1일차","유튜gym"],
+    "bOCqXx0_tTs":["허리통증 이제 안녕! 데드버그 운동 3분 따라하기!","건강의학전문채널 하이닥"],
+    "Zq8nRY9P_cM":["플랭크의 정석. 가장 \"완벽한 플랭크\" 정자세 배우기 교본","바벨라토르 홈트레이닝 BARBELLATOR"],
+    "atSejLAeZ9Y":["※뱃살, 옆구리살※ 빨리 빼는 10분 운동 - 복부 근력 & 유산소","빵느"],
+    "Gr1GtwTp_ko":["10 MIN INTENSE ABS (No Equipment) - Total Killer Core","MadFit"],
+    "p623pewgTc0":["피트니스 선수들도 한다는 소미핏 레전드 복근운동 🏆 빠르면 일주일도 가능","SomiFit"],
+    "HWNvbsSxVuc":["하루 8분 플랭크 30일 챌린지! 코어강화/체지방감소/자세교정","너를위한요가  - YOGA"],
+    "pTwRoreKIU4":["허리를 안정화시키고 몸의 중심을 잡아주는 코어운동(데드버그 3단계)","물김치TV-물리치료사김선생의셀프치료"],
+    "N7Izxcyu2XI":["초보자라면, 플랭크 바로 하지 마세요! (자세 잡기, 호흡적용 방법 차근 차근 알려드립니다.)","비타밍제이 vitaming_j"],
+    "Dx9iW-IkCEg":["초보자를 위한 코어운동 10분 : 허리랑 어깨가 이제 안 아파요! (데드버그, 버드독 등) / 10 min Core Workout for beginners","에이핏 afit"],
+    "eijfIvpr5og":["10-MIN PLANK WORKOUT | Build a stronger core","Jeff Huynh Fitness"],
+    "7TLk7pscICk":["누워서 5분 복부운동, 짧고 확실한 고효율 코어강화 루틴 👍🏻 | 소미핏","SomiFit"],
+    "0yej5sU67Oo":["Plank Timer💙 day 3 - 30 days challenge with music ( 30 sec ) | 플랭크 3일차","유튜gym"],
+    "Gj2fqZbehus":["하루 5분 허리 통증 예방 - 코어 운동 ㅣ1단계부터 7단계까지 이어지는 데드버그(Dead Bug) 운동 - 1탄","건강운동라이프"],
+    "n4eLwAgf_ps":["[건강 알고리즐]플랭크 오래 버텨도 코어 근육 좋아지지 않는다","채널A News"],
+    "xG6epreSCek":["10분 서서하는 복근운동 홈트","빅씨스 Bigsis"],
+    "_uXxzyq3LOQ":["10 Min Deep Core Workout | 5 Day Ab Challenge","TIFF x DAN"],
+    "QgJ9pNfcXNI":["“누워서 10분만 하세요” 허리통증부터 뱃살까지 쏙! 들어가는 코어 복부 운동","건강되찾기 프로젝트"],
+    "cYRC4WiS2xk":["하루 딱 1분⏳으로 운동 습관 만드는 매일 플랭크 챌린지 (30일 챌린지📅)ㅣ다노티비","Stretch with Jessie"],
+    "EfKfkxMhCJQ":["허리 코어운동, 데드버그 할 때 소리가 난다면?","리얼리햅"],
+    "1-KnmYQMsE8":["매일하는 5분 플랭크 운동 - 전신근력, 코어힘 기르는데 효과 최고에요! (5min Plank workout)","빵느"],
+    "snzff1cLnfI":["왕초보를 위한 10분 코어 강화 운동, 설명⭕️ | 10MIN CORE WORKOUT","MIZI"],
+    "dxdGzEtSo8A":["8 MIN PLANK ROUTINE | QUICK RESULTS","THENX"],
+    "rIegQPbe6vE":["5 분만 있으면 이 코어 운동 루틴 해보세요!","줄리엔강 엔강이형"],
+    "2dail5Imi04":["하루 10분! 빠르게 살 빠지는 전신 운동 l 홈트레이닝 l 10 MIN FULL BODY WORKOUT to BURN FAT l No Jumping","Allblanc TV"],
+    "W4SpM2gxGdE":["왕초보 탈출 - 전신운동 초보 홈트 여자","빅씨스 Bigsis"],
+    "Xw5b9prgVkU":["10 minute FEISTY & FUN Full Body Workout with Dumbbells","Kaleigh Cohen Strength"],
+    "opjPvRniwRA":["물렁살 안녕 👋🏽 날씬 탄탄바디 만드는 덤벨 전신운동 10분 홈트","빅씨스 Bigsis"],
+    "epZB0CkC04E":["Circuit training for beginners. Part 1ㅣ초보자를 위를 위한 서킷트레이닝 1편","바니쌤 예쁜몸매 만들기"],
+    "cOrigY7UDDc":["전신근력운동 “매일 10분\" 3주 후 전신에 놀라운 변화가 생깁니다 (관절부담 ❌, 왕초보 ⭕️)","건강되찾기 프로젝트"],
+    "YWpKc1R2HBE":["18분 초보 올인원 운동 - 매일 하기 좋은 홈트 전신운동 초보 타바타","빅씨스 Bigsis"],
+    "IjwwSZ9eW_k":["10 Min Full Body Dumbbell Workout | Works Your Entire Body","Dan the HIIT Man"],
+    "N8YbfniLO1E":["40대 이상 필수 근력운동 (feat.집에서 헬스장에서 어디든 OK‼️)","엄마TV"],
+    "gBEYGEjd8mQ":["10분만에 끝내는 전신 홈트 루틴","이성현의 머슬맥TV(Musclemag)"],
+    "vzswVwbvIOc":["[PT운동 루틴] 덤벨만 있으면 전신운동 OK! 핵매운맛 60분 원데이 운동 타바타 서킷트레이닝🔥","모멘트핏 록코치"],
+    "RBVyRi_dX1o":["10분 홈트의 정석 10동작 - 꼭 숙지해야 하는 효과 좋은 동작 모음","빅씨스 Bigsis"],
+    "nz5qsvRgK24":["[전신 운동] 근육은 늘리고 살은 빼는 홈트 (초급자 추천)","GILHWAN 길환TV"],
+    "syuSc3ZUy4Y":["10 minute Full Body Dumbbell workout | DAY 10 - MOVE CHALLENGE.. Ashley Freeman","Ashley Freeman"],
+    "S4Wr4zmWb9w":["20년차 의사의 경고! \"50대부터 하면 할수록 독이 되는 운동\"","김수연의 우아한 노화"],
+    "hqBxn9t15vc":["운동할 시간 없을 때 딱 10분🔥 덤벨 전신 근력운동 | 10 MIN FULL BODY","GinaFit 지나핏"],
+    "B0W_GIAdwug":["덤벨 2개로 전신을 찢어놓는 2분 서킷트레이닝 [실전 스트렝스]","쇠질인생"],
+    "hesjApxDlj0":["NO무릎부담 전신유산소 근력 다이어트 [칼소폭 올인원🏆]","Thankyou BUBU"],
+    "zruKSHfD7b4":["[ENG] 딱 20분🔥 하루 운동 끝장내는 전신 & 아랫배 & 타바타 올인원 루틴","힙으뜸"],
+    "vei81-bZhG4":["Complete 10 Min Full Body Workout | Dumbbells Only","THENX"],
+    "MqBqzAsLpck":["여름 한 달 -3kg 도전! 뱃살 싹 빠지는 40분 다이어트 운동🔥","임피티IMPT"],
+    "gpTYMAxN0CM":["10분  덤벨 서서하는 복근운동 홈트","빅씨스 Bigsis"],
+    "0d4psGmTYbw":["연휴동안 살쪘니? 과학적으로 증명된 기적의 전신서킷트레이닝 HIIT 프로그램 / THE SCIENCE-BASED FULLBODY CIRCUIT TRAINING HIIT","에이핏 afit"],
+    "9Sg9unHcyV4":["중년 전신근력운동 “집에서 딱 10분\" 4주 후 놀라운 변화가 생깁니다","이상대 중년홈트"],
+    "A5MzlPgNcJM":["[ENG] (근육통주의!!!!) 🔥올인원🔥 전신 근력운동 50분 홈트레이닝","힙으뜸"],
+    "NCBq502sOWY":["10 MIN DUMBBELL FULLBODY WORKOUT | BUILD MUSCLE and BURN FAT at the same time!","Midas Movement"],
+    "WroDM1svrqs":["“하루에 딱 세 번만 해보세요” 생존 근육 지키는 법, 이론부터 생활 속 실천 방법까지 총정리! | 홍정기 교수 (차의과학대 스포츠의학대학원장) 빅퀘스천 통합본 #건강 #근육","빅퀘스천 Big Questions"],
+    "Ed69soS-dIM":["버피 중고급자용 - 근력 키우며 체지방 폭파 10분 덤벨 버피 HIIT","빅씨스 Bigsis"],
+    "LG6CNzlj_6o":["역대급 땀폭발 HIIT - 고강도 인터벌 트레이닝 35분 전신 올인원","빅씨스 Bigsis"],
+    "Iaa8YNDRbhg":["최고의 전신 근력운동 BEST5","Thankyou BUBU"],
+    "4kZHHPH6heY":["NO 층간소음 - 고민없이 하나로 끝내는 전신운동 근력 유산소 - 운동 못한 날 죄책감 씻어줄 30분 홈트","빅씨스 Bigsis"],
+    "RULLK1LWvwI":["10 MIN Full Body Dumbbell Workout | workout finisher to tone & sculpt your body","Strong with Beth"],
+    "s8s4HqqRfsk":["걷기만 하지 마세요! 서서 딱 20분 전신 근력 유산소 운동｜50대부터 꼭 필요한 근육","임피티IMPT"],
+    "pZvMDCCxyqM":["💎등살, 겨살, 팔뚝살💎 10분 만에 탈탈 털어버리는 운동👑 (2024)","빵느"],
+    "fShmO6hUJt4":["현대인들의 굽은 등 어깨를 펴기 위한 라텍스밴드 활용 방법! (라운드숄더, 거북목 개선)","이고진 헬쇼"],
+    "jyWEHAkgI2g":["15 MINUTE BACK WORKOUT FOR STRONGER BACK + BETTER POSTURE | NO EQUIPMENT | BEGINNER + INTERMEDIATE","Studio Jibby"],
+    "RxIyMV7WhzY":["【라운드숄더】 이 3가지 운동이면 ‘말린어깨’ 무조건 펴집니다! (거북목 교정운동)","핏블리 FITVELY"],
+    "Op6ep4HeYhk":["어깨 회전근개 재활운동 - 세라밴드 운동 따라하기 (rotator cuff rehabilitation exercise (Theraband))","정형외과  전문의  선지호"],
+    "Mt083IzdqIE":["탄탄한 가슴, 어깨, 등 만들기 - 10분 라텍스 밴드 상체 운동 l 10min RESISTANCE BAND WORKOUT (Chest, Shoulder, Back target)","Allblanc TV"],
+    "kp7u4nK_Qwc":["10분 어깨운동(장비필요없음)","김흑구"],
+    "xiPw46hDuHo":["빠르게 \"넓은 어깨\" 와 \"광배근\"을 동시에 넓혀주는 밴드 홈트 루틴(세트, 반복 수 완벽 정리) | + 라운드 숄더 개선","차머홈트"],
+    "Sa0sBKUiOvU":["10 MINUTE LIGHTWEIGHT DUMBBELL BACK WORKOUT!","Midas Movement"],
+    "ogwV6D19ays":["말린 어깨를 완벽히 펴드리겠습니다!.드디어 실전 운동편!! 집에서 따라만 하세요!!***극강의 운동법","이촌동요가원 _ 요가트레이닝 / 명상"],
+    "M-1E2q4KGG4":["병원 망하는 30초 어깨 운동 (feat 영업 비밀)","닥터 마디마디 Dr MadiMadi"],
+    "J12kw3GN8OU":["50세 이후, 이런 운동을 꼭 하세요. 알아두면 평생 써먹는 근력운동 [정라레]","정세연의 라이프연구소"],
+    "c-4JHXdqnck":["맨몸 어깨운동 [홈트레이닝 루틴]","김흑구"],
+    "3_N0oxpNGJQ":["밴드 이용한 어깨, 등운동 / 소음없이 홈트하기 챌린지 10-2/스트레칭까지 한번에 끝내기!","무나홈트 Moona Workout"],
+    "X3-gKPNyrTA":["Yoga For Neck, Shoulders, Upper Back  |  10-Minute Yoga Quickie","Yoga With Adriene"],
+    "l2zN7cM0vaE":["승모근 순삭, 라운드숄더 교정운동 (한 번만 해도 어깨 내려감)","SomiFit"],
+    "0Xbjh7kKagA":["팔 뒤로 올리기 완전정복. 오십견전문가 권도수 셀프 어깨 재활운동 / Frozen shoulder - Hand to scapular backward","권도수"],
+    "4UtP_nx-ZHA":["온국민 근육부자 프로젝트 #5: 아래로 당기기 - 집에서 활배근 키우는 법","정선근 TV"],
+    "yL_DeEl-Km4":["🪽등살, 겨살, 팔뚝살🪽 뒤태가 달라지는 10분 운동👑 (2026)","빵느"],
+    "AwdFh5nutZY":["밴드로 하는 등/어깨 운동 BEST 4!  이것만 3개월 따라하면 자세교정 어깨 통증에 효과만점","재활치료 엘리샤 Able Wellness Centre"],
+    "7mlCANG9sJM":["20 MIN WEIGHTED BACK WORKOUT | Strong Back and Shoulders | Pilates Back Workout","IZZY SAMUEL"],
+    "crSzrdQ5iLE":["딱 10분! 라운드숄더가 있다면 ’이 운동‘ 제발 하셔야 합니다! 승모근통증, 일자어깨","자세요정 JSYJ"],
+    "wl3OkoNC3Ms":["800만뷰 어깨,견갑골 기능성운동 보고 따라하세요 (어깨통증,어깨뭉침 운동)","데스런 윤현용의 기능성운동"],
+    "Iuuj28MImK0":["1번만 따라해도 등 라인이 달라지는 '역대급 등살빼는운동' (급속버전🔥)","비타민신지니 VitaminJINY"],
+    "Bo1FiN-aVaA":["밴드운동 - 집에서운동 | 밴드 어깨운동 | 홈트근력운동 [운동자극,밴드운동법,,홈트운동]","피티아메리카"],
+    "x0UKQEG-mi4":["10 MIN ONLY BACK - Bodyweight Workout, on the floor - maximum focus on back muscles I No Equipment","Pamela Reif"],
+    "LRqBmRq59TA":["대박✨ 1세트만에 어깨 바로 펴지니 이거 꼭 해보세요!","이지은 다이어트 Jiny diet"],
+    "GR12lGNiUGw":["어깨재활 자가운동법","성남정병원 Hospital Seongnam Chung"],
+    "GBn2m18MMko":["어깨&등 강화 중급(물리치료사 추천)","물리치료사.PT재석"],
+    "8mGgHlpPLdc":["등 근육이 화가 났다! 집에서 튜빙밴드로 만드는 등 운동 루틴!","모아클래스 moaclass"],
+    "riS89biXH7E":["FIX & SLIM YOUR BACK + BETTER POSTURE in 10 minutes ~ Emi","emi wong"],
+    "kvE_1FIJusM":["상체 정렬 리셋! 어깨교정 스트레칭 | 어깨결림·라운드숄더·오십견 예방","SomiFit"],
+    "Aoj5TlN2_Qk":["병원 망하는 5분 어깨 운동을 10년차 정형외과 전문의가 알려드립니다 (어깨 스트레칭, 어깨수술, 영업비밀, 회전근, 회전근개 파열)","마디탄탄 의사 이자운"],
+    "gsFShSYOovU":["Lv.3 덤벨 하나로 어깨 깡패 만드는 루틴 (떠먹는홈트)","권혁"],
+    "WFqPO9v6i4g":["누워서 하는 10분 하체 스트레칭🛏️ 하체붓기, 하체순환, 하체비만 완화 효과","빵느"],
+    "QTKLicpvMJY":["스쿼트 하는데 다리가 두꺼워지는것같다면?  (하체스트레칭,하체다이어트)ㅣ다노티비","Stretch with Jessie"],
+    "kbV7-S1Kbog":["코어와 힙업에 효과 짱짱! 브릿지 100회 챌린지💜 간결한 설명 I 초급","빵느"],
+    "f5ar-Wncr70":["무릎 통증 없이 정말 쉽게 할 수 있는 최고의 누워서 하체 근력 운동","정우주의 근막건강"],
+    "sgu0ujzGfX4":["하체비만, 종아리알, 하체부종을 해결하고 다리라인을 정리해주는 폼롤러 순환관리 하체 마사지 루틴 15분","에이핏 afit"],
+    "ZxtRZL62K2I":["날씬 하체 만드는 10분 데일리 스트레칭 | 하체 부종 완화, 혈액순환을 돕는 요가 | 요가 읽어주는 여자 hayeon","요가 읽어주는 여자 hayeon"],
+    "t9xO0Q5fa6M":["[ENG] 운동 후 개운한 마무리✨️8분 힙으뜸 쿨다운 스트레칭🧘🏻‍♀️","힙으뜸"],
+    "MiRcmFDSlZw":["※힙업※ 내가 너무 애정하는 5분 힙 운동 (스쿼트, 런지 🙅🏻‍♀️)","빵느"],
+    "YIaJWBmGSoc":["무릎 통증이 사라지고 걷기 편해지는 초보자 하체 운동 루틴! [하루 20분 홈트]","관절사용설명서"],
+    "2xmNzityfKI":["종아리 얇아지는 최고의 스트레칭 3가지","Thankyou BUBU"],
+    "6OS9VKDcg_w":["하체 스트레칭은 이 영상 하나로 끝내세요💕 하체붓기, 하체 혈액순환 효과 | 간결한 설명","빵느"],
+    "a7w8OG7a5As":["하체 운동 후 필수, 근육통 제로 루틴","문쌤재활"],
+    "LL8q2otCBNE":["[힙브릿지] 홈트로도 쉽게 볼륨감 있는 엉덩이 만들 수 있어요!!  hip bridge","키큰녀"],
+    "BQ08-60KKuo":["하체 근육을 깨우는 7분 필수 스트레칭","마선호"],
+    "2F7HYTq0HF0":["조회수 180만회 나온 역대급 종아리알 스트레칭｜종아리 얇아지는 스트레칭｜발목｜다리부종｜다리 붓기｜족저근막염","크리스탈나우crystalnow"],
+    "LZWORB39zQk":["2008편집본 Hana Kang Lower Body Stretching 2018 - Thinner Legs Here I Come! - 강하나 스트레칭(2018)","강하나 스트레칭_stretching"],
+    "qE4FLBAKxrA":["운동후 정리운동Cool down 5분 같이해요","양수트레이너"],
+    "UQ8AC8eYDZI":["하체운동(LOWER BODY) - 강하나 스트레칭(2018)","강하나 스트레칭_stretching"],
+    "doiSCQsxV58":["침대에 누워서 딱 5분으로, '종아리에 광명'을 경험하세요✨️","이지은 다이어트 Jiny diet"],
+    "VVn5IUM8sms":["[EN/CH]하체비만 탈출 첫번째는 골반교정! 저녁에도 아침같은 다리 완성 (Lower Body Stretching, 다노레전드 스트레칭, 골반교정 스트레칭) ㅣ 다노티비","Stretch with Jessie"],
+    "3Rlx492eZNM":["운동효과는 높이고, 근육통은 없애는 운동 후 매일하는 쿨다운 스트레칭 | 스쿼트 후 딴딴한 다리 붓기빼기( 하체비만 운동 후 꼭 해야하는 스트레칭 / 피로와 긴장 해소까지 )","발레테라핏 Ballet TheraFit"],
+    "FrVNuW7FFtg":["[엉덩이 근육 특집]과학적으로 증명된 최고의 엉덩이 운동을 모두 모았습니다. 14분 후 확실한 변화를 느끼게 됩니다.","모스틱 자세연구소"],
+    "WzApXJxpOLE":["하체운동 루틴으로 딱 좋은 요가 워크아웃 | 하체 근력운동, 하체 요가 스트레칭, 올인원 운동","에일린 mind yoga"],
+    "kOYd2oFOojc":["내가 4년간 정말 매일매일한 하체라인 완벽정리해주는 폼롤러 하체 마사지 및 스트레칭 루틴 (하체부종, 종아리알, 다리라인, 하체순환)","에이핏 afit"],
+    "0GEx801-mD4":["고관절 스트레칭, 허리/무릎 통증의 근본 원인!  물리치료사가 추천하는 10분 고관절 스트레칭","물리치료사.PT재석"],
+    "Paiexz5kFDI":["앞벅지발달이 고민인 분들을 위한 스트레칭‼️ 하체운동 저를 믿고 함께하세요😌","강하나 스트레칭_stretching"],
+    "6EGYtkbj_34":["99%가 모르는 “무릎, 허리 통증없는” 브릿지비법 5가지","자세요정 JSYJ"],
+    "yBWqDKj5qgs":["[PT 17] 하체 운동 전 꼭 해야하는 동적 스트레칭 10분! 무릎·허리 통증 걱정 끝✨","몸쌤 - 무브어게인"],
+    "--MMq6I07b4":["하체 스트레칭 이거 하나로 끝! [날하스]","Thankyou BUBU"],
+    "7Vqv5SmSKHY":["운동효과를 2배로⬆️ 매일 따라하는 하체 스트레칭 - 고관절 통증, 결림 없애기","MIZI"],
+    "5M-w_NxFz_U":["[허벅지 근육 특집]누워서/앉아서 하니까 무릎이 안 아픈 '허벅지 근육 운동'(하루 16분)","모스틱 자세연구소"],
+    "KNxy25OnlNA":["골반이 편해지는 10분 요가 스트레칭 | 골반교정, 고관절 통증 스트레칭, 골반통증","에일린 mind yoga"],
+    "DNqurVRejR0":["부종 싹 빠지는 하체순환 스트레칭ㅣ2026 NEW","힙으뜸"],
+    "ml4vRpBVdXI":["[초보 기타레슨] 기타 크로매틱(chromatic) 연습 하는 방법","해피엠기타 이화균"],
+    "pcWZWAJhXd0":["크로매틱 강의는 이걸로 끝","햄 기타"],
+    "Is-1GxB9zr8":["기타 솔로 나도 할 수 있다. 펜타토닉 스케일 쉽고 재밌게 외우기!","기타연구소"],
+    "MhZq1XmRQwQ":["펜타토닉을 알면 누구나 즉흥연주 가능!😃","그랩더기타 아카데미"],
+    "6wZgZ2Xo6nM":["[꿀팁]코드 체인지 빠르게 하는 방법 3가지! 코드 바꾸기 요령 3가지!","꿀잼기타"],
+    "JKK5V91s-Wc":["기타 아르페지오를 피크로 연주하는 요령과 연습방법","해피엠기타 이화균"],
+    "4fG2AmwxcUI":["[어쿠스틱 노트 기타 Tip] 110. 피크는 각도가 생명! ㅣ피크의 사용 2","어쿠스틱노트 AcousticNote"],
+    "eQzN4qQb3MI":["얼터네이트 피킹 이해하기 [일렉기타 뉴비들을 위한 강의 프로젝트]","꽃미남 기타리스트 [손형]"],
+    "nHPhzNUkkJA":["[Lesson 5] 스트로크의 꽃 🌸 16비트 스트로크는 어떻게 연습해야할까요...?","동주쌤"],
+    "XVpIZ6Y4XhY":["20분 만에 따라 하는 블루스 기타 즉흥연주 레슨 (초보자도 쉽게 배울 수 있어요) #난리블루스","난리블루스"],
+    "0Yu9sN7E194":["Slow Blues Guitar Backing Track in A","BackingtrackTV"],
+    "UByg_JIlPQc":["기타 근본리프, 레슨할때 필수적으로 하는 9곡 모음 「Guitar Cover」 Rock Riff Medley /TAB /타브악보/코드/기타악보/기타프로/PDF","머슬기타[Muscle Guitar]"],
+    "owcWmGILdS0":["기타연주 기본기 완벽하게 마스터!-part1","cho pilsung Awesome Show TV (조필성)"],
+    "x6QhGI5JzCE":["AZ의 EZ 레슨 # 일렉기타의 기초, 밴딩 & 비브라토","Emotional Guitarist AZ"],
+    "CUoZ3xHwGTI":["손가락이 왜 안벌어지고 소리가 잘 안나지? 연습하시기 전 매일 이 연습 한번 해보세요! 무조건 됩니다!","기타연구소"],
+    "S6jExyY8J8Y":["이것을 먼저 익히면 10분안에 누구나 복잡한 박자를  읽을수 있다~","오부리킴의 쉬운 오부리기타"],
+    "0kefxqOn7LA":["메트로놈 연습? 이것부터 해 봐! [금간기타_Fragile Guitar]","금간기타 _ Fragile Guitar"],
+    "RRVaFXBwGoY":["기타 CAGED 시스템에 대해서 알아봅시다","해피엠기타 이화균"],
+    "hix5sqnK5rA":["블루스 연습방법 총정리! 이 영상을 꼭 보셔야 합니다.. 블루스 응용 (2) - 중급 2강","전무진의 말랑기타"],
+    "2R59rkMTn_A":["재즈가 어렵게만 느껴지는 초보를 위한 \"최준원\" 선생님께 배워보는 재즈 기타 1편","Texan Guitar Player"],
+    "pMzeh6t1Nhc":["[기본테크닉] #8 팜뮤트 하는 방법 (Palm Muting Technique)","Grab the Guitar"],
+    "aDeR0kIHi38":["[초보 기타레슨] 하모닉스 주법 기초 (네츄럴, 인공, 피킹 하모닉스)","해피엠기타 이화균"],
+    "qhlzrchShIc":["통기타 강좌/슬라이딩이 잘 안되는 이유/잘하는 법/쉬운 7080 핑거스타일 강의","와우wow기타"],
+    "dILe4X4wnO4":["트레몰로 배우기1  압탄","거제기타"],
+    "jqw-BOxzRzE":["Top 5 Exercises for Beginner Guitar Players","The Talent House"],
+    "einl3CzAp1E":["Easy Groove Backing Track in A minor","Sebastien Zunino"],
+    "0CdcBLMLN5c":["Rock Pop BACKING TRACK E Minor | Em C G D | 70 BPM | Guitar Backing Track","TGuitar"],
+    "BNVbWDIT4eo":["Rock Pop Backing Track C Major | 70 BPM | Guitar Backing Track","TGuitar"],
+    "y3DTSp850DU":["Tasty Hard Rock Guitar Backing Track Jam in B Minor","Elevated Jam Tracks"],
+    "k1aER0GGcs0":["Funk Guitar Backing Track in C Minor","Jam'in Backing Tracks"],
+    "WnK70WnQIlo":["The ULTIMATE 10-Min Pentatonic Practice Routine","Tim Daley Guitar"],
+    "zZSNQK0NmW8":["5 Minute Picking Workout For Beginner Guitar - DO THIS DAILY!","Andy Guitar"],
+    "GV5Gyh9253E":["Best 5-Minute LEGATO WORKOUT! (For Intermediate Players)","BERNTH"],
+    "V9AYqvrMNOk":["Guitar Finger Stretching Exercises - Reach More Frets Instantly!","Lauren Bateman"],
+    "YXM7fhI12sg":["Full Arpeggio WORKOUT","Robbie Barnby"],
+    "eqy21Xn_br8":["You need to know these Top 12 Beginner Guitar Riffs - WITH TAB","Simple Guitar"],
+    "yzAj5SzpOic":["4 Minute ADVANCED Warm-Up Play Along!","Jamie Robinson"],
+    "a8nB90Ju_54":["크로매틱 연습, 제대로 하고 계신가요? (초보자 필수 가이드)","안쌤의 기타나무숲"],
+    "pe9OzzieLhs":["열심히 크로매틱 하는데 실력이 안늘어요","Emotional Guitarist AZ"],
+    "pCQFOGiPvZ8":["펜타토닉 스케일 하루안에 끝내기!!","팍스 기타"],
+    "bOvbwu9LF90":["펜타토닉 저는 이렇게 씁니다 ! Part 2. 실전편 (초보자 필수 가이드)","안쌤의 기타나무숲"],
+    "YxhRNBsAZmw":["아직도 코드체인지가 오래 걸린다면 꼭 보세요","Grab the Guitar"],
+    "l1O1s6EGEeA":["기타 \"아르페지오 주법\" 재미있게 연습하는 방법 1탄 / 핑거스타일 마스터","기타솔저 Guitar Soldier"],
+    "cyJcDOltvUE":["피킹연습 이렇게 해야 합니다! 초보자를 위한 기타 피킹 연습방법","난리블루스"],
+    "AM5YB_566qw":["[기타인] 통기타 초보 강좌 - 얼터네이트 피킹","Guitar Inn"],
+    "aie-blkigVE":["리듬 스트로크 정복하기 (1강~16강 종합편) / 스트로크 한방에 정리 / Rhythm Stroke Master /","딩기리닷컴"],
+    "Fiyc8ZbaArc":["5 SLOW BLUES Guitar Licks For BEGINNERS | and WHY they work!","Play Guitar Academy"],
+    "wlgnfOttRoU":["Minor Blues Backing Track  in A minor | 12 Bar Blues","Jam Along Backing Tracks"],
+    "kzgUycvWXKU":["12 Rock Guitar Riffs 「 Tutorial 」 w/ Tab 🎸 락기타리프 레슨+ 타브악보 일렉기타레슨","SWEET GUITAR 스윗기타"],
+    "ZLgDLccbj1w":["일렉기타 독학 (강의,순서) 기타 초보","전민영 기타랩(GUITAR LAB)"],
+    "9fMlionT6NE":["AZ의 토막레슨 # 밴딩비브라토","Emotional Guitarist AZ"],
+    "BBnk8U1BxdY":["#연주전워밍업#손가락스트레칭#기타시작   연주전 손가락 워밍업및 스트레칭 방법","기타팁 Guitar Tip"],
+    "e85kab8VCzI":["스케일 연습, 이렇게 해야 솔로가 된다! 가장 효율적인 연습 방법!","난리블루스"],
+    "-ep6kElVN3Y":["일반인과 프로의 차이 1편 - 리듬감 완벽정리! / 일렉 통기타 연주의 기본!","기타연구소"],
+    "INSA_lWe1Kc":["기타연습할 때 쓰세요 메트로놈(1~220) / 기타레슨 전문채널-기타연구소 /Metronome 기타독학 기타쉬운곡 기타레슨 기타연주 기타연주곡","기타연구소"],
+    "co9MtICFYrs":["CAGED를 알면 지판이 보이고 코드도 보이고 스케일도 보입니다","서중사밴드"],
+    "se5YAfkHcSw":["사자의 기타이야기 5 - 펜타토닉 스케일로 블루스기타 솔로하기","Saza Choi (SAZA GUITAR)"],
+    "xxQHO41Bb9w":["재즈 기타 독학 하세요? 그럼 이렇게만 하세요! 재즈 독학에 필수 - 차근차근 하나씩 따라오시면 어느새 하고 있을껄요? #jazzguitarlessons #재즈기타 #사운드플랫","사운드플랫"],
+    "KJJRCf5IJGk":["팜뮤트 연습하는 방법 [고급] - 기타 주법의 \"꽃\"🌸 How to practice palm muting","기타솔저 Guitar Soldier"],
+    "ufR0mQnqHRk":["[강의][기타 하모닉스][반주트랙] 기타 하모닉스 연습 방법","기타팁 Guitar Tip"],
+    "bDYhGlz0fBk":["슬라이드 소리가 자꾸 끊긴다?! 🍜 컵라면이 익기도 전에 해결해 드립니다!","Grab the Guitar"],
+    "jQpUvUyrxII":["기타 트레몰로 핑거로 하나요? 피크로 하나요?","락포쌤 기타"],
+    "NaMB6Md--YQ":["Do This Everyday to Master Guitar","The Talent House"],
+    "nEEsfU-PC74":["Rock Pop BACKING TRACK A Minor | Am F C G | 70 BPM | Guitar Backing Track","TGuitar"],
+    "_pm1MF2fzrM":["Guitar backing track E minor rock ballad","Paul Davids"],
+    "FjlE5dyiPlw":["Soulful Bluesy Groove | Guitar Backing Track Jam in C","Elevated Jam Tracks"],
+    "rn07fBYqo9A":["Energy Hard Rock Metal Guitar Backing Track A Minor","Nick Neblo"],
+    "sx2OrfYCCMI":["Funk Groove Guitar Backing Track","JamTracksChannel"],
+    "n2H6EMHbU7Q":["The Best Pentatonic Exercise? [Master All 5 Positions]","Jules Guitar"],
+    "WmQWTOimz4k":["5 Picking Tips To Save YEARS Of Guitar Practice!","BERNTH"],
+    "KgOhkxswQKo":["Legato Exercise (turn it into licks!)","JustinGuitar"],
+    "qYx8r0EtGsE":["Short Finger? Stretching Exercises | Guitar for Beginners","JustinGuitar"],
+    "GYwdxHH9Y_k":["3 Exercises to MASTER guitar ARPEGGIOS","Ry Naylor Guitar"],
+    "1LjtJBtZxNM":["AC/DC, Queen, White Stripes, Super Easy Beginner Guitar Riffs on One string","Marty Music"],
+    "739CNIkkrHQ":["Warm Up Exercise For Lead Guitar (Improve With This)","Marty Music"],
+    "brpoL-zyvh0":["기타 크로매틱 연습의 모든 것!  정말 안해도 될까? 제대로 하는법! (대충하면 안좋은 버릇만 생깁니다) [기타독학은 규르코]","규르코의 힐링기타"],
+    "VDaRxtejCoY":["기타중급자를 위한 크로매틱 연습법 레슨ㅣ 입문자, 초보자에겐 어려워요! Guitar Chromatic Exercise For Intermediate (Advanced)","SWEET GUITAR 스윗기타"],
+    "uU276qNDWXo":["짧은 시간, 최대의 효과! 저는 이 모양만 죽어라 팠습니다~ 통기타 펜타토닉스케일 끝판왕!","정현식의 낭만기타"],
+    "qlpkm83VtCs":["2021년 0127 연습 / 펜타토닉 프레이즈 제3편 (즉흥연주)","박창곤 GONITV 고니티비"],
+    "T0rCnjq7MDs":["기타초보를 위한 저절로 손이 가는 코드체인지 연습팁!","몸빼기타"],
+    "hIYN89YTfzQ":["통기타 ‘아르페지오 주법’ 재미있게 연습하는 방법ㅣ자세교정ㅣ기본패턴ㅣ기타독학","퇴근 후 기타연습실"],
+    "f4ilv5MNzog":["피킹연습,기타피킹연습,기타 피킹자세,기타 피킹,피크잡는법,기타 피킹잘하는법,홍이아재  / 포항 기타 노래 1:1 레슨  / 작편곡 디지털 싱글 앨범 제작","홍이아재"],
+    "BshznKMgTlA":["「Paul Gilbert」 Alternate Picking Exercise 01 [2 Minute Guitar Lesson #25] 폴길버트 얼터네이트피킹 연습법 Tab 타브악보","SWEET GUITAR 스윗기타"],
+    "mdhVKEuZdvg":["기타 스트럼 잘하는 법/좋은 소리를 위한 스윙 궤적은? 5분 연습법","목금기타"],
+    "etae5UVIz8o":["The Art of Playing Blues Alone | Dirty 12-Bar Rhythm & Lead Guitar Essentials!","Alex Farran Guitar"],
+    "Z3euxRLOQec":["Blues Backing Track in A (90bpm)","Guitare Improvisation"],
+    "yGMouZzqPRk":["[일렉 기타 배우기 No.1] 락기타 리프 8개/Rock Guitar Riff","기타랑우쿨스쿨(호정쌤)"],
+    "Z1piZdxJXE8":["[일렉기타 초보 1강] 기타의 구조 & 명칭  [체계적인 강의]","Learning Guitar"],
+    "wdMFjaYoucM":["밴딩과 비브라토 연습 하는방법","난리블루스"],
+    "lMHnNLc0B74":["손풀기를 제대로 하면 여러분의 기타 실력은 일취월장!","이건화의 클기연(클래식기타 연구소)"],
+    "7VUPk5TA4JU":["통기타 강좌/스케일 모양이 안 외워지시는 분들 꼭 보세요^^/스케일 쉽게 외우는 법","와우wow기타"],
+    "z15Dckku11U":["4강 스윙 리듬│황용우의 배워서 바로 써먹는 통기타 #평생학교","EBS 평생학교"],
+    "PBhHO9H0-Vk":["메트로놈 연습 이렇게 하면 실력이 빨리 늡니다.","테디기타월드"],
+    "yVJRxdVENbE":["CAGED System made EASY","Redlight Blue"],
+    "BJF3_mQYx6E":["이제는 기타실력 스텝업할 때! 블루스 응용 (1) - 중급 1강","전무진의 말랑기타"],
+    "cstB4vNwljw":["기타 독학 대충 배우지 마세요 | 블루스 01","잼스테이션"],
+    "iOTmXd-9fik":["[일렉초보 8강 ]팜뮤트 주법 (palm mute-Lesson 8)","Learning Guitar"],
+    "cWqd6-a9cj8":["인공 하모닉스 연습 방법 ( Artificial Harmonics )","기타라이프"],
+    "4uIvLopffJg":["AZ의 EZ레슨 # 일렉기타의 기초, 슬라이드","Emotional Guitarist AZ"],
+    "h_MmhfBsNNk":["트레몰로 훈련법 - 당신도 할 수 있습니다.  (실제 예시 포함)","Fingerstyle Guitar  [YunJun]"],
+    "566LrQfcqgE":["A LIFE-CHANGING Practice Routine","samuraiguitarist"],
+    "8BjOeiXMmZI":["Easy Groove Backing track Jam in A minor","Sebastien Zunino - Topic"],
+    "go2NlmO5pzM":["Peaceful Mellow Guitar Backing Track in E Minor","Jam'in Backing Tracks"],
+    "ucp6d_Q-faI":["Chill RnB Groove Guitar Backing Track in C major","Samurai Jam Tracks"],
+    "b7WCU6JGOss":["Hard Rock Shred Backing Track | E Minor | 140 BPM","Jam Along Backing Tracks - Topic"],
+    "ASQbebYIImY":["Funk Guitar Backing Track in G Minor","Jam'in Backing Tracks"],
+    "rCNZy-pGyIo":["How to Play Pentatonic Scale Pattern #1 | Guitar Lessons","Howcast"],
+    "bbJOOURbzeQ":["Pick and Strum Better with this EASY Guitar Picking Exercise","Relax and Learn Guitar"],
+    "O9SLt-u9xGk":["10 MINUTE LEGATO WORKOUT! (w/ Tabs + Bonus Lick!)","Jamie Robinson"],
+    "TSrfB7JIzxY":["Essential Hand Stretches For Guitarists or Any Instrumentalist","GuitarLessons365"],
+    "rhWDEKIGRDg":["7 Arpeggios of a Major Key - My Favorite Guitar Exercise!","swiftlessons"],
+    "kNG9EsWCYMA":["10 Fun and Easy Guitar Riffs for Absolute Beginners! - Guitar Lessons with Stuart!","Marin Music Center"],
+    "nKjuftVhqko":["Daily Guitar Warm-Up Exercises (for Faster and Stronger Fingers) | Steve Stine","Steve Stine Guitar Lessons"],
+    "u-1cpSeox2w":["기타 초보세요? 그럼 이것부터 하세요! [크로매틱 연습 꿀팁]","꿀잼기타"],
+    "v4MFbu9vyjo":["[기린이용] 2분 만에 피킹 자세 교정하기","Chiwon"],
+    "RMgYhXjp-38":["[스케일기초]펜타토닉 5번 스케일 연습방향과 팁","오부리킴의 쉬운 오부리기타"],
+    "6sTu9FvBSLg":["통기타로 즉흥연주, 펜타토닉 스케일만 외우면 되는 줄 알았는데 왜 아마추어 느낌이 날까?","정현식의 낭만기타"],
+    "WY-8FsyGu7M":["[기본테크닉] #6 코드 체인지 요령 (How to Change Chords Smoothly) [Guitar Tutorial｜기타 강좌]","Grab the Guitar"],
+    "kmAcojafc_s":["피크로 아르페지오를! 피킹 아르페지오 연습은 이렇게🤟😆🎸","기타솔저 Guitar Soldier"],
+    "4fatr5TdUgY":["일렉기타 초보자를 위한 피킹 훈련 피킹 연습 방법!!!","꽃미남 기타리스트 [손형]"],
+    "VnN1onen_Jo":["기타속주 기본기!! Alternate Picking Solo 01 [2 Minute Guitar Lesson #40] 얼터네이트피킹 솔로레슨 Tab 타브/ 하드락,메탈스타일 백킹","SWEET GUITAR 스윗기타"],
+    "6ACJ8QOgg7o":["[일산기타학원-GMI기타학원-마두역] 초보자가 꼭~!! 배워야 할 통기타 주법 5가지","러닝 기타"],
+    "z5d_CM82rZE":["블루스 기타 사운드는 이렇게 만들어집니다! | 핵심 요소 & 연주법","기타리스트 최하늘"],
+    "mkU-yS2Jl_0":["Eric Clapton Style Blues Backing Track in G Major (G7)","Backing Tracks Center"],
+    "KU_iSVv-djk":["록 기타 리프 어떻게 만들어요? (24.04.12. 금요 정기 라이브중에서)","모아뮤직 MOA Music"],
+    "5U0mdARnvDs":["초급 일렉기타 시작 전 꼭 보세요｜사전 강의 1편 : 자세","기타리스트 박영준 : 40대가 되니 보이는 것들"],
+    "sPNtI-A-XH4":["일렉기타 레슨 번외편(벤딩, 벤딩 비브라토)","번개손가락의 일렉기타 레슨"],
+    "G0gOFyFcweY":["전 기타 치기 전에 워밍업을 이렇게 합니다. 5~10분 정도만 하면 몸이 풀립니다.","기타리스트 박영준 : 40대가 되니 보이는 것들"],
+    "uW-G0-8_1kg":["도레미 연습, 어디까지 해보셨나요? (기타 초보 필수! 메이저스케일 트레이닝)","안쌤의 기타나무숲"],
+    "PEnQR08VgWE":["나이는 상관없는 기타 박자 연습, 이렇게 연습하면 2달후 박자를 갖고 노는 걸 알게 됩니다.","재미난 기타연주 with 7Guitar"],
+    "1PQEx2g-Ots":["메트로놈 사용방법 동영상","기타평민"],
+    "Ai_V2JqGvlc":["CAGED 시스템 완벽 이해하기!! /  케이지드 를 아는자 !! 기타를 지배한다!!","통키샘의 아이러브기타"],
+    "mJW31UQ_WpI":["입문 초보자를 위한 12마디 블루스 솔로 배워보기 [멤버십 포함]","Texan Guitar Player"],
+    "-RJnXvyVxsg":["『Jazz Guitar Lick 1』 재즈기타릭 [2 Minute Guitar Lesson #44] 타브악보 초보솔로레슨 【1 6 2 5 Chord Progression 코드진행】","SWEET GUITAR 스윗기타"],
+    "D3LC4F-52xM":["팜 뮤트 5분만 투자해서 끝내자! (래드윔프스, 요루시카, 험프 백)","햄 기타"],
+    "l35A9G8I67o":["[오늘부터 기타] 하모닉스 (Harmonics)의 원리와 종류","황용우 / 황선생 기타교실"],
+    "wVS-rNAOdyE":["슬라이드를 배워 보자구~(슬라이드 연습)","규규의 기타연구소"],
+    "cd6DV7SGMSQ":["트레몰로 주법 연습 이 영상으로 마스터 합시다 / 서정완기타교실 / RVH","서중사밴드"],
+    "45TiYrENYAk":["5 Things to Practice EVERY Single Day - Save Decades of Frustration","Play Guitar Academy"],
+    "o59rYuzoy6I":["[베이스레슨Bass Tutorial] 베이스를 치기 전 꼭 해야할 연습 및 손풀기 (크로매틱) Chromatic Scale Practice (+BASS TAB)","SWEET BASS 스윗베이스"],
+    "d1Mglx7R4sc":["초보탈출 독학 베이스 강좌 #12. 크로매틱 손풀기","리사빠"],
+    "VBMMGvwnwJM":["베이스 기초레슨#1 [자세: 오른손] 초보자들 꼭보세요 중급자도 보세요","ON THE MUSIC : 아담의 음악공방"],
+    "Mz6DGbclmbA":["[베이스기타테크닉 #32] 워킹베이스 코드 초견 어떻게 연습해야 잘할수있을까","베이시스트안성진"],
+    "XxsP5RfSQes":["재즈공부를 하고싶은데 입문조차 하기 힘든이유","베이시스트안성진"],
+    "lw_gOgf2jLI":["#11 [슬랩] '탁'치고 '둥'문지르면 끝. 슬랩 별거없네.","베이직베이스TV_BasicBass희철"],
+    "x-K0lq-eLsI":["슬랩 중급자를 위한 리듬트레이닝 & Disco Funk Slap Bass","Bass Note"],
+    "mOZyQljo6QI":["[베이스 레슨] 펑키한 funky 리듬을 rhythm 연주하고 싶을 때 이거 연습하세요 16비트 거의 모든 패턴 연습 (+BASS TAB & Backing Track)","SWEET BASS 스윗베이스"],
+    "pVZ4tvq8kmo":["#코드톤연습 기초에서 응용까지 한번에 빡 레슨해드립니다.","베이스의모든것_올베이스"],
+    "jYX-TZZdrv8":["3일동안 1개만 연습 메이저스케일 연습 방법 이렇게 연습하면 지판이 보입니다","베이스의모든것_올베이스"],
+    "VVMSJSDhYWg":["[기타K] 베이스강좌 제2강 베이스 기본주법","이스턴 코리아"],
+    "bt4bl2rdGls":["베이스 오른손 진짜 자세히 설명하는 영상","종빈허"],
+    "VLHKBF0Jsfs":["기본기가 중요하다면서 왜 자꾸 딴거 연습하는거에요","보현쌤"],
+    "7_UiPJXg45k":["베이스기타 기초 - 베이스기타 연주 연습, 메트로놈과 효율적으로 리듬 연습하기!? [베이스의선율]","베이스의선율"],
+    "htWBZXlpX6E":["김찐배가 알려주는 오른손 엄지의 위치/right hand thumb position with bassjinkim","찐베이스 bassjinkim"],
+    "NkTCqk3cqeI":["베이스치는사람 꼭 봐야하는 실전 필인 가이드!(발라드)","ON THE MUSIC : 아담의 음악공방"],
+    "nGsJ2rsHuLY":["Soulful Jam For【Bass】G Major 80BPM | No Bass BackingTrack.","Music Jam Tracks"],
+    "OPvUfl_RbMg":["Jazz Bass Backing Track - Medium Swing 2-5-1-6 (C)","Quist"],
+    "EoxWm5T3lo8":["𝄢 FUNK Backing Track - No Bass - Backing track for bass. 100 BPM in E #backingtrack","JunzBass 𝄢 Backing Tracks"],
+    "78-nA8U6Rj8":["Rock Pop Backing Track A Major | A E Bm D | 80 BPM | Guitar Backing Track","TGuitar"],
+    "NxvEdHAA0XE":["Rock Backing Track for BASS","Artmant Studios"],
+    "4riDIWsISjI":["BOSSA NOVA(2516) Backing track in C Major","HW MUSIC"],
+    "1h11FFtURIw":["Latin Pop Funk Jam for【Bass】C Minor BPM98 | No Bass Backing Track","Music Jam Tracks"],
+    "k3eSXUCc0cY":["Swing Jazz Jam For【Bass】C Major 180bpm No Bass BackingTrack","Music Jam Tracks"],
+    "N38s3npaNbQ":["딱 3분이면 돼요! 즉흥연주 할 때 베이스라인 만드는 법 | 베이스독학할 때 가장 힘든점 | 베이스슬랩라인 만들기 | forgotmenots bassslap 베이스초보 베이스강의","스시창 | 베이스레슨"],
+    "riCDOFyRIZ4":["Practice THIS Daily (10 Mins)","BassBuzz"],
+    "beEFU2tsvw8":["All of Me (bassless backing track)","Bassless Backing Tracks"],
+    "PeQEMFVa2NM":["FUNK Backing Track - No Bass 🚫𝄢🎸 Backing track for bass. 100 BPM in A. #backingtrack","JunzBass 𝄢 Backing Tracks"],
+    "qOMukxWse0M":["Close to Home - Pop/Rock Backing Track in G Major | 120 bpm [NO BASS]","Elite Backing Tracks by Bryan Bow"],
+    "w27qmvfEf-M":["Rock Bass Backing Track in B Minor","Jam'in Backing Tracks"],
+    "DExPU8POLDg":["Wave _ NO BASS (145 bpm) : Bossa Backing Track","Guitare Improvisation"],
+    "T1XbGtZtFoQ":["Blues Bass Backing Jam Track (A)","Quist"],
+    "7anFuDXV2j8":["Beginner Bass Lesson #1 (Your Very First Lesson)","BassBuzz"],
+    "CR8yQCZX2HQ":["Basic Bass Plucking Technique (Beginner Bass Basics)","BassBuzz"],
+    "yAWzJ_anzMk":["How to Practice James Jamerson's Chromatic BASS Exercise!","Joe Hubbard Bass"],
+    "0gDK98JVAnQ":["Beginner Funk Bass Made Simple (Bootsy’s Funk Formula)","BassBuzz"],
+    "kuCGvw-N_BA":["The Only Arpeggio Exercise You Need","Rich Brown - The Brown'stone"],
+    "zmhF3GEJXKk":["How to Practice with a Metronome - Bass Guitar Lessons - Daric Bennett Bass Lessons","Daric's Bass Lessons"],
+    "L-zwVgk_zVk":["[베이스강의] 알아놓으면 좋은 베이스 워밍업연습!","ki du Jung정기두"],
+    "LA4nWGVhNjA":["[10min BASS Challenge] Beginner#10 함께 연습해요~역시 베이스연습은 노가다 연습이 최고~!!!ㅠㅠ노가다 연습#1(Bass fitness #1)","얼쓰비 Earl's Bass Solutions"],
+    "y5gSYk2g0SA":["\"9분 만에 베이스 기타 만렙 찍기\"","양장 YANGJANG"],
+    "MVFi1aqGGzM":["[TAB+Lesson]워킹 베이스 레슨 - 에프 블루스 강의 난이도 레벨1 jazz walking bass F blues level.1","One9bass"],
+    "g4OpkglufQk":["이태윤 베이스레슨 p100-16Beat Finger Funk; PJ베이스 톤메이킹 꿀팁! 프레시젼과 재즈의 만남 (31편)","베이직베이스TV_BasicBass희철"],
+    "57cB1AMH2QA":["베이스 초보 슬랩 쉽게, 효율적으로 하는 방법 bass slap 기초 슬랩 강의 꿀팁","포데라 든 초보 Fochobass"],
+    "1SJfIlLx-_o":["슬랩 초보자 연습곡 Slap Beginner","Bass Note"],
+    "ddUwurCXGFo":["박자 훈련 _ 칼박으로 가는 길 2 _ 16비트 연습  [Bass 꿀팁 #6]","Sean the Bass"],
+    "nMsPcPY_rps":["그래서, 코드톤 스케일은 어떻게 써먹는거냐?","보현쌤"],
+    "NFuLgnD4a18":["베이스기타가 메이저스케일을 연습하는 10가지 폼 Major scale 10 forms for bass","SWEET BASS 스윗베이스"],
+    "DBDIq82pJBM":["베이스 오른손 000에 힘을 빼야 속주를 할 수 있습니다!! | 베이스 독학 기초 | 베이스 입문 | 5분만에 오른손 완성!!","스시창 | 베이스레슨"],
+    "UX5P6-L1cpQ":["우선생 Groove #1 - 초보 베이시스트를 위한 짧고 재미있는 연습","우선생의베이스아카데미"],
+    "RQJtAh112GM":["[10minutes Challenge] Beginner_Step1.'도레미파솔라시도'함께 10분 연습하기 with 메트로놈","얼쓰비 Earl's Bass Solutions"],
+    "lu0xvy3oLF4":["베이스기타 슬랩 기초 - Thumb(엄지) 연타 SLAP BASS 연주 연습하기!! [베이스의선율]","베이스의선율"],
+    "v7YZcN096sw":["느린 곡 연주할 때 베이스는 어떤 필인을 연주하면 좋을까?(MR 포함) [Bass Fill-ins For Slow Tempo]","SWEET BASS 스윗베이스"],
+    "8pKr3j6qnm4":["𝄢 FUNK Backing Track - No Bass - Backing track for bass. 95 BPM in A. #backingtrack","JunzBass 𝄢 Backing Tracks"],
+    "KJvFM1uS8ew":["Fly Me To The Moon (Jazz/Swing feel) : Backing Track","Guitare Improvisation"],
+    "KrkiRbZtz8s":["𝄢 FUNK Backing Track - No Bass - Backing track for bass. 100 BPM in Am. #backingtrack","JunzBass 𝄢 Backing Tracks"],
+    "u5BiPC59RRM":["Soul Pop Jam for【Bass】BPM115 | No Bass Backing Track","Music Jam Tracks"],
+    "udViJmWQrdw":["Vintage Rock Jam For【Bass】A Major 72bpm No Bass BackingTrack","Music Jam Tracks"],
+    "z4H7XQ6-0QQ":["Latin Jazz / Bossa Nova Bass Backing Track In Dm","JamTracksChannel"],
+    "eg9nGzi3QGU":["Latin Jazz Fusion Jam Track in C minor \"Cascara Mascara\" - BJT #83","Ben's Jam Tracks"],
+    "khZ05GKipjw":["Sweet and Low - Swing Jazz Backing Track in C Minor | 165 bpm [NO BASS]","Elite Backing Tracks by Bryan Bow"],
+    "u4vb4ST80a4":["[베이스 레슨] 즉흥 베이스 솔로, 이 4가지면 충분합니다!","김구이 KimGui"],
+    "eEcFUZUEkcc":["Daily Bass Warm-Up Exercises | Lesson | Thomann","Thomann's Guitars & Basses"],
+    "Iaoh8YictCU":["Jazz BASS Backing Track - Medium Swing 2-5-1 (Am)","Quist"],
+    "ZTlMm32vUBY":["Spicy Funk Bass Backing Track in A Minor | No Bass","Jam Along Backing Tracks"],
+    "473vM31cK0w":["Bass Backing Track C major - Electronic Soft Pop Rock - NO BASS | ST 45","Tomas Sandanus"],
+    "tQH7wjHORE0":["Epic Melodic Rock Bass Backing Track in E Minor","Jam'in Backing Tracks"],
+    "xLAtBCwcRKY":["Girl from Ipanema (145 bpm) NO BASS - Backing Track","Guitare Improvisation"],
+    "kd2rRZUcmj0":["G Major Blues Backing Track   No Bass Play Along Jam","Blues Jams"],
+    "2OoMQDGrwgU":["Learn Bass in 5 Minutes","BassBuzz"],
+    "Bb8MG4MXhEM":["3 Basslines That FIXED My Fingerstyle Technique","BassCamp"],
+    "J6UbXWAw7Qo":["How To Play The Chromatic Scale On Bass | Fender Play | Fender","Fender"],
+    "0Kd91QN5Z4k":["4 Levels of Funk Bass Lines Lesson","Travis Dykes"],
+    "7vF_lcAc-L8":["Easy Bass Arpeggios For Beginners","TalkingBass - Online Bass Lessons"],
+    "RXMUECdyMxI":["7 Bass Guitar Metronome Exercises [Your Timing WILL Improve]","Dan Hawkins Bass Lessons"],
+    "6uFoOjnM_jg":["6분 손풀기 (#1)","하루베이스"],
+    "LTdFeOsx0r0":["[기본기를 잡아주는 베이스기타 40분 트레이닝] 크로메틱 16beat","베이시스트안성진"],
+    "cHN9Qkxm7og":["12주 베이스기타 입문 레슨 1주차 / 독학 하시려는 분들 이 영상만 따라하세요","더베이스레슨"],
+    "xKwTARdoJgk":["재즈의 기초, 워킹베이스! 딱 이렇게 시작해주세요!","박터틀의 음악노트"],
+    "uDCBkAjL5qY":["재즈 곡(Wave) 베이스는 이렇게 연주합니다! 레슨으로 재즈 베이스 정복해버리기!!","춘리 베이스 [Jun Lee Bass]"],
+    "FF0DwRtbUv0":["슬랩베이스 이 영상만 따라하세요","더베이스레슨"],
+    "WKRVMJ4p5RE":["[베이스 레슨] 베이스 슬랩 강좌 리오펑크 솔로부분 강의 (Rio funk bass solo tutorial)","덕 Bass Guitar"],
+    "xsRf2PVsvAk":["(베이스 레슨 입문편) 왕초보에서 합주까지~13강(리듬편) - 16비트 실전 패턴들~! 실전에 많이 나오는 16비트 리듬들을 mr반주와 함께 연습해봅시다~!!!","얼쓰비 Earl's Bass Solutions"],
+    "uc_AdIT0Yws":["[베이스기타 테크닉 #21] '코드톤' 어떻게해도 외워지지 않는 마술? 연습법,해결책","베이시스트안성진"],
+    "6Jdxk0GpHn4":["쉬울것 같지만 쉽지 않은 스케일 연습법 | 솔로를 위한 기본기 | 포지션 연습","Bassist Gbro"],
+    "8WVTcF0RcIc":["이윤종의 베이스기타 입문_Part.2 베이스의 기초 연주 1. 핑거피킹","이윤종"],
+    "qlKQ3x8VDig":["베이스 오른손 연습 TIP -손록손록tv-","Sonrok Bass 손록손록 베이스"],
+    "gaDfg_D0sC0":["13강_스트레이트 리듬 트레이닝","보현쌤"],
+    "AziUHiBSmaM":["리듬감 폭발! 베이스 메트로놈 연습법 | 타이밍 잡는 가장 쉬운 방법 [킹준 베이스레슨 2화] 베이스 독학 팁 | 메트로놈 연습 방법","아톰기타 Atom Guitars"],
+    "mmDBMt0_1Pw":["베이스기타 기초 - 베이스기타 연주시 오른손 엄지 위치 이동 배우기, 입문자 추천 [베이스의선율]","베이스의선율"],
+    "RifdCFLW9iY":["베이스 필인을 하기 위한 사전 연습","Pistis Jeon"],
+    "EppDg69I6KY":["Easy Groove Jam for【Bass】C Major BPM88 | No Bass Backing Track","Music Jam Tracks"],
+    "i5_Gp7VB-PI":["Smooth Jazz Jam For【Bass】C Major 70bpm No Bass BackingTrack","Music Jam Tracks"],
+    "X-KIYkieLzk":["Cosmic Funk Backing Track For Bass (Em)","Backing Tracks Channel"],
+    "jtGIVM3nz8g":["Rock Pop BACKING TRACK B Minor | Bm G D A | 70 BPM | Guitar Backing Track","TGuitar"],
+    "7H7Xg6U7P5g":["Blue Bossa (150bpm) : Backing track","Guitare Improvisation"],
+    "0YnBZqkgPNE":["Son of a Montuno - Latin Backing Track in A Minor | 165 bpm [NO BASS]","Elite Backing Tracks by Bryan Bow"],
+    "FZpHCjCY-9w":["[BackingTrack] Jazz Swing ii-V-i A minor BPM180","Studio Closet"],
+    "K3_RYEuP0K0":["#1 지판(계이름) 빨리외우는 방법 [베이스초보 즉흥연주 프로젝트]","Yc Bass"],
+    "7IPvdXjr-GM":["Lesson #1: Warm Up Session Lvl.1 (Bass Exercise) (Play Along Tabs In Video)","CoverSolutions"],
+    "qb9TwdZ_EQ4":["Autumn Leaves Backing Track For Bass BPM 110 (Gm)","BBsound"],
+    "yccdTfFSy6s":["Fast Funk Bassless Backing Track 140 bpm","MarloweDK - Bass lessons, licks and low notes"],
+    "cGsILsJN2ak":["Disco Pop 80's  -  BASSLESS Backing Jam track in C minor (110 bpm)","DixMusicStudio"],
+    "w0Z4_5lJZNA":["Indie/Rock I BASS Backing Track","Ultimate Session Bass Gym"],
+    "9XUI6AXG4Qs":["Recordame - NO BASS (145 bpm) : Bossa Backing Track","Guitare Improvisation"],
+    "0t0TbDVx-dA":["Slow Blues Bass Backing Track - A Minor","Quist"],
+    "3VdJXphAFEk":["5 Beginner Bass Riffs (You Can’t F*** Up)","BassBuzz"],
+    "Cd6AKZBQ9e0":["Unlock the Secret to Faster Fingerpicking & Incredible Stamina","TalkingBass - Online Bass Lessons"],
+    "bQhKGyGRlGc":["[Bass Practice] Warm up & Basic Chromatic exercise with tabs (1)","BassTabs World"],
+    "Scw4pcVlfdk":["Must-Know Funk Bass Lines: Perfect for Beginners!","Ted Talks Bass"],
+    "qi7hdLeUeDs":["ASCENDING ARPEGGIO EXERCISE | Bass Guitar Tips, Tricks & Licks ~ Daric Bennett's Bass Lessons","Daric's Bass Lessons"],
+    "dZa_tdJTdik":["The Fundamentals of Time & The Metronome Exercise You Need Right Now","Rich Brown - The Brown'stone"],
+    "NgavHTzHCeg":["베이스기타 모드스케일(Mode Scale) 연습하기","ON THE MUSIC : 아담의 음악공방"],
+    "unEavM_cWic":["베이스 연습 전 손풀기 크로메틱 연습 Bass Chromatic practice","밤부 뮤직 스튜디오"],
+    "yEf9Jp6JgLc":["(베이스 레슨 입문편) 왕초보에서 합주까지~ 1강 - 베이스 연습전 명심할점 5가지, 간단한 기타구조 ,지판의 원리 등등~","얼쓰비 Earl's Bass Solutions"],
+    "1iidFqd6Gvw":["Jazz Walking Bass 만드는 방법","박지운TV"],
+    "DJ_CylR3K8g":["\"Autumn Leaves\" Walking Bass Line 🎵 Bass Guitar Lesson 🎸","Jared Plane"],
+    "Qkzl5R7ETXA":["슬랩 베이스 여정의 시작! 첫 번째 레슨 ㅣ오른손 자세 & 기본 연습 방법 ㅣ #베이스레슨 #슬랩베이스","베이스의모든것_올베이스"],
+    "cd8njjQYG2o":["슬랩 입문자들을 위한 베이스 라인과 곡에 라인 적용하기","Bass Note"],
+    "0TbKUJ7ySiQ":["세상 미치도록 쉬운 베이스기타 기초레슨(독학)16beat Rhythm연습 by 메이크언앙상블  [SUBTITLE]","Make AN Ensemble_메이크언앙상블"],
+    "xo1rKj-SQY4":["세상 미치도록 쉬운 베이스기타레슨(독학)[코드톤의 사용방법]by 메이크언앙상블","Make AN Ensemble_메이크언앙상블"],
+    "lVTqnB9oE5Y":["스케일 뭐뭐있나, 어디에 사용하나 (스케일 소개 및 솔로에서 활용)","베이시스트안성진"],
+    "ONfWdFZ75aY":["베이스 핑거 피킹하는 방법을 배워보자 / Asome Bass Lesson 2-2","베이스신동윤BassDySHIN"],
+    "cwi_PgQmMLA":["(베이스 오른손 연주의 모든 것) [2026년 신상 베이스 오른손 속도를 올리는 가장 빠른 방법]by메이크언앙상블","Make AN Ensemble_메이크언앙상블"],
+    "px7j6_it_5c":["Groove of Bass 1편 그루브의 시작","베이스의모든것_올베이스"],
+    "mVkBocMJj0U":["베이스 초보 박자와 친해지는 방법, 베이스 독학 박자 연습, 직접 가서 배운 독학러와 레슨생의 차이를 만드는 연습법!","포데라 든 초보 Fochobass"],
+    "G_nU3CmvgmM":["슬랩베이스 레슨 '엄지'편","보현쌤"],
+    "-c-fidYtQX8":["맛탱이가는 전공자의 E MINOR 베이스 필인 21선 (악보포함)","John Cha"],
+    "lpsLl8OchLI":["Spacey Fusion Bass Backing Track in D Minor","Jam'in Backing Tracks"],
+    "Dlx-eBUNrgc":["Jazz Bass Backing Track - Medium Swing 2-5-1 (C)","Quist"],
+    "1mFkGpw1bl8":["𝄢 FUNK Backing Track - No Bass - Backing track for bass. 100 BPM in Am #backingtrack","Backing Track Factory"],
+    "rnxGg3SenGI":["[베이스 제거] 60's Pop | Backing Track for Pop Jam","Pretium Backing Track"],
+    "jIxwTb0fTws":["NO BASS - Blue Bossa - Jazz Standard Backing Track - 120bpm (bassless)","Live Backing Track"],
+    "dP2eYcnJsLA":["Latin Fusion「Chick Corea SPAIN」Style ／Backing Track 【For Bass】Bm  118 BPM (NO BASS)","slohan RECORDS"],
+    "1giltwNTKeM":["Medium Swing Jazz Bass Backing Track // G Major 1-6-2-5","Quist"],
+    "Zr8j-LLHYZI":["[베이스기타테크닉 #25] 베이스솔로 즉흥연주 잘 하는 방법중 하나입니다 - Play & Rest 즉흥연주기법 연습해보자","베이시스트안성진"],
+    "P3eDBErKaNo":["The PERFECT Bass Practice Morning Routine For Beginners","BassBuzz"],
+    "1KIeF3eapkY":["JAZZ BLUES BACKING TRACK IN FA (NO BASS) 120 bpm","Alessandro Bossi"],
+    "cDTLtHZj-pI":["★ Funk Bass Backing Track ✭ #backingtracks","JunzBass 𝄢 Backing Tracks"],
+    "GcqsZnHakts":["식후 1시간, 걷기 운동이 혈당에 영향을 미친다?","바른건강"],
+    "Yw3dnxaaamE":["'밥 먹고 걷기가 보약' 매일 걸었는데… 식사 후 운동의 진실! | 박재석 병원장","건나물TV"],
+    "seEudh8o0yE":["걷기운동 효과 2배 높이는 방법. 운동과학박사 홍정기박사님 출연. 이렇게 걸으면 걷기운동 훨씬 효과가 좋습니다.","교육하는 의사! 이동환TV"],
+    "RGrKhONQwwE":["25-Minute After Meal Walk: Stabilize Blood Sugar and Boost Energy","Yes2Next"],
+    "QVoFRN7ABdA":["사망률 15% 줄이는 걷기, 일주일에 단 이틀만! 이렇게 걸어보세요 / 걷기 전문가 홍정기 교수","의학채널 비온뒤"],
+    "mGMiiLVg_Cs":["식후 바로 걷기 vs 30분 뒤… 혈당 차이 73%","하루한방울"],
+    "PTozxJZxbtI":["식후 걷기 효과, 소화에 진짜 도움이 될까?","내과식당"],
+    "RWE-aaBsXY4":["무작정 걸으면 '무릎' 다 나갑니다! 걷기 운동의 효능부터 잘못된 자세의 위험성까지~ 병원 안 가고 건강 지키는 걷기 I KBS 방송","KBS 생로병사의 비밀"],
+    "5lr5QocPFo4":["WALKING After a Meal: The Simplest Habit For STABLE Blood Sugar Levels","Levels | Health, Metabolism & Human Performance"],
+    "kKHxhFA_rr8":["당뇨병 필수 시청! 식후 혈당 잡는 5분 운동, 지금 알려드립니다!","건강의학전문채널 하이닥"],
+    "CgIcdajLiM0":["밥 먹고 언제 산책해야 몸에 가장 좋을까?","사물궁이 잡학지식"],
+    "anlI4Lcq1Sk":["걷기 운동, '이렇게' 하면 큰일납니다! 운동 효과 2배 올려주는 올바른 걷기 운동법 [홍정기 교수 2부ㅣ오!건강]","조선일보 의학·건강"],
+    "hQ1YYJSmXx8":["After Meals Walk | Reduce Blood Sugar by 30%","Get Fit With Rick"],
+    "lDUPoG1CMro":["무릎 건강 지키는 바른 걷기 방법 (이번 주말에 반드시 먹어야 할 한 끼) @좋은아침 5085회 20170519","SBS Entertainment"],
+    "LXKEXsqD0ZA":["걷기보다 강력한 식후 7분 루틴, 단 2주면 뱃살이 ‘쏙’ 빠집니다 [혈당관리O 층간소음X 관절부담X]","모멘트핏 록코치"],
+    "zcB8BIys_NE":["제발 식사 직후 바로 걸으세요 (효과없는 걷기말고 이렇게 걸어야 다이어트 성공합니다)식후 언제 걸으면 제일 좋을까요? (당뇨병과 건강에도 도움이 되는 식후 걷기를 꼭 실천해주세요)","닥터리TV_건강한 다이어트"],
+    "kghyht4dBys":["[풀버전] 걷기가 이렇게 좋은 거였어? 뇌졸중,관절염,편두통을 이겨내는 걷기 운동! 도심 걷기부터 노르딕 워킹까지 | 하루 4km 걷기, 건강 일사천리! KBS 210602","KBS 생로병사의 비밀"],
+    "1VPqKB8D3tw":["Can Walking After Meals Improve Digestion & Blood Sugar? Here’s What You Should Know","Medical Centric Podcast"],
+    "w1z_CJQNpcc":["잘못 걸으면 독? 제대로 걷는 방법! 알고 걷자 (올바르게 걷기 운동 자세)","홍정기의 생존운동"],
+    "BtHjDWDL0ns":["당뇨 환자 필수 시청! 혈압·혈당 동시에 잡는 식후 운동 골든타임 ｜내과 조희준 원장","건강의학전문채널 하이닥"],
+    "nHlA4rQA8mg":["식후 30분 뒤 운동이 틀렸다? 전문가가 밝힌 '걷기 골든타임'은 'XX분'입니다.","알아두면 건강"],
+    "ZxpLgdieeiM":["Good morning Stretching 통증 날리고 몸이 가벼워지는 5분 \"굿!모닝 스트레칭\"","ArunePilates"],
+    "XLl4_VlsuyY":["하루가 상쾌해지는 몸매 관리 모닝 스트레칭 - 초보 루틴","빅씨스 Bigsis"],
+    "Ptj-NEb5oB4":["5 Minute Morning Stretches - Quick Routine for Stretching and Energy!","Jessica Valant"],
+    "2SZatTKZUks":["밤새 쌓인 독소를 배출하는, 아침 침대 스트레칭 🌞","에일린 mind yoga"],
+    "nuIu5FkJAS4":["아침을 시작하는 15분 모닝요가 | 아침 요가 스트레칭","에일린 mind yoga"],
+    "uPOWvBj7nFY":["[쉬는 시간 5분 스트레칭] 거북목/굽은 어깨/허리 통증/틀어진 골반 풀어주기","서울특별시교육청교육연구정보원"],
+    "1m6SZ4ksbBY":["[스트레칭이면 충분하다] 아침 5분 스트레칭","리스컴"],
+    "7CUY_H-Vy34":["아침을 시작하는 10분 루틴 | 모닝 스트레칭, 요가하는 아침습관","에일린 mind yoga"],
+    "K_d_ojyolY8":["5 Minute Morning Stretch & Mobility Routine. Iron Out The Kinks & Feel Amazing!","Body Fix Exercises—for over 50s"],
+    "aTcbqto_Tg0":["자기전, 아침에 눈뜨자마자 따라하는 스트레칭","피지컬갤러리"],
+    "ezEs6sbSsOg":["뻑적지근한 몸, 요가 수련으로 회복하세요 | 15분 모닝 요가 | 요가소년 042","요가소년"],
+    "DS9_GO_7Ie0":["직장인, 수험생들을 위한 책상스트레칭!!","닥터고은"],
+    "2j9SRYlolfQ":["매일 가볍게 전신 5분 스트레칭 운동 | 물리치료사","서울척병원(서울 의정부)"],
+    "pSGluAkCVvI":["아침을 깨우는 모닝요가 | 컨디션 100% 끌어올리는 스트레칭 | 아침 공복 요가","에일린 mind yoga"],
+    "SqpBYTR8G0k":["5 Minute Morning Yoga Stretch for Back Tension","Yoga With Bird"],
+    "sG-GuxwxkE4":["[홈트100] EP | 04.기상 스트레칭 #기상스트레칭 #강하나 #스트레칭","국민체력100"],
+    "PP7KsFhdy5c":["온 몸의 붓기, 독소를 빼는 요가 | 디톡스 아침 요가 스트레칭","에일린 mind yoga"],
+    "jo0I3xTGaVU":["내 몸을 위한 5분 투자, 직장인을 위한 사무실 스트레칭!","건강의학전문채널 하이닥"],
+    "XdFhIyu_7Vw":["#스트레칭 #stretching 매일 \"5분  스트레칭 체조\" 아침,저녁으로 2번씩 해주세요~","ArunePilates"],
+    "BjEq1AVRgzc":["아침에 눈뜨자마자 10분 루틴 | 모닝 요가 스트레칭, 아침 긍정 확언","에일린 mind yoga"],
+    "gH1Wx6byvUo":["5 min Morning Yoga Stretches in Bed","Yoga with Kassandra"],
+    "1nUtUhhnZzo":["아침을 여는 모닝콜 요가 | 10분만에 기분 좋아지는 아침요가 | 모닝요가 스트레칭","에일린 mind yoga"],
+    "XOLkvqF4LoU":["계단오르기 자세, 방법은 이렇게만 하세요","야매인생"],
+    "sT56CulnMvU":["Benefits Of doing  Stair Climbing Exercises For Weight Loss.","HealthTips TV"],
+    "efiqud5yKLw":["10분 공복 모닝 홈트 - No 층간소음 No 휴식 No 반복","빅씨스 Bigsis"],
+    "weOd8r9JHdU":["[ENG] 🔥한달에 3kg 빠지는🔥 실내자전거 20분 프로그램","힙으뜸"],
+    "t70t-sklypk":["집에서 칼로리 불태우는 걷기 유산소운동 [칼소폭 순한맛]","Thankyou BUBU"],
+    "W9tZy-bf9Xs":["계단 오르기 운동 효과? 몇 층 올라야 해요? (1부)","나누리병원TV"],
+    "48Laa9qq9VA":["[귀하신팁] 이제는 계단을 두려워 하지 마세요👋 계단 오르내리는 올바른 자세 #귀하신몸","EBS"],
+    "g503tzMcG74":["The ONLY 3 Exercises You Need to Climb Stairs Easily (Ages 60+)","Shrey Vazir - Physiotherapist"],
+    "pcyrlkHXAdE":["전신 다이어트 최고의 운동 [점프❌ 눕는동작❌ 반복❌ 토크❌]","Thankyou BUBU"],
+    "xEhPT6ydXRY":["30분 실내자전거 운동 30 Minutes bike workout🔥3일 1키로 감량 🔥실내사이클 다이어트❤️","민티비티Min_tivity"],
+    "oZmuoKxI45I":["지방을 빼려면 제발! 저강도 유산소 운동을 하세요. 저강도 유산소운동의 핵심 장점","초딩입맛자덕"],
+    "zlT84TBl_DI":["만보 걷기 보다 계단 오르기가 더 좋다? 기적의 운동 습관 계단 오르기의 놀라운 효과 - 건강을 부탁해","이은아의 치매를 부탁해"],
+    "a5-t2Ypps8o":["무릎통증 없이 엉덩이 쓰는 계단오르기 운동 자세","파워라테스"],
+    "x12okYib7HA":["#1 Exercise You NEED to Climb Stairs Easily in 2026 (Ages 60+)","Shrey Vazir - Physiotherapist"],
+    "IXhppj6pwu4":["서서하는 초보 홈트 - 손목 무릎 부담없는 운동 - 유산소운동 홈트 - No 층간소음","빅씨스 Bigsis"],
+    "40SUH0Iyugs":["Sub)20분 실내자전거 운동 20 Minuites bike workout🔥3일 1키로 감량 🔥실내사이클 다이어트❤️","민티비티Min_tivity"],
+    "yY_dHHTMDvA":["과식하고 후회될 때! 바로 따라하는 가벼운 유산소 20분!","MIZI"],
+    "t46i3YuYa5o":["무릎 아픈 사람도 가능한 올바른 계단 걷기 방법 알려 드립니다｜알아두면 유용한 질환별 계단 오르기｜일단 해봐요 생방송 오후 1시｜#EBS건강","EBS 건강"],
+    "B7JZSfa1aWo":["10 Reasons  Why Climbing Stairs Every Day is a Game-Changer","Health Haven"],
+    "nFT1K6yV4qk":["추석특집 1편 - 어머님이 부르신다 10분 안에 끝내자 - 땀폭발 서서하는 유산소 홈트","빅씨스 Bigsis"],
+    "9Fp9AW57tYg":["478 Breathing Exercise 10 Minutes","Pocket Breath Coach - Luke Horton"],
+    "FiAfRGt5x5s":["대학병원 소화기내과에서 알려주는 올바른 복식호흡 방법😮‍💨","가톨릭대학교 인천성모병원"],
+    "dZewQEbQQM0":["5분 호흡명상 - 뇌를 위한 최고의 휴식법 (스트레스 해소, 뇌 피로회복)","에일린 mind yoga"],
+    "tEmt1Znux58":["Box breathing relaxation technique: how to calm feelings of stress or anxiety","Sunnybrook Hospital"],
+    "LiUnFJ8P4gM":["4-7-8 Calm Breathing Exercise | 10 Minutes of Deep Relaxation | Anxiety Relief | Pranayama Exercise","Hands-On Meditation"],
+    "u-p9CZ0maRU":["건강에 도움이 되는 복식 호흡, 올바른 방법은?","건강의학전문채널 하이닥"],
+    "bWIT2If5X8k":["[곰호흡]🧸설명필독❗️딱! 10분만 따라 해보세요! 답답함과 괴로움에서 해방됩니다. 21일동안 매일 10분씩만 ▶10분만에 스트레스해소 호흡명상, 수면 숙면 불면","귓전명상 채환TV Healing Meditation ChaeHwanTV"],
+    "ZfMA0YA1IVA":["Box Breathing Practice","Everyday Speech"],
+    "mwR0egMS0C8":["격관 명상 1단계 (내면소통 명상 호흡훈련 1-3). 격관은 매우 효과적인 편안전활 훈련법입니다","김주환의 내면소통 INZEUM"],
+    "h10twFhH35A":["외과 전문의가 알려주는 만성 염증 잡고 면역력 높이는 4.7.8 호흡법 공개! MBN 240402 방송","MBN Entertainment"],
+    "f6ICaH0ah1M":["복식호흡 이렇게 하셔야 정확합니다(복식호흡하는법/발성/연습/효과/노래/운동/말하기)","닥터샤우트 - 목소리 안나올때"],
+    "TGoAN5L_oPI":["5분 마음챙김 명상 - 마음을 다스리는 호흡 (스트레스 해소)","에일린 mind yoga"],
+    "oN8xV3Kb5-Q":["5 Minutes Box Breathing Relaxation Exercise | Beginner Pace | Anxiety Reduction Pranayama Technique","Hands-On Meditation"],
+    "_jeupnGPC1A":["(478호흡) 단 5분의 마법, 호흡명상! [스트레스 완화 / 집중력 강화]│478 Breathing [Relieve Stress, Improve Focus]","영혼들의 쉼터"],
+    "ad5BynHJBL8":["복식호흡 '제대로' 하는 방법 I 한의사 박원장","자율신경 한의사 박원장"],
+    "tv8sU3utIZA":["마음건강관리를 위한 안정화요법 실습(심호흡방법)","경상남도광역정신건강복지센터"],
+    "FJJazKtH_9I":["Box Breathing Exercise | TAKE A DEEP BREATH | Pranayama Series","Mike Maher | TAKE A DEEP BREATH"],
+    "1aW6GtLGCQE":["잠이 안 올 때 4,7,8 호흡 수면 명상 | 마보 나이트 루틴","마보TV"],
+    "tF6sqzpYtgU":["복식호흡 남들 따라하지 말고 스스로 할 수 있는 만큼 일단 한번 해보세요.","오상신경외과의원"],
+    "yiysD0Jl2Wo":["명상이 필요할 때 10분 명상 가이드","에일린 mind yoga"],
+    "NsVVO9hnCJ4":["완벽한 피로회복 효과 이완명상 | 바디스캔, 스트레스 푸는법","에일린 mind yoga"],
+    "pW5_MvJYNhA":["(Kor, Ch) 마음 챙김, 당신을 챙김 | 유정은 명상앱 '마보' 대표 @mabopractice  | #명상 #스트레스해소 #기분전환 | 세바시 1739회","세바시 강연 Sebasi Talk"],
+    "A9l2JO59czA":["🧘🏻‍♂️ [10분명상가이드] 마음이 비워지는 호흡법 ▶하루 10분 명상  ▶하루10분명상 / 최소 21일 반복하면 명상이 습관화 됩니다","귓전명상 채환TV Healing Meditation ChaeHwanTV"],
+    "ONAw54IHg2g":["[UHD/4K] 확실한 꿀잠을 위한 전신 이완 명상 (이너마더 바디스캔 명상)","이너마더 명상 (inner mother meditation)"],
+    "7lKI_XVHh_Q":["10분만에 마음을 다스리는 법 | 마음챙김 명상, 알아차림, 생각 비우기","에일린 mind yoga"],
+    "2apwMInE_8Q":["[ENG SUB] [10분🧘🏻‍♂️기초호흡명상] 초등학생도 따라하는 가장 쉬운 기초호흡 명상법 / 집에서 지하철에서 누구나 따라하세요. 꼭! 7일간은 도전해보시고 댓글 달아보셔요","귓전명상 채환TV Healing Meditation ChaeHwanTV"],
+    "bOaBli-NrK8":["🌙 다른 내일을 만들어 주는 취침 직전 확언","마인드풀tv"],
+    "HtHS8oO9Tg8":["마음이 편안해지는 10분 명상 가이드 | 요가소년 468","요가소년"],
+    "qumXFV9gK0k":["누워서 하는 20분 명상 | 요가 니드라, 바디스캔 수면 명상, 낮잠 20분","에일린 mind yoga"],
+    "czpOgpKBi5Q":["복잡한 머리를 비우는, 5분 마음챙김 명상 (생각 관찰하기 연습)  | #초심자  #mindfulness","Greetings Inner Light Healing"],
+    "ZycA6S1zh_Y":["생각이 많아 불면증에 효과적인 수면명상ㅣ 수면유도 명상가이드 [싱잉볼 음악]","명상하는그녀_내안의별"],
+    "e41dka80qo0":["아무것도 하지 않는 10분의 힘 | 명상 음악, 셀프명상(가이드 없음)","에일린 mind yoga"],
+    "CNYYWuH_Fcc":["몸과 마음의 완전한 휴식을 위한 이완명상 (ASMR · 바디스캔 · 자기암시) | 20분 요가니드라  | 요가소년 044","요가소년"],
+    "HMp67fyi7qk":["마음챙김명상 | 기초명상 | 머리를 비우는 호흡","마인드풀tv"],
+    "0SYl4vYrb9U":["[18분🧘🏻‍♂️호흡관법] 숨만 잘 쉬어도, 호흡만 잘 해도 모든면에서 건강해 집니다. 가장 효과적인 호흡명상법","귓전명상 채환TV Healing Meditation ChaeHwanTV"],
+    "B9GsLAPeA2M":["만성피로, 수면부족을 위한 최고의 휴식법 | 요가 니드라, 낮잠 30분, 수면명상","에일린 mind yoga"],
+    "mIg7YktQ3ak":["하루를 여는 마음수련 10분 명상 가이드 | 불안감, 후회, 무기력 버리기","마음수련 명상"],
+    "gQg0WLTsor0":["수면유도 명상4 - 요가 니드라 (바디 스캔) 명상","김주환의 내면소통 INZEUM"],
+    "kgCj8UUEWjU":["딱 10분! 거북목, 버섯증후군이 있다면 이 운동 제발 하셔야 합니다! 일자목, 거북목 스트레칭, 버섯증후군교정운동","자세요정 JSYJ"],
+    "JZ3CpjXgGAo":["[기분 좋은 날] 허리 디스크 환자를 위한 '허리 통증 잡는' 운동법 공개!, MBC 211006 방송","MBClife"],
+    "EN3wkYAQNss":["앉아서 하는 전신 스트레칭 8분 루틴!- 목, 어깨 뻐근함, 등, 허리 통증 및 팔,다리 저림 완화","필라테스하는 물리치료사,람PT"],
+    "y9RcwV1oXu0":["Best Exercises to Relieve Neck, Shoulder, and Upper Back Pain | Routine","Jeffrey Peng MD"],
+    "plKOdIiiKEQ":["경고) 거북목, 일자목 방치하면 생기는일. 의사가 체험한 거북목 교정법 Turtle Neck | 거북목, 무턱, 이중턱, 비대칭 | 라인만드는 의사 권병소","라인만드는 의사 DR.권병소"],
+    "nRzXhkTKRhA":["앉아서 하는 허리운동, 누구나 쉽게 할 수 있는 허리강화 운동 | 참포도나무병원","이동엽 원장의 자세혁명"],
+    "D54J2mfCME4":["[거북목 교정운동 최종본] 체형 교정에 미친 남자가 만듦.","모스틱 자세연구소"],
+    "f-mgnsrDWHg":["허리 통증을 없애주는 허리운동","연세사랑병원"],
+    "2DRvc74GgYM":["앉아서 하는 스트레칭 루틴!ㅣ의자 스트레칭","관절사용설명서"],
+    "s-7lyvblFNI":["Stretches for Neck, Shoulder & Upper Back Pain Relief | 10 min. Yoga to release Tension and Relax","Mady Morrison"],
+    "XF6S87F3jYo":["일자목 교정운동(feat, 홈트 루틴운동)","물리치료사.PT재석"],
+    "dJXZRZvqbYg":["예쁜 일자어깨 승모근 스트레칭 BEST3 [거북목/굽은등/라운드숄더 교정]","Thankyou BUBU"],
+    "abiyAQu-Pf0":["[하우투] '1분에 OK'... 허리통증 없애주는 5가지 스트레칭 / 연합뉴스 (Yonhapnews)","연합뉴스 Yonhapnews"],
+    "gxGd1t8jh98":["앉아서 하는 쉬운 스트레칭 - 수험생 직장인 분들께 추천 | Seated Slow Stretch","MIZI"],
+    "fTRv8dEgK3I":["10 Minute Gentle Stretches: Neck, Shoulder, and Upper Back Pain Relief","Dr. Kristie Ennis"],
+    "WbM9rOIxeXk":["[일자목 특집] 사라진 목 커브를 찾아드립니다!","모스틱 자세연구소"],
+    "ry_GGP_umxA":["허리통증 앉은 자리에서 바로 해결 하는 방법 | 앉아서 하는 초간단 코어운동","알쓸물치"],
+    "kB6Pa26sWhQ":["거북목 퇴치! 하루 6분 투자해서 거북목 예방하자! 핵심 교정 팁!","건강의학전문채널 하이닥"],
+    "o0rCwgtBIPM":["허리스트레칭, 허리통증에 좋은 운동. 누워서 하는 운동으로 쉽고 간단하고, 편안합니다!","연세사랑병원"],
+    "D3yExRi7EME":["뭉친 어깨, 뻣뻣한 골반 풀어주는 요가 | 앉아서 하는 요가 스트레칭 | 어깨 근육 풀기, 골반풀기","에일린 mind yoga"],
+    "T64es5lGZr8":["FAST Neck Pain Relief! [5-Minute Follow-Along Stretches]","Tone and Tighten"],
+    "753aiQRDW8Q":["[저녁 스트레칭 특집] 뭉친 근육을 풀어 숙면을 도와주는 20분 스트레칭","모스틱 자세연구소"],
+    "fbF7WfKHLsY":["오늘 밤, 딱 한 번만 해보세요. 수면의 질이 완전히 달라질 거예요😌 | 자기 전 20분 숙면 스트레칭 | 불면증 해소 • 하지 불안 증후군 해결 • 붓기제거 | 요가소년 516","요가소년"],
+    "p3EJuBxEjt0":["8 Minute Evening Yoga - Wind Down & Chill Out Yoga","Yoga with Kassandra"],
+    "JBr6vkO0MLk":["매일 꼭 해야하는 20분 전신순환 스트레칭 Ep.15 - 피로회복, 혈액순환, 긴장완화 효과","빵느"],
+    "EOJa7MqnVrs":["자기 전에 하면 딱 좋은 요가 | 숙면을 위한 자기전 스트레칭, 자기전 명상, 침대 요가 스트레칭","에일린 mind yoga"],
+    "HkQZfJkFCTI":["100화. [꿀잠 10분 스트레칭]  미국수면재단이 추천하는 숙면을 위한 잠들기 전 10분 스트레칭","SLEEP Dr. 신원철 꿀잠튜브"],
+    "H_4mTwkwHdQ":["꿀잠 보장! 숙면을 도와주는 자기 전 필수 스트레칭","건강의학전문채널 하이닥"],
+    "dsuu7kifkA0":["숙면을 도와주는 간단한 스트레칭이에요🌜간결한 설명","빵느"],
+    "5WWc88B0zdk":["🌙 Bedtime Yoga Stretch for Sleep and to Release Tension and Stress","Yoga With Bird"],
+    "iVhO_paV8EM":["하루 한 번🧘‍♀️ 꼭 해야하는 20분 전신 스트레칭 Ep.02 - 하루동안 쌓인 피로를 완전히 녹여주는 루틴 (Whole body stretch)","빵느"],
+    "_yBr9WDPpzE":["[서리요가#387] 숙면을 위한 26분 인요가 / 자기전요가","서리요가seoriyoga"],
+    "s7gMyOGx98w":["잠들기 전 누워서 편안하게 몸을 이완해요 | 10분 베드타임 요가 | 요가소년 313","요가소년"],
+    "oi7AxHKsM-M":["자기전 꼭 해야하는 20분 전신순환 스트레칭 Ep.18 (숙면예약🛌)","빵느"],
+    "114wjgPFrIE":["(요가은) 하품을 부르는! 누워서 하는 스트레칭 / 시원한 골반, 등허리 통증완화 / Lying Down Stretches, Hip and Lower Back Pain Relief","요가은YoGaEun"],
+    "q-76wcHi9GM":["BEDTIME Yoga Stretch - 10 min Beginner Yoga for Good Sleep","Yoga with Kassandra"],
+    "70XJ5aG7ays":["매일 꼭 해야하는 20분 전신순환 스트레칭 Ep.26 - 피로회복, 혈액순환, 긴장완화, 스트레스 감소 효과","빵느"],
+    "IQJ7TK-XNKk":["잠들기 전 요가 스트레칭 | 30분 베드타임 요가 | 요가소년 187","요가소년"],
+    "mxF1LuZLSek":["잠 안 올때, 꿀잠 부르는 숙면 스트레칭/긴장과 피로는 모두 제거","강하나 스트레칭_stretching"],
+    "em9wWhe20so":["[숙면 스트레칭] 하루 피로 싹 풀어주는 힐링 잠옷 스트레칭으로 꿀잠 예약♥ㅣBedtime good night stretchingㅣ다노티비","Stretch with Jessie"],
+    "BhNNetH9nb8":["잠 잘오는 방법? 취침전 침대위 스트레칭 💤 꿀잠예약 명상","에일린 mind yoga"],
+    "4TQsfBYCyKQ":["Bedtime Yoga Stretch to Release Tension and Stress","Yoga With Bird"],
+    "IRm3_Nu2PBI":["온몸 구석구석 풀어주는🧘‍♀️ 20분 전신순환 스트레칭 Ep.05 - 전신 순환, 림프 순환, 어깨결림 완화, 부종완화, 피로회복 효과 (Whole body stretch)","빵느"],
+  };
+
+  /* 카테고리별 영상 풀 — ↻ 다른 영상 버튼으로 하나씩 넘겨 봅니다.
+     strength/challenge 는 0=일 … 6=토 순서 */
+  var YT_POOLS = {
+    strength:[
+      ["50WCSpZtdmA","jw1gxrzRgeU","dn_oJ7SCseU","8VtkpMGw0hw","EbGh3ME7NLI","F0VqX7LzyvQ","S_XjbPjWL3o","U6nnxml9GRs","QhRcs9d2Y9E","sLe6jgHoYtk","aob4Lh1Vebk","5NsJ5CVJp-E","5DcdUr5hhhU","CznpNXToLbM","6_LYz_XxD-g","xCIid6LG354","t6YlREDAiN0","Z9SnKphUu7s","n8t3EM-XeBo","iCndwkvhcmY","eTuWJbdqHMc","djnCTOctbrY","-PCYdMvO3qM","Csq14WHG6q8","tZEZNsuDkLY","yyjOhsNEqtE","w2AG6dPBlZU","TbZZsD_bYko","9C7jUnkT9sA","PMfN-xMKyaI","4wUS_-xWGyY","X2s3RZR8lPI","XZCJRfhYJ-w"],
+      ["DWYDL-WxF1U","wYg3W24w99A","kqBmsMb5nnE","wfiT1DUjzAY","jSHEjB_3sRA","FS_hmVHlFVs","HTthpM84ILQ","C4_2puAkxfs","0LaoF369azs","7erin-2cpRo","tDhPStGIuDU","KXYi6bI-UPE","urOSaROmTIk","0gi0uE6ZFE4","_qiqzSkaNI4","CaT6kHxngJE","pDFuLG0xrsU","9WhpAVOSyl8","5HWOgV9xQgM","dO-51htz_eA","2AbLu3lQXLc","bce7hAfUmF8","6pfnCo2SoMQ","AD9HNQCpD8o","HFnSsLIB7a4","1RW8sjPNLRA","zzfBYEZM_Y4","8a9M0lNY37s","orEGOGBRldQ","v4qKCoZ-SQ0","fe2fDQcW6cg"],
+      ["xXcEhTR3u7w","eiMOxvZKyvM","l3gVu7M4H8Q","BR0gttNmsss","j9iD8faGWEo","Jf5_PJCFs-g","-wU_pG-P-8c","IwKzmnskihI","blzrPdzxzHQ","EUSxmgyGEYg","2phzIaSvyqc","Nl-R5NESKV8","c_5ENJWekbQ","yxA2Rqw5SeA","uTmsvZOAh5U","SZ7ZJC28VG4","RSNyOoAOpJQ","N0RPCmtR_6Q","Bs1xoAgiBlA","XHPtXkzciLU","WWYKWBsE9f4","JEEhNeOZr50","cUjNYSSlwts","nrGPP0rY37U","ZfGZmjEZhOw","usaET3A9YUQ","w0WQHVYKsss","XlBat-AaCy8","mKXy-5mRxNI","uNSN16MbPco","C3TqpGgnIoI","kpr_sotq7es","vfLVQQ0CsNw","gF9CyHNgaxA"],
+      ["v54Jtmi2BwU","vckr1GJ0JMs","Z4Rei7zBwuo","tNtiUsdL5_8","RKJHisWyejc","dzs4bADSVN0","DuEIVr86Pn8","hJuO1AUqLUc","hS4YLDWNKUw","JIl8xQ4ncdE","66jG-GPsd9o","bOCqXx0_tTs","Zq8nRY9P_cM","atSejLAeZ9Y","Gr1GtwTp_ko","p623pewgTc0","HWNvbsSxVuc","pTwRoreKIU4","N7Izxcyu2XI","Dx9iW-IkCEg","eijfIvpr5og","7TLk7pscICk","0yej5sU67Oo","Gj2fqZbehus","n4eLwAgf_ps","xG6epreSCek","_uXxzyq3LOQ","QgJ9pNfcXNI","cYRC4WiS2xk","EfKfkxMhCJQ","1-KnmYQMsE8","snzff1cLnfI","dxdGzEtSo8A","rIegQPbe6vE"],
+      ["2dail5Imi04","W4SpM2gxGdE","Xw5b9prgVkU","opjPvRniwRA","epZB0CkC04E","cOrigY7UDDc","YWpKc1R2HBE","IjwwSZ9eW_k","N8YbfniLO1E","gBEYGEjd8mQ","vzswVwbvIOc","RBVyRi_dX1o","nz5qsvRgK24","syuSc3ZUy4Y","S4Wr4zmWb9w","hqBxn9t15vc","B0W_GIAdwug","hesjApxDlj0","zruKSHfD7b4","vei81-bZhG4","MqBqzAsLpck","gpTYMAxN0CM","0d4psGmTYbw","9Sg9unHcyV4","A5MzlPgNcJM","NCBq502sOWY","WroDM1svrqs","Ed69soS-dIM","LG6CNzlj_6o","Iaa8YNDRbhg","4kZHHPH6heY","RULLK1LWvwI","s8s4HqqRfsk"],
+      ["pZvMDCCxyqM","fShmO6hUJt4","jyWEHAkgI2g","RxIyMV7WhzY","Op6ep4HeYhk","Mt083IzdqIE","kp7u4nK_Qwc","xiPw46hDuHo","Sa0sBKUiOvU","ogwV6D19ays","M-1E2q4KGG4","J12kw3GN8OU","c-4JHXdqnck","3_N0oxpNGJQ","X3-gKPNyrTA","l2zN7cM0vaE","0Xbjh7kKagA","4UtP_nx-ZHA","yL_DeEl-Km4","AwdFh5nutZY","7mlCANG9sJM","crSzrdQ5iLE","wl3OkoNC3Ms","Iuuj28MImK0","Bo1FiN-aVaA","x0UKQEG-mi4","LRqBmRq59TA","GR12lGNiUGw","GBn2m18MMko","8mGgHlpPLdc","riS89biXH7E","kvE_1FIJusM","Aoj5TlN2_Qk","gsFShSYOovU"],
+      ["WFqPO9v6i4g","QTKLicpvMJY","kbV7-S1Kbog","f5ar-Wncr70","sgu0ujzGfX4","ZxtRZL62K2I","t9xO0Q5fa6M","MiRcmFDSlZw","YIaJWBmGSoc","2xmNzityfKI","6OS9VKDcg_w","a7w8OG7a5As","LL8q2otCBNE","BQ08-60KKuo","2F7HYTq0HF0","LZWORB39zQk","qE4FLBAKxrA","UQ8AC8eYDZI","doiSCQsxV58","VVn5IUM8sms","3Rlx492eZNM","FrVNuW7FFtg","WzApXJxpOLE","kOYd2oFOojc","0GEx801-mD4","Paiexz5kFDI","6EGYtkbj_34","yBWqDKj5qgs","--MMq6I07b4","7Vqv5SmSKHY","5M-w_NxFz_U","KNxy25OnlNA","DNqurVRejR0"],
+    ],
+    guitar:["ml4vRpBVdXI","pcWZWAJhXd0","Is-1GxB9zr8","MhZq1XmRQwQ","6wZgZ2Xo6nM","JKK5V91s-Wc","4fG2AmwxcUI","eQzN4qQb3MI","nHPhzNUkkJA","XVpIZ6Y4XhY","0Yu9sN7E194","UByg_JIlPQc","owcWmGILdS0","x6QhGI5JzCE","CUoZ3xHwGTI","S6jExyY8J8Y","0kefxqOn7LA","RRVaFXBwGoY","hix5sqnK5rA","2R59rkMTn_A","pMzeh6t1Nhc","aDeR0kIHi38","qhlzrchShIc","dILe4X4wnO4","jqw-BOxzRzE","einl3CzAp1E","0CdcBLMLN5c","BNVbWDIT4eo","y3DTSp850DU","k1aER0GGcs0","WnK70WnQIlo","zZSNQK0NmW8","GV5Gyh9253E","V9AYqvrMNOk","YXM7fhI12sg","eqy21Xn_br8","yzAj5SzpOic","a8nB90Ju_54","pe9OzzieLhs","pCQFOGiPvZ8","bOvbwu9LF90","YxhRNBsAZmw","l1O1s6EGEeA","cyJcDOltvUE","AM5YB_566qw","aie-blkigVE","Fiyc8ZbaArc","wlgnfOttRoU","kzgUycvWXKU","ZLgDLccbj1w","9fMlionT6NE","BBnk8U1BxdY","e85kab8VCzI","-ep6kElVN3Y","INSA_lWe1Kc","co9MtICFYrs","se5YAfkHcSw","xxQHO41Bb9w","KJJRCf5IJGk","ufR0mQnqHRk","bDYhGlz0fBk","jQpUvUyrxII","NaMB6Md--YQ","nEEsfU-PC74","_pm1MF2fzrM","FjlE5dyiPlw","rn07fBYqo9A","sx2OrfYCCMI","n2H6EMHbU7Q","WmQWTOimz4k","KgOhkxswQKo","qYx8r0EtGsE","GYwdxHH9Y_k","1LjtJBtZxNM","739CNIkkrHQ","brpoL-zyvh0","VDaRxtejCoY","uU276qNDWXo","qlpkm83VtCs","T0rCnjq7MDs","hIYN89YTfzQ","f4ilv5MNzog","BshznKMgTlA","mdhVKEuZdvg","etae5UVIz8o","Z3euxRLOQec","yGMouZzqPRk","Z1piZdxJXE8","wdMFjaYoucM","lMHnNLc0B74","7VUPk5TA4JU","z15Dckku11U","PBhHO9H0-Vk","yVJRxdVENbE","BJF3_mQYx6E","cstB4vNwljw","iOTmXd-9fik","cWqd6-a9cj8","4uIvLopffJg","h_MmhfBsNNk","566LrQfcqgE","8BjOeiXMmZI","go2NlmO5pzM","ucp6d_Q-faI","b7WCU6JGOss","ASQbebYIImY","rCNZy-pGyIo","bbJOOURbzeQ","O9SLt-u9xGk","TSrfB7JIzxY","rhWDEKIGRDg","kNG9EsWCYMA","nKjuftVhqko","u-1cpSeox2w","v4MFbu9vyjo","RMgYhXjp-38","6sTu9FvBSLg","WY-8FsyGu7M","kmAcojafc_s","4fatr5TdUgY","VnN1onen_Jo","6ACJ8QOgg7o","z5d_CM82rZE","mkU-yS2Jl_0","KU_iSVv-djk","5U0mdARnvDs","sPNtI-A-XH4","G0gOFyFcweY","uW-G0-8_1kg","PEnQR08VgWE","1PQEx2g-Ots","Ai_V2JqGvlc","mJW31UQ_WpI","-RJnXvyVxsg","D3LC4F-52xM","l35A9G8I67o","wVS-rNAOdyE","cd6DV7SGMSQ","45TiYrENYAk"],
+    bass:["o59rYuzoy6I","d1Mglx7R4sc","VBMMGvwnwJM","Mz6DGbclmbA","XxsP5RfSQes","lw_gOgf2jLI","x-K0lq-eLsI","mOZyQljo6QI","pVZ4tvq8kmo","jYX-TZZdrv8","VVMSJSDhYWg","bt4bl2rdGls","VLHKBF0Jsfs","7_UiPJXg45k","htWBZXlpX6E","NkTCqk3cqeI","nGsJ2rsHuLY","OPvUfl_RbMg","EoxWm5T3lo8","78-nA8U6Rj8","NxvEdHAA0XE","4riDIWsISjI","1h11FFtURIw","k3eSXUCc0cY","N38s3npaNbQ","riCDOFyRIZ4","beEFU2tsvw8","PeQEMFVa2NM","qOMukxWse0M","w27qmvfEf-M","DExPU8POLDg","T1XbGtZtFoQ","7anFuDXV2j8","CR8yQCZX2HQ","yAWzJ_anzMk","0gDK98JVAnQ","kuCGvw-N_BA","zmhF3GEJXKk","L-zwVgk_zVk","LA4nWGVhNjA","y5gSYk2g0SA","MVFi1aqGGzM","g4OpkglufQk","57cB1AMH2QA","1SJfIlLx-_o","ddUwurCXGFo","nMsPcPY_rps","NFuLgnD4a18","DBDIq82pJBM","UX5P6-L1cpQ","RQJtAh112GM","lu0xvy3oLF4","v7YZcN096sw","8pKr3j6qnm4","KJvFM1uS8ew","KrkiRbZtz8s","u5BiPC59RRM","udViJmWQrdw","z4H7XQ6-0QQ","eg9nGzi3QGU","khZ05GKipjw","u4vb4ST80a4","eEcFUZUEkcc","Iaoh8YictCU","ZTlMm32vUBY","473vM31cK0w","tQH7wjHORE0","xLAtBCwcRKY","kd2rRZUcmj0","2OoMQDGrwgU","Bb8MG4MXhEM","J6UbXWAw7Qo","0Kd91QN5Z4k","7vF_lcAc-L8","RXMUECdyMxI","6uFoOjnM_jg","LTdFeOsx0r0","cHN9Qkxm7og","xKwTARdoJgk","uDCBkAjL5qY","FF0DwRtbUv0","WKRVMJ4p5RE","xsRf2PVsvAk","uc_AdIT0Yws","6Jdxk0GpHn4","8WVTcF0RcIc","qlKQ3x8VDig","gaDfg_D0sC0","AziUHiBSmaM","mmDBMt0_1Pw","RifdCFLW9iY","EppDg69I6KY","i5_Gp7VB-PI","X-KIYkieLzk","jtGIVM3nz8g","7H7Xg6U7P5g","0YnBZqkgPNE","FZpHCjCY-9w","K3_RYEuP0K0","7IPvdXjr-GM","qb9TwdZ_EQ4","yccdTfFSy6s","cGsILsJN2ak","w0Z4_5lJZNA","9XUI6AXG4Qs","0t0TbDVx-dA","3VdJXphAFEk","Cd6AKZBQ9e0","bQhKGyGRlGc","Scw4pcVlfdk","qi7hdLeUeDs","dZa_tdJTdik","NgavHTzHCeg","unEavM_cWic","yEf9Jp6JgLc","1iidFqd6Gvw","DJ_CylR3K8g","Qkzl5R7ETXA","cd8njjQYG2o","0TbKUJ7ySiQ","xo1rKj-SQY4","lVTqnB9oE5Y","ONfWdFZ75aY","cwi_PgQmMLA","px7j6_it_5c","mVkBocMJj0U","G_nU3CmvgmM","-c-fidYtQX8","lpsLl8OchLI","Dlx-eBUNrgc","1mFkGpw1bl8","rnxGg3SenGI","jIxwTb0fTws","dP2eYcnJsLA","1giltwNTKeM","Zr8j-LLHYZI","P3eDBErKaNo","1KIeF3eapkY","cDTLtHZj-pI"],
+    challenge:[
+      ["GcqsZnHakts","Yw3dnxaaamE","seEudh8o0yE","RGrKhONQwwE","QVoFRN7ABdA","mGMiiLVg_Cs","PTozxJZxbtI","RWE-aaBsXY4","5lr5QocPFo4","kKHxhFA_rr8","CgIcdajLiM0","anlI4Lcq1Sk","hQ1YYJSmXx8","lDUPoG1CMro","LXKEXsqD0ZA","zcB8BIys_NE","kghyht4dBys","1VPqKB8D3tw","w1z_CJQNpcc","BtHjDWDL0ns","nHlA4rQA8mg"],
+      ["ZxpLgdieeiM","XLl4_VlsuyY","Ptj-NEb5oB4","2SZatTKZUks","nuIu5FkJAS4","uPOWvBj7nFY","1m6SZ4ksbBY","7CUY_H-Vy34","K_d_ojyolY8","aTcbqto_Tg0","ezEs6sbSsOg","DS9_GO_7Ie0","2j9SRYlolfQ","pSGluAkCVvI","SqpBYTR8G0k","sG-GuxwxkE4","PP7KsFhdy5c","jo0I3xTGaVU","XdFhIyu_7Vw","BjEq1AVRgzc","gH1Wx6byvUo","1nUtUhhnZzo"],
+      ["XOLkvqF4LoU","sT56CulnMvU","efiqud5yKLw","weOd8r9JHdU","t70t-sklypk","W9tZy-bf9Xs","48Laa9qq9VA","g503tzMcG74","pcyrlkHXAdE","xEhPT6ydXRY","oZmuoKxI45I","zlT84TBl_DI","a5-t2Ypps8o","x12okYib7HA","IXhppj6pwu4","40SUH0Iyugs","yY_dHHTMDvA","t46i3YuYa5o","B7JZSfa1aWo","nFT1K6yV4qk"],
+      ["9Fp9AW57tYg","FiAfRGt5x5s","dZewQEbQQM0","tEmt1Znux58","LiUnFJ8P4gM","u-p9CZ0maRU","bWIT2If5X8k","ZfMA0YA1IVA","mwR0egMS0C8","h10twFhH35A","f6ICaH0ah1M","TGoAN5L_oPI","oN8xV3Kb5-Q","_jeupnGPC1A","ad5BynHJBL8","tv8sU3utIZA","FJJazKtH_9I","1aW6GtLGCQE","tF6sqzpYtgU"],
+      ["yiysD0Jl2Wo","NsVVO9hnCJ4","pW5_MvJYNhA","A9l2JO59czA","ONAw54IHg2g","7lKI_XVHh_Q","2apwMInE_8Q","bOaBli-NrK8","HtHS8oO9Tg8","qumXFV9gK0k","czpOgpKBi5Q","ZycA6S1zh_Y","e41dka80qo0","CNYYWuH_Fcc","HMp67fyi7qk","0SYl4vYrb9U","B9GsLAPeA2M","mIg7YktQ3ak","gQg0WLTsor0"],
+      ["kgCj8UUEWjU","JZ3CpjXgGAo","EN3wkYAQNss","y9RcwV1oXu0","plKOdIiiKEQ","nRzXhkTKRhA","D54J2mfCME4","f-mgnsrDWHg","2DRvc74GgYM","s-7lyvblFNI","XF6S87F3jYo","dJXZRZvqbYg","abiyAQu-Pf0","gxGd1t8jh98","fTRv8dEgK3I","WbM9rOIxeXk","ry_GGP_umxA","kB6Pa26sWhQ","o0rCwgtBIPM","D3yExRi7EME","T64es5lGZr8"],
+      ["753aiQRDW8Q","fbF7WfKHLsY","p3EJuBxEjt0","JBr6vkO0MLk","EOJa7MqnVrs","HkQZfJkFCTI","H_4mTwkwHdQ","dsuu7kifkA0","5WWc88B0zdk","iVhO_paV8EM","_yBr9WDPpzE","s7gMyOGx98w","oi7AxHKsM-M","114wjgPFrIE","q-76wcHi9GM","70XJ5aG7ays","IQJ7TK-XNKk","mxF1LuZLSek","em9wWhe20so","BhNNetH9nb8","4TQsfBYCyKQ","IRm3_Nu2PBI"],
+    ],
+  };
+
+  /* 요일별 근력 미니 포커스 (0=일 … 6=토). 그날 영상은 YT_POOLS.strength[요일]에서 골라요. */
   var STRENGTH_DAYS = [
-    { focus:'전신 스트레칭', desc:'가볍게 몸 풀고 회복',
-      video:{ id:'50WCSpZtdmA', short:'매일 아침 10분 스트레칭', ch:'힙으뜸',
-        title:'심으뜸 매일 아침 10분 스트레칭 2023 리뉴얼' } },
-    { focus:'스쿼트·하체', desc:'스쿼트 15회 × 3세트',
-      video:{ id:'q6hBSSfokzY', short:'하루 10분 스쿼트', ch:'힙으뜸',
-        title:'하루10분 스쿼트로 기초 체력 기르기' } },
-    { focus:'푸시업·상체', desc:'푸시업 10회 × 3세트',
-      video:{ id:'blzrPdzxzHQ', short:'푸쉬업 100개 맨몸 루틴', ch:'보통사람을 위한 운동채널',
-        title:'집에서 오직 푸쉬업 6주만 하면 몸은 놀랍게 변합니다' } },
-    { focus:'플랭크·코어', desc:'플랭크 30초 × 3세트',
-      video:{ id:'v54Jtmi2BwU', short:'30일 플랭크 챌린지', ch:'힙으뜸',
-        title:'매일하는 30일 플랭크 챌린지' } },
-    { focus:'10분 전신 근력', desc:'세 동작 순환 2세트',
-      video:{ id:'N-15wUPnqpc', short:'하루 10분 전신 홈트', ch:'Allblanc TV',
-        title:'하루 10분! 전신 칼로리 불태우는 다이어트 홈트레이닝' } },
-    { focus:'등·어깨', desc:'밴드 로우와 숄더 프레스',
-      video:{ id:'Mt083IzdqIE', short:'10분 밴드 상체 운동', ch:'Allblanc TV',
-        title:'탄탄한 가슴, 어깨, 등 만들기 - 10분 라텍스 밴드 상체 운동' } },
-    { focus:'하체+스트레칭', desc:'런지와 힙 브릿지',
-      video:{ id:'6OS9VKDcg_w', short:'하체 스트레칭 10분', ch:'빵느',
-        title:'하체 스트레칭은 이 영상 하나로 끝내세요' } }
+    { focus:'전신 스트레칭', desc:'가볍게 몸 풀고 회복' },
+    { focus:'스쿼트·하체', desc:'스쿼트 15회 × 3세트' },
+    { focus:'푸시업·상체', desc:'푸시업 10회 × 3세트' },
+    { focus:'플랭크·코어', desc:'플랭크 30초 × 3세트' },
+    { focus:'10분 전신 근력', desc:'세 동작 순환 2세트' },
+    { focus:'등·어깨', desc:'밴드 로우와 숄더 프레스' },
+    { focus:'하체+스트레칭', desc:'런지와 힙 브릿지' }
   ];
 
-  /* 악기별 유튜브 연습 영상 — 하루 단위로 돌아가며 바뀜 */
+  /* 악기별 유튜브 연습 영상 — YT_POOLS 의 풀을 하루 단위로 돌려가며 보여줍니다 */
   var MUSIC_LINKS = {
-    guitar:{ btn:'기타 연습 영상', videos:[
-      { id:'brpoL-zyvh0', short:'크로매틱 제대로 하는 법', ch:'규르코의 힐링기타',
-        title:'기타 크로매틱 연습의 모든 것! 제대로 하는법' },
-      { id:'einl3CzAp1E', short:'A마이너 백킹트랙 즉흥연주', ch:'Sebastien Zunino',
-        title:'Easy Groove Backing Track in A minor' },
-      { id:'xMsFw2ULiu8', short:'펜타토닉 패턴과 원리', ch:'해피엠기타 이화균',
-        title:'기타 펜타토닉 스케일의 모든 패턴과 원리' },
-      { id:'_ZGcm5y1rq8', short:'코드 체인지 빨라지는 법', ch:'기타솔저',
-        title:'기타 코드 재미있게 외우고 빨리 바꾸는 방법' },
-      { id:'wiqJeaHYRxw', short:'피킹 기본과 연습법', ch:'cho pilsung Awesome',
-        title:'속주를 하기 위한 피킹기본부터 가장 효과적인 연습법' }
-    ] },
-    bass:{ btn:'베이스 연습 영상', videos:[
-      { id:'LA4nWGVhNjA', short:'10분 베이스 챌린지 함께 연습', ch:'얼쓰비',
-        title:'10min BASS Challenge Beginner#10 함께 연습해요' },
-      { id:'o59rYuzoy6I', short:'크로매틱 손풀기', ch:'SWEET BASS 스윗베이스',
-        title:'베이스를 치기 전 꼭 해야할 연습 및 손풀기 (크로매틱)' },
-      { id:'Dlx-eBUNrgc', short:'재즈 스윙 백킹트랙', ch:'Quist',
-        title:'Jazz Bass Backing Track - Medium Swing 2-5-1 (C)' },
-      { id:'mOZyQljo6QI', short:'16비트 펑크 리듬', ch:'SWEET BASS 스윗베이스',
-        title:'펑키한 funky 리듬 16비트 패턴 연습' },
-      { id:'nMsPcPY_rps', short:'코드톤 쓰는 법', ch:'보현쌤',
-        title:'그래서, 코드톤 스케일은 어떻게 써먹는거냐?' }
-    ] },
+    guitar:{ btn:'기타 연습 영상', pool:'guitar' },
+    bass:{ btn:'베이스 연습 영상', pool:'bass' },
     etc:{ btn:'악기 연습 영상', queries:['{name} 연습 기초'] }
   };
 
+  /* pool 은 YT_POOLS.challenge 의 테마 번호 (0 식후 걷기 … 6 저녁 릴렉스) */
   var CHALLENGES = [
     { title:'물 1.5L 마시기', desc:'하루 동안 천천히 나눠서', coach:'health', tip:'수분이 부족하면 피로를 더 크게 느껴요. 책상 위에 물병을 두고 시작해요.' },
-    { title:'식후 10분 걷기', desc:'점심 먹고 가볍게 한 바퀴', coach:'health', video:{ id:'ZU28MoHtkHE', short:'식후 걷기와 혈당', ch:'초과회복',
-        title:'밥 먹고 바로 10분 걷는 사람 vs 30분 몰아서 걷는 사람, 2주 뒤 혈당 차이는?' }, tip:'식후 걷기는 혈당이 급하게 오르는 걸 완만하게 만들어줘요.' },
+    { title:'식후 10분 걷기', desc:'점심 먹고 가볍게 한 바퀴', coach:'health', pool:0, tip:'식후 걷기는 혈당이 급하게 오르는 걸 완만하게 만들어줘요.' },
     { title:'취침 1시간 전 스마트폰 멀리하기', desc:'충전기는 침실 밖으로', coach:'mind', tip:'밝은 화면은 잠드는 신호를 늦춰요. 대신 책이나 음악을 곁에 두세요.' },
-    { title:'스트레칭 5분', desc:'목·어깨·허리 순서로', coach:'health', video:{ id:'S_XjbPjWL3o', short:'5분 아침 스트레칭', ch:'Stretch with Jessie',
-        title:'아침 눈뜨자마자 스트레칭 5분 아침 스트레칭' }, tip:'오래 앉아 있었던 날일수록 5분이 크게 남아요.' },
-    { title:'계단으로 3층 오르내리기', desc:'엘리베이터 대신 오늘 한 번', coach:'health', video:{ id:'27zSEATjckA', short:'계단 오르내리는 바른 자세', ch:'EBS 교양',
-        title:'잘못된 계단 운동은 무릎 부상을 가져올 수 있어요 - 올바른 계단 오르내리기 자세' }, tip:'짧은 계단 오르기도 하체 근육과 심폐에 좋은 자극이에요.' },
+    { title:'스트레칭 5분', desc:'목·어깨·허리 순서로', coach:'health', pool:1, tip:'오래 앉아 있었던 날일수록 5분이 크게 남아요.' },
+    { title:'계단으로 3층 오르내리기', desc:'엘리베이터 대신 오늘 한 번', coach:'health', pool:2, tip:'짧은 계단 오르기도 하체 근육과 심폐에 좋은 자극이에요.' },
     { title:'고마운 사람에게 짧은 안부 보내기', desc:'한 줄이면 충분해요', coach:'mind', tip:'관계도 근육처럼 쓰면 좋아져요. 오늘 떠오른 사람이 정답이에요.' },
     { title:'좋아하는 음악 한 곡 집중해서 듣기', desc:'아무것도 안 하고 3분', coach:'music', tip:'귀를 기울여 듣는 것만으로도 스트레스가 한결 가벼워져요.' },
-    { title:'4-7-8 심호흡 3세트', desc:'들이쉬고 4초, 참고 7초, 내쉬고 8초', coach:'mind', video:{ id:'LiUnFJ8P4gM', short:'4-7-8 호흡 10분', ch:'Hands-On Meditation',
-        title:'4-7-8 Calm Breathing Exercise - 10 Minutes of Deep Relaxation' }, tip:'길게 내쉬는 숨이 몸을 이완시켜요. 지금 바로 한 번 해보세요.' },
+    { title:'4-7-8 심호흡 3세트', desc:'들이쉬고 4초, 참고 7초, 내쉬고 8초', coach:'mind', pool:3, tip:'길게 내쉬는 숨이 몸을 이완시켜요. 지금 바로 한 번 해보세요.' },
     { title:'단백질 반찬 한 가지 챙기기', desc:'계란·두부·생선·닭가슴살 중 하나', coach:'health', tip:'근육을 지키려면 운동만큼 단백질도 필요해요.' },
-    { title:'10분 명상 또는 조용한 산책', desc:'폰은 주머니에 넣고', coach:'mind', video:{ id:'inxAScz0PTM', short:'누워서 하는 10분 명상', ch:'에일린 mind yoga',
-        title:'누워서 하는 10분 명상 - 호흡명상, 마음챙김 명상 가이드' }, tip:'아무것도 하지 않는 10분이 오히려 집중력을 되돌려줘요.' },
+    { title:'10분 명상 또는 조용한 산책', desc:'폰은 주머니에 넣고', coach:'mind', pool:4, tip:'아무것도 하지 않는 10분이 오히려 집중력을 되돌려줘요.' },
     { title:'악기 스케일 5분', desc:'오늘은 소리보다 손가락 위주로', coach:'music', tip:'5분 스케일이 1시간 연습보다 손을 깨워요.' },
-    { title:'허리 펴고 복식호흡 1분', desc:'앉은 자리에서 지금 바로', coach:'health', video:{ id:'EN3wkYAQNss', short:'앉아서 하는 8분 스트레칭', ch:'람PT',
-        title:'앉아서 하는 전신 스트레칭 8분 루틴 - 목, 어깨, 허리 통증 완화' }, tip:'자세만 펴도 호흡이 깊어지고 어깨가 편해져요.' },
+    { title:'허리 펴고 복식호흡 1분', desc:'앉은 자리에서 지금 바로', coach:'health', pool:5, tip:'자세만 펴도 호흡이 깊어지고 어깨가 편해져요.' },
     { title:'오늘 배운 영어 표현 3개 소리 내어 말하기', desc:'듀오링고·말해보카에서 하나 골라서', coach:'mind', tip:'입으로 말한 표현이 오래 남아요.' },
     { title:'스마트폰 없이 한 끼 먹기', desc:'화면 대신 음식에 집중', coach:'mind', tip:'천천히 먹으면 포만감이 빨리 와요.' },
     { title:'좋아하는 노래 따라 부르기', desc:'한 소절이면 충분해요', coach:'music', tip:'노래는 기분을 바꾸는 가장 빠른 방법이에요.' },
     { title:'자기 전 오늘 잘한 일 3가지 적기', desc:'종이든 메모든 괜찮아요', coach:'mind', tip:'뇌는 적어둔 것을 기억하려 해요. 내일의 자신감이 돼요.' },
-    { title:'해 질 무렵 15분 산책', desc:'가능하면 햇빛을 보고', coach:'health', video:{ id:'753aiQRDW8Q', short:'저녁 20분 스트레칭', ch:'모스틱 자세연구소',
-        title:'저녁 스트레칭 특집 - 뭉친 근육을 풀어 숙면을 도와주는 20분 스트레칭' }, tip:'저녁 산책은 잠드는 시간을 앞당겨줘요.' },
+    { title:'해 질 무렵 15분 산책', desc:'가능하면 햇빛을 보고', coach:'health', pool:6, tip:'저녁 산책은 잠드는 시간을 앞당겨줘요.' },
     { title:'물 대신 단 음료 참기', desc:'오늘 한 번만', coach:'health', tip:'액상과당은 배고픔을 잘 못 느끼게 해요.' }
   ];
 
@@ -1007,13 +1660,61 @@ input,select{font:inherit}
   function ytUrl(q){
     return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(String(q));
   }
+  function ytMeta(id){
+    var m = YT_META[id];
+    return m ? { id:id, t:m[0], a:m[1] } : null;
+  }
   function ytCaption(v){
     if(!v) return '';
-    return v.short ? v.short + (v.ch ? ' · ' + v.ch : '') : (v.title || '');
+    return (v.t || '') + (v.a ? ' · ' + v.a : '');
   }
   function ytTooltip(v){
-    if(!v) return '';
-    return (v.title || '') + (v.ch ? ' · ' + v.ch : '');
+    return ytCaption(v);
+  }
+  /* 'strength:3' / 'guitar' 처럼 카테고리(:테마) 키로 영상 풀을 찾습니다 */
+  function ytPoolIds(key){
+    var p = String(key).indexOf(':') === -1 ? [String(key)] : String(key).split(':');
+    var pool = YT_POOLS[p[0]];
+    if(!pool) return [];
+    if(p.length > 1) return pool[Number(p[1])] || [];
+    return pool;
+  }
+  /* 오늘 날짜 기준 기본 영상 + 사용자가 ↻ 로 넘긴 위치 */
+  var ytUserPick = {};
+  function ytStartIndex(key, len){
+    if(ytUserPick[key] != null) return ((ytUserPick[key] % len) + len) % len;
+    var n = dayNumber(todayKey());
+    return ((n % len) + len) % len;
+  }
+  function ytRow(key, label){
+    var ids = ytPoolIds(key);
+    if(!ids.length) return '';
+    var i = ytStartIndex(key, ids.length);
+    var v = ytMeta(ids[i]);
+    return '<div class="yt-row" data-yt-pool="' + esc(key) + '" data-yt-i="' + i + '">'
+      + '<div class="yt-line">'
+      + ytLink(ytWatch(ids[i]), label, ytTooltip(v))
+      + '<button type="button" class="yt-next" data-yt-next aria-label="다른 영상 보기" title="다른 영상">↻</button>'
+      + '</div>'
+      + '<span class="yt-note"><span class="yt-note-t">' + esc(ytCaption(v)) + '</span>'
+      + '<span class="yt-count">' + (i + 1) + '/' + ids.length + '</span></span>'
+      + '</div>';
+  }
+  /* ↻ : 링크·제목·번호를 바로 다음 영상으로 바꾸고 루틴 체크는 건드리지 않음 */
+  function ytApplyPick(row, idx){
+    var key = row.getAttribute('data-yt-pool');
+    var ids = ytPoolIds(key);
+    if(!ids.length) return;
+    var i = ((idx % ids.length) + ids.length) % ids.length;
+    var v = ytMeta(ids[i]);
+    row.setAttribute('data-yt-i', i);
+    ytUserPick[key] = i;
+    var a = row.querySelector('a[data-yt]');
+    if(a){ a.href = ytWatch(ids[i]); a.setAttribute('title', ytTooltip(v)); }
+    var nt = row.querySelector('.yt-note-t');
+    if(nt) nt.textContent = ytCaption(v);
+    var c = row.querySelector('.yt-count');
+    if(c) c.textContent = (i + 1) + '/' + ids.length;
   }
   function strengthFocus(key){
     var i = parseKey(key || todayKey()).getDay();
@@ -1040,6 +1741,18 @@ input,select{font:inherit}
       a.dataset.ytBound = '1';
       /* 링크 탭이 루틴 체크까지 토글하지 않도록 막음 */
       a.addEventListener('click', function(e){ e.stopPropagation(); });
+    });
+    $$('[data-yt-next]', root || document).forEach(function(b){
+      if(b.dataset.ytNextBound) return;
+      b.dataset.ytNextBound = '1';
+      b.addEventListener('click', function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        var row = b.closest ? b.closest('.yt-row') : null;
+        if(!row) return;
+        var cur = Number(row.getAttribute('data-yt-i')) || 0;
+        ytApplyPick(row, cur + 1);
+      });
     });
   }
   function habitMeta(id){
@@ -1204,15 +1917,13 @@ input,select{font:inherit}
     card.classList.toggle('done', cd);
     var chBtn = $('[data-habit="challenge"]', card);
     if(chBtn) chBtn.setAttribute('aria-pressed', cd ? 'true' : 'false');
-    var row = $('#chVideoRow'), link = $('#chVideoLink');
-    if(row && link){
-      var note = $('#chVideoNote');
-      if(ch.video){
-        link.href = ytWatch(ch.video.id);
-        link.setAttribute('title', ytTooltip(ch.video));
-        if(note) note.textContent = ytCaption(ch.video);
+    var row = $('#chVideoRow');
+    if(row){
+      if(ch.pool != null && ch.pool !== undefined && ytPoolIds('challenge:' + ch.pool).length){
+        row.innerHTML = ytRow('challenge:' + ch.pool, '참고 영상');
         row.hidden = false;
       }else{
+        row.innerHTML = '';
         row.hidden = true;
       }
     }
@@ -1236,8 +1947,7 @@ input,select{font:inherit}
       + '<span class="plus">+25분</span>'
       + checkSvg()
       + '</button>'
-      + '<div class="yt-row">' + ytLink(ytWatch(f.video.id), '유튜브로 따라하기', ytTooltip(f.video))
-      + '<span class="yt-note">' + esc(ytCaption(f.video)) + '</span></div>'
+      + ytRow('strength:' + parseKey(key).getDay(), '유튜브로 따라하기')
       + '</div>';
   }
 
@@ -1256,11 +1966,7 @@ input,select{font:inherit}
       : '<span class="badge-week" style="color:var(--ink-3);background:var(--card-soft);border-color:var(--line)">주말 루틴</span>';
     var ytRows = names.map(function(name, i){
       var plan = musicPlan(name);
-      if(plan.videos && plan.videos.length){
-        var pick = rotatePick(plan.videos, key);
-        return '<div class="yt-row">' + ytLink(ytWatch(pick.id), plan.btn, ytTooltip(pick))
-          + '<span class="yt-note">' + esc(ytCaption(pick)) + '</span></div>';
-      }
+      if(plan.pool) return ytRow(plan.pool, plan.btn);
       /* 설정에서 악기 이름을 직접 바꾼 경우에만 검색으로 연결 */
       var q = rotatePick(plan.queries, key).replace(/\{name\}/g, name);
       return '<div class="yt-row">' + ytLink(ytUrl(q), plan.btn, q) + '</div>';
