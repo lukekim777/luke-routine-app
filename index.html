@@ -301,6 +301,140 @@ input,select{font:inherit}
 .mw .lb{font-size:10.5px;font-weight:700;color:var(--ink-3);margin-top:5px}
 .mw.today .lb{color:var(--mint-deep)}
 
+/* ============ rpg companion ============ */
+.rpg{
+  --rpg-a:#0D2B44; --rpg-b:#152A4E; --rpg-c:#1C2340;
+  --rpg-line:rgba(240,200,120,.34); --rpg-ink:#F4F7FF; --rpg-ink-2:#B9C6DC;
+  --rpg-gold:#F5C86A; --rpg-gold-2:#FFE9AE; --rpg-track:rgba(255,255,255,.14);
+  position:relative;overflow:hidden;isolation:isolate;
+  display:flex;gap:11px;align-items:stretch;height:158px;
+  margin-top:12px;padding:11px;
+  border-radius:var(--r-lg);
+  background:
+    radial-gradient(120% 130% at 8% -10%, rgba(245,200,106,.26), transparent 58%),
+    linear-gradient(135deg,var(--rpg-a) 0%,var(--rpg-b) 52%,var(--rpg-c) 100%);
+  border:1px solid var(--rpg-line);
+  box-shadow:0 20px 38px -28px rgba(6,20,40,.95), 0 1px 0 rgba(255,255,255,.07) inset;
+  transition:border-color .4s, box-shadow .4s;
+}
+:root[data-theme="dark"] .rpg{--rpg-a:#081C2E; --rpg-b:#0E1F3A; --rpg-c:#141A31;
+  --rpg-line:rgba(245,200,106,.28); --rpg-ink:#EAF1FF; --rpg-ink-2:#9FB0C8;
+  box-shadow:0 20px 38px -26px rgba(0,0,0,.95), 0 1px 0 rgba(255,255,255,.05) inset}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .rpg{--rpg-a:#081C2E; --rpg-b:#0E1F3A; --rpg-c:#141A31;
+    --rpg-line:rgba(245,200,106,.28); --rpg-ink:#EAF1FF; --rpg-ink-2:#9FB0C8;
+    box-shadow:0 20px 38px -26px rgba(0,0,0,.95), 0 1px 0 rgba(255,255,255,.05) inset}
+}
+.rpg-glow{position:absolute;left:-34px;top:-46px;width:190px;height:190px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,214,130,.55),rgba(255,214,130,0) 66%);
+  animation:rpgAura 3.6s ease-in-out infinite}
+@keyframes rpgAura{0%,100%{opacity:.5;transform:scale(.92)}50%{opacity:.95;transform:scale(1.08)}}
+.rpg-portrait{position:relative;flex:0 0 96px;width:96px;border-radius:14px;overflow:hidden;background:#0A1826;
+  border:1px solid rgba(255,215,130,.42);
+  box-shadow:0 10px 20px -12px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.05) inset}
+.rpg-portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 10%;
+  animation:rpgBreathe 3.5s ease-in-out infinite;transform-origin:50% 74%;will-change:transform}
+.rpg-portrait.no-img::before{content:"\1F451";position:absolute;inset:0;display:grid;place-items:center;font-size:30px;
+  background:linear-gradient(160deg,#1B3A5C,#241F45);color:#F5C86A}
+.rpg-portrait.no-img img{display:none}
+@keyframes rpgBreathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2px) scale(1.045)}}
+.rpg-portrait .rpg-sheen{position:absolute;inset:-40% -70%;pointer-events:none;mix-blend-mode:screen;
+  background:linear-gradient(104deg,transparent 40%,rgba(255,246,214,0) 45%,rgba(255,246,214,.62) 50%,rgba(255,255,255,0) 55%,transparent 60%);
+  animation:rpgSheen 5.2s ease-in-out infinite}
+@keyframes rpgSheen{0%{transform:translateX(-78%)}46%{transform:translateX(78%)}100%{transform:translateX(78%)}}
+.rpg-motes{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.rpg-motes i{position:absolute;bottom:6px;width:3px;height:3px;border-radius:50%;background:var(--rpg-gold-2);
+  box-shadow:0 0 7px 1px rgba(255,214,130,.9);opacity:0;animation:rpgMote var(--dur,4.4s) linear infinite;animation-delay:var(--delay,0s)}
+@keyframes rpgMote{0%{transform:translateY(6px) scale(.4);opacity:0}22%{opacity:.95}100%{transform:translateY(-58px) scale(1.15);opacity:0}}
+.rpg-portrait::after{content:"";position:absolute;inset:0;border-radius:14px;pointer-events:none;
+  box-shadow:0 0 0 0 rgba(255,214,130,0);transition:box-shadow .3s}
+.rpg.pulse .rpg-portrait::after{animation:rpgPulse .85s ease-out}
+@keyframes rpgPulse{0%{box-shadow:0 0 0 0 rgba(255,214,130,.85), inset 0 0 24px rgba(255,214,130,.5)}
+  100%{box-shadow:0 0 0 16px rgba(255,214,130,0), inset 0 0 0 rgba(255,214,130,0)}}
+.rpg.levelup{border-color:rgba(255,224,150,.85);box-shadow:0 0 0 2px rgba(255,214,130,.35), 0 24px 44px -26px rgba(255,190,80,.7)}
+.rpg.levelup .rpg-portrait{animation:rpgLv .9s cubic-bezier(.2,1.4,.4,1)}
+@keyframes rpgLv{0%{transform:scale(1)}38%{transform:scale(1.07) rotate(-1.2deg)}70%{transform:scale(.99) rotate(.8deg)}100%{transform:scale(1)}}
+.rpg-body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:0;color:var(--rpg-ink)}
+.rpg-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.rpg-lv{font-size:12.5px;font-weight:900;letter-spacing:-.01em;color:#1B2436;background:linear-gradient(180deg,#FFE9AE,#F5C86A);
+  padding:2px 7px;border-radius:7px;box-shadow:0 2px 6px -2px rgba(0,0,0,.5)}
+.rpg-rank{font-size:12px;font-weight:800;color:var(--rpg-gold);letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rpg-today{margin-left:auto;font-size:10.5px;font-weight:800;color:var(--rpg-gold-2);background:rgba(255,214,130,.14);
+  border:1px solid rgba(255,214,130,.26);padding:2px 7px;border-radius:999px;white-space:nowrap}
+.rpg-bar{position:relative;height:7px;border-radius:999px;background:var(--rpg-track);margin-top:8px;overflow:hidden}
+.rpg-bar i{display:block;height:100%;width:0;border-radius:999px;
+  background:linear-gradient(90deg,#F5C86A,#FFE9AE 58%,#FFF6DA);
+  box-shadow:0 0 10px rgba(255,214,130,.75);transition:width .7s cubic-bezier(.22,.7,0,1)}
+.rpg-bar::after{content:"";position:absolute;inset:0;border-radius:999px;
+  background:linear-gradient(100deg,transparent 42%,rgba(255,255,255,.55) 50%,transparent 58%);
+  animation:rpgBarSheen 2.9s ease-in-out infinite}
+@keyframes rpgBarSheen{0%{transform:translateX(-110%)}58%,100%{transform:translateX(110%)}}
+.rpg-exp{font-size:10.5px;font-weight:750;color:var(--rpg-ink-2);margin-top:5px;letter-spacing:-.01em}
+.rpg-exp b{color:var(--rpg-gold-2);font-weight:850}
+.rpg-say{margin-top:6px;font-size:11.5px;font-weight:650;line-height:1.42;color:var(--rpg-ink);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;letter-spacing:-.01em}
+.rpg-say::before{content:"\201C";color:var(--rpg-gold);margin-right:1px}
+.rpg-say::after{content:"\201D";color:var(--rpg-gold);margin-left:1px}
+@media (max-width:360px){
+  .rpg{height:150px;padding:10px;gap:10px}
+  .rpg-portrait{flex-basis:84px;width:84px}
+  .rpg-say{-webkit-line-clamp:2;font-size:11px}
+  .rpg-today{display:none}
+}
+
+/* ============ random mission ============ */
+.mission{position:relative;overflow:hidden;padding:12px 13px 11px;border-radius:var(--r-lg);
+  background:linear-gradient(135deg,var(--amber-soft),var(--card) 72%);
+  border:1px solid rgba(201,124,0,.34);box-shadow:var(--shadow-soft);
+  transition:border-color .3s,background .3s}
+:root[data-theme="dark"] .mission{border-color:rgba(240,180,76,.34)}
+.mission.done{border-color:rgba(14,159,110,.42);background:linear-gradient(135deg,var(--mint-soft),var(--card) 72%)}
+.ms-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ms-chip{font-size:10.5px;font-weight:800;letter-spacing:.02em;color:var(--amber);background:rgba(255,255,255,.62);
+  border:1px solid rgba(201,124,0,.24);padding:3px 8px;border-radius:999px;white-space:nowrap}
+:root[data-theme="dark"] .ms-chip{background:rgba(0,0,0,.22)}
+.mission.done .ms-chip{color:var(--mint-deep);border-color:rgba(14,159,110,.3)}
+.ms-reroll{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;color:var(--ink-2);
+  background:var(--card);border:1px solid var(--line-2);padding:4px 9px;border-radius:999px;
+  transition:transform .16s,color .18s,border-color .18s;white-space:nowrap;flex:0 0 auto}
+.ms-reroll:hover{color:var(--ink);border-color:var(--ink-3)}
+.ms-reroll:active{transform:scale(.94) rotate(-14deg)}
+.ms-main{display:flex;align-items:center;gap:11px;width:100%;margin-top:10px;padding:0;text-align:left}
+.ms-ico{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;font-size:19px;flex:0 0 auto;
+  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow-soft)}
+.mission.done .ms-ico{background:var(--mint-soft);border-color:rgba(14,159,110,.24)}
+.ms-txt{flex:1;min-width:0}
+.ms-txt .t{display:block;font-size:14.5px;font-weight:800;letter-spacing:-.02em;line-height:1.32}
+.ms-txt .d{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  font-size:11.5px;color:var(--ink-2);font-weight:600;margin-top:2px;line-height:1.42}
+.ms-xp{flex:0 0 auto;font-size:10.5px;font-weight:850;color:var(--amber);background:var(--card);
+  border:1px solid rgba(201,124,0,.26);padding:3px 7px;border-radius:8px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.mission.done .ms-xp{color:#fff;background:var(--mint);border-color:transparent}
+.ms-main .check{width:27px;height:27px;margin-left:2px}
+.mission.done .ms-main .check{background:linear-gradient(145deg,#12B981,#0B8A60);border-color:transparent;box-shadow:0 7px 14px -7px rgba(14,159,110,.9)}
+.mission.done .ms-main .check svg{opacity:1;transform:scale(1)}
+.ms-tip{margin-top:9px;font-size:11px;font-weight:600;color:var(--ink-3);line-height:1.45;letter-spacing:-.01em}
+.ms-tip b{color:var(--ink-2);font-weight:800}
+.mission.ms-flip .ms-txt{animation:msFlip .42s ease}
+.mission.ms-flip .ms-ico{animation:msIco .42s ease}
+@keyframes msFlip{0%{opacity:.15;transform:translateY(5px) scale(.98)}100%{opacity:1;transform:none}}
+@keyframes msIco{0%{transform:rotate(-16deg) scale(.86)}100%{transform:none}}
+
+/* ============ level up banner ============ */
+.levelup{position:fixed;left:50%;top:calc(11px + env(safe-area-inset-top, 0px));z-index:78;pointer-events:none;
+  transform:translate(-50%,-10px) scale(.92);opacity:0;
+  padding:12px 20px 13px;border-radius:20px;text-align:center;max-width:min(88vw,340px);
+  background:linear-gradient(145deg,#152A4E,#1E2440 58%,#3A2A18);
+  border:1px solid rgba(255,214,130,.55);color:#FFF6E2;
+  box-shadow:0 26px 46px -22px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.06) inset, 0 0 34px -6px rgba(255,190,80,.55);
+  transition:opacity .32s ease, transform .5s cubic-bezier(.2,1.5,.4,1)}
+.levelup.on{opacity:1;transform:translate(-50%,0) scale(1)}
+.levelup em{display:block;font-style:normal;font-size:10.5px;font-weight:900;letter-spacing:.26em;color:#F5C86A}
+.levelup strong{display:block;font-size:19px;font-weight:850;letter-spacing:-.03em;margin-top:3px}
+.levelup span{display:block;font-size:11.5px;font-weight:650;color:#E7D6B2;margin-top:4px;line-height:1.4}
+.levelup::before{content:"";position:absolute;inset:-2px;border-radius:22px;pointer-events:none;
+  background:radial-gradient(60% 80% at 50% 0%,rgba(255,214,130,.35),transparent 70%)}
+
 /* ============ views ============ */
 .view{display:none;animation:fade .28s ease}
 .view.on{display:block}
@@ -501,12 +635,49 @@ input,select{font:inherit}
         </div>
       </section>
 
+      <section class="rpg" id="rpgCard" aria-label="기사 여왕 동반자">
+        <div class="rpg-glow" aria-hidden="true"></div>
+        <div class="rpg-portrait">
+          <img id="rpgImg" src="./assets/knight-queen.webp" alt="빛의 기사 여왕" width="420" height="560" decoding="async">
+          <span class="rpg-sheen" aria-hidden="true"></span>
+          <span class="rpg-motes" id="rpgMotes" aria-hidden="true"></span>
+        </div>
+        <div class="rpg-body">
+          <div class="rpg-top">
+            <span class="rpg-lv num" id="rpgLv">Lv. 1</span>
+            <span class="rpg-rank" id="rpgRank">견습 기사</span>
+            <span class="rpg-today num" id="rpgToday">오늘 +0 EXP</span>
+          </div>
+          <div class="rpg-bar"><i id="rpgBar"></i></div>
+          <div class="rpg-exp num" id="rpgExp"><b>0</b> / 100 EXP</div>
+          <p class="rpg-say" id="rpgSay">오늘의 첫 검을 뽑을 시간이에요.</p>
+        </div>
+      </section>
+
       <div class="sec-head">
         <h2><span class="dot"></span>오늘의 루틴</h2>
         <span class="head-right"><span class="streak" id="streakChip">🌱 시작</span><span class="pill num" id="todayProgress">0/6</span></span>
       </div>
       <div class="today-bar"><i id="todayBar"></i></div>
       <div class="list" id="habits"></div>
+
+      <div class="sec-head">
+        <h2><span class="dot" style="background:var(--amber);box-shadow:0 0 0 3px var(--amber-soft)"></span>뜻밖의 랜덤 미션</h2>
+        <span class="muted" id="msDay">매일 하나</span>
+      </div>
+      <div class="mission" id="missionCard">
+        <div class="ms-top">
+          <span class="ms-chip">🎲 오늘의 뜻밖의 랜덤 미션</span>
+          <button type="button" class="ms-reroll" id="btnReroll" aria-label="다른 랜덤 미션 보기">↻ 다른 미션</button>
+        </div>
+        <button type="button" class="ms-main" data-mission="1" aria-pressed="false" aria-describedby="msTitle">
+          <span class="ms-ico" id="msIco" aria-hidden="true">☀️</span>
+          <span class="ms-txt"><span class="t" id="msTitle">오늘의 미션</span><span class="d" id="msDesc">불러오는 중</span></span>
+          <span class="ms-xp">+50 EXP</span>
+          <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.5 12.5 10 18l9.5-11"/></svg></span>
+        </button>
+        <p class="ms-tip" id="msTip"></p>
+      </div>
 
       <div class="sec-head">
         <h2><span class="dot" style="background:var(--amber);box-shadow:0 0 0 3px var(--amber-soft)"></span>오늘의 도전</h2>
@@ -638,6 +809,7 @@ input,select{font:inherit}
 </section>
 
 <div class="toast-host" id="toastHost" aria-live="polite" aria-atomic="true"></div>
+<div class="levelup" id="levelup" role="status" aria-live="polite"><em>LEVEL UP</em><strong id="lvTitle">Lv. 2 · 수호 기사</strong><span id="lvSub">새로운 칭호가 기다려요</span></div>
 <div class="confetti" id="confetti" aria-hidden="true"></div>
 
 <noscript><p style="padding:20px;text-align:center">이 앱을 쓰려면 브라우저의 자바스크립트를 켜 주세요.</p></noscript>
@@ -661,12 +833,12 @@ input,select{font:inherit}
   };
 
   var HABITS = [
-    { id:'wake', title:'기상 시간 지키기', icon:'☀️', minutes:8, coach:'health', tone:'t-amber' },
-    { id:'sleep', title:'취침 시간 지키기', icon:'🌙', minutes:10, coach:'health', tone:'t-violet' },
-    { id:'strength', title:'근력 유지 운동', icon:'💪', minutes:25, coach:'health', tone:'t-mint' },
-    { id:'english', title:'영어 공부', icon:'🦉', minutes:10, coach:'mind', tone:'t-violet' },
-    { id:'music', title:'악기 연습', icon:'🎵', minutes:15, coach:'music', tone:'t-amber', weekend:true },
-    { id:'challenge', title:'오늘의 도전', icon:'🎲', minutes:12, coach:'mind', tone:'t-amber' }
+    { id:'wake', title:'기상 시간 지키기', icon:'☀️', minutes:8, exp:20, coach:'health', tone:'t-amber' },
+    { id:'sleep', title:'취침 시간 지키기', icon:'🌙', minutes:10, exp:20, coach:'health', tone:'t-violet' },
+    { id:'strength', title:'근력 유지 운동', icon:'💪', minutes:25, exp:25, coach:'health', tone:'t-mint' },
+    { id:'english', title:'영어 공부', icon:'🦉', minutes:10, exp:20, coach:'mind', tone:'t-violet' },
+    { id:'music', title:'악기 연습', icon:'🎵', minutes:15, exp:25, coach:'music', tone:'t-amber', weekend:true },
+    { id:'challenge', title:'오늘의 도전', icon:'🎲', minutes:12, exp:20, coach:'mind', tone:'t-amber' }
   ];
 
   /* ===== 검증된 유튜브 영상 라이브러리: 총 654개 =====
@@ -1486,6 +1658,87 @@ input,select{font:inherit}
     ]
   };
 
+  /* ===== RPG: 레벨·칭호 ===== */
+  var RANKS = [
+    { lv:1,  name:'견습 기사' },
+    { lv:2,  name:'수호 기사' },
+    { lv:3,  name:'성기사' },
+    { lv:4,  name:'빛의 기사단장' },
+    { lv:5,  name:'왕국 수호자' },
+    { lv:7,  name:'여명의 기사' },
+    { lv:9,  name:'은빛 성기사' },
+    { lv:11, name:'황금 기사단장' },
+    { lv:14, name:'왕관의 수호자' },
+    { lv:17, name:'전설의 기사왕' }
+  ];
+  var MISSION_EXP = 50;   /* 뜻밖의 랜덤 미션 완료 EXP */
+  var MISSION_MIN = 10;   /* 뜻밖의 랜덤 미션 완료 기대수명 보너스(분) */
+
+  /* ===== 뜻밖의 랜덤 미션: 건강·의욕·활력에 바로 보탬이 되는 1분 미션 26종 ===== */
+  var MISSIONS = [
+    { t:'60초 햇빛과 깊은 숨', d:'창가에서 눈 감고 1분, 햇빛과 숨만', icon:'☀️', tip:'아침 햇빛은 몸의 시계를 맞춰줘요. 1분이면 충분해요.' },
+    { t:'목·어깨 1분 스트레칭', d:'고개를 천천히 좌우로, 어깨는 뒤로 크게', icon:'🧘', tip:'오래 앉아 굳은 목은 1분만 풀어도 시원해져요.' },
+    { t:'물 한 컵 가득 마시기', d:'지금 자리에서 한 컵, 천천히 끝까지', icon:'💧', tip:'갈증을 느끼기 전에 마시는 물이 가장 좋아요.' },
+    { t:'계단 한 번 오르기', d:'엘리베이터 대신 계단으로 한 층', icon:'🪜', tip:'짧은 계단도 하체와 심폐에 바로 자극이 돼요.' },
+    { t:'감사 한 줄 적기', d:'메모 앱이든 종이든, 오늘 고마운 것 하나', icon:'✍️', tip:'적어둔 감사는 뇌가 오래 기억해요.' },
+    { t:'좋아하는 기타 리프 3분', d:'한 소절만 반복해도 좋아요', icon:'🎸', tip:'손끝이 기억하는 리프 하나면 충분한 연습이에요.' },
+    { t:'베이스 12마디 한 번', d:'블루스 진행으로 저음을 굴려보기', icon:'🎵', tip:'12마디 블루스는 베이스의 기본 체력이에요.' },
+    { t:'손 씻으며 30초 심호흡', d:'비누 거품 사이로 길게 내쉬기', icon:'🫧', tip:'길게 내쉬는 숨이 긴장을 풀어줘요.' },
+    { t:'창밖 하늘 30초 바라보기', d:'가까운 일에서 눈을 떼고 먼 곳으로', icon:'🌤️', tip:'먼 곳을 보면 눈의 초점 근육이 쉬어요.' },
+    { t:'스쿼트 10개 지금 바로', d:'의자 없이, 천천히 열 번', icon:'🏋️', tip:'열 개도 하루 한 번이면 근육에 신호가 돼요.' },
+    { t:'벽 짚고 종아리 30초', d:'한 발 앞으로, 뒤꿈치는 바닥에', icon:'🦵', tip:'종아리 스트레칭은 다리 붓기를 가라앉혀요.' },
+    { t:'좋아하는 노래 한 소절 따라 부르기', d:'목소리 크게 내도 좋아요', icon:'🎤', tip:'노래는 기분을 바꾸는 가장 빠른 방법이에요.' },
+    { t:'허리 펴고 다섯 번 숨쉬기', d:'의자 끝에 앉아 등을 세우고', icon:'🪑', tip:'자세를 펴면 폐가 열려 숨이 깊어져요.' },
+    { t:'눈 감고 20초 아무 생각 없이', d:'지금 이 순간의 숨만 세어보기', icon:'😌', tip:'짧은 멈춤이 오후의 집중력을 되돌려요.' },
+    { t:'고마운 사람 한 명 떠올리기', d:'얼굴과 그 사람의 목소리까지', icon:'💌', tip:'떠올리는 것만으로 마음이 데워져요.' },
+    { t:'물병 가득 채워 책상에 두기', d:'보이는 자리에 두면 질반은 성공', icon:'🧊', tip:'눈에 보이는 물이 마시는 물이 돼요.' },
+    { t:'5분 밖에 나가 걷기', d:'건물 한 바퀴면 충분해요', icon:'🚶', tip:'5분 걷기만으로도 기분 전환에는 충분해요.' },
+    { t:'어깨 돌리기 앞뒤 10회씩', d:'천천히 크게, 소리 나게', icon:'🔄', tip:'어깨를 돌리면 목 주변 긴장이 함께 풀려요.' },
+    { t:'손 비벼 눈 위에 올리기', d:'따뜻해진 손바닥으로 20초', icon:'👐', tip:'눈을 덮은 20초가 피로를 리셋해요.' },
+    { t:'플랭크 20초', d:'무릎 대고 해도 괜찮아요', icon:'🧱', tip:'20초 플랭크는 코어를 깨우는 최소 시간이에요.' },
+    { t:'창문 열고 30초 바깥 공기', d:'방 공기를 한 번 갈아보기', icon:'🪟', tip:'환기는 머리를 맑게 하는 가장 빠른 방법이에요.' },
+    { t:'가족에게 안부 한 줄', d:'짧은 메시지 하나면 충분해요', icon:'💬', tip:'한 줄이 관계를 데우는 연료가 돼요.' },
+    { t:'해 질 무렵 하늘 사진 한 장', d:'오늘의 하늘을 남겨보기', icon:'📷', tip:'하루를 사진으로 남기면 기억이 오래가요.' },
+    { t:'오늘 잘한 일 하나 말해보기', d:'소리 내어, 자신에게', icon:'🏅', tip:'말로 꺼낸 칭찬은 자존감으로 남아요.' },
+    { t:'발끝 치켜들기 15회', d:'서서든 앉아서든, 종아리 펌프', icon:'🦶', tip:'발끝 운동은 다리 혈액을 심장으로 올려보내요.' },
+    { t:'심장에 손 얹고 네 번 숨쉬기', d:'들이쉬고 내쉬며 네 번', icon:'🫀', tip:'손의 온기와 느린 숨이 마음을 가라앉혀요.' }
+  ];
+
+  /* ===== 기사 여왕의 대사 ===== */
+  var RPG_LINES = {
+    start:[
+      '기사여, 오늘의 첫 검을 뽑을 시간이에요. 작은 하나면 충분해요.',
+      '아직 조용한 아침이네요. 루틴 하나로 오늘의 흐름을 열어봐요.',
+      '왕국은 기다리고 있어요. 지금 한 칸만 채워봐요.'
+    ],
+    progress:[
+      '{done}개를 해냈어요. 이 흐름을 놓치지 마세요.',
+      '검을 쥔 손이 점차 단단해져요. 남은 {remain}개, 천천히 가요.',
+      '오늘의 기운이 올라오고 있어요. 이대로면 왕관이 빛나겠네요.'
+    ],
+    mission:[
+      '뜻밖의 미션을 해냈군요! 무작위의 기회를 잡는 기사는 강해요.',
+      '숨겨진 보물을 찾았어요. 오늘의 운을 잡으셨네요.',
+      '예상 밖의 일을 해내는 힘이 진짜 실력이에요. 잘했어요.'
+    ],
+    all:[
+      '여섯 루틴 완주! 오늘 하루를 온전히 지켰어요.',
+      '모든 루틴을 마쳤어요. 이 기사의 하루는 왕국의 기록에 남을 거예요.'
+    ],
+    perfect:[
+      '루틴에 뜻밖의 미션까지, 오늘은 완벽한 하루예요!',
+      '빛나는 하루였어요. 왕관이 오늘만큼 빛난 적이 없네요.'
+    ],
+    levelup:[
+      '새로운 칭호가 어울리네요, {rank}이여!',
+      '한 걸음 더 올라섰어요. {rank}의 이름으로 오늘을 지켜요.'
+    ],
+    cleared:[
+      '뜻밖의 미션 완료! +50 EXP와 기대수명 10분을 얻었어요.',
+      '무작위 미션 성공! 기사의 감각이 살아 있네요.'
+    ]
+  };
+
   /* =================utils================= */
   function $(sel, root){ return (root || document).querySelector(sel); }
   function $$(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
@@ -1580,7 +1833,7 @@ input,select{font:inherit}
   };
 
   function freshState(){
-    return { settings: Object.assign({}, DEFAULT_SETTINGS), days:{}, feed:[], version:1 };
+    return { settings: Object.assign({}, DEFAULT_SETTINGS), days:{}, feed:[], rpg:{ rerolls:0, seenLevel:0 }, version:1 };
   }
   function loadState(){
     var s = freshState();
@@ -1601,6 +1854,10 @@ input,select{font:inherit}
       }
       s.settings.instruments = s.settings.instruments.slice(0, 2).map(function(v){ return String(v || '').slice(0, 12); });
       if(!s.settings.wakeSun) s.settings.wakeSun = DEFAULT_SETTINGS.wakeSun;
+      /* RPG 레벨 기록은 없던 시절 데이터도 그대로 쓸 수 있게 조용히 더함 */
+      if(!s.rpg || typeof s.rpg !== 'object') s.rpg = { rerolls:0, seenLevel:0 };
+      if(typeof s.rpg.rerolls !== 'number' || !isFinite(s.rpg.rerolls)) s.rpg.rerolls = 0;
+      if(typeof s.rpg.seenLevel !== 'number' || !isFinite(s.rpg.seenLevel)) s.rpg.seenLevel = 0;
     }catch(e){ /* 저장소를 못 쓰면 메모리로만 동작 */ }
     return s;
   }
@@ -1639,9 +1896,11 @@ input,select{font:inherit}
   }
   function dayMinutes(key){
     var d = state.days[key];
-    if(!d || !d.habits) return 0;
     var t = 0;
-    for(var i = 0; i < HABITS.length; i++) if(d.habits[HABITS[i].id]) t += HABITS[i].minutes;
+    if(d && d.habits){
+      for(var i = 0; i < HABITS.length; i++) if(d.habits[HABITS[i].id]) t += HABITS[i].minutes;
+    }
+    if(d && d.mission && d.mission.done) t += MISSION_MIN;
     return t;
   }
   function totalMinutes(){
@@ -1673,6 +1932,51 @@ input,select{font:inherit}
     var n = dayNumber(key);
     var len = CHALLENGES.length;
     return CHALLENGES[((n % len) + len) % len];
+  }
+
+  /* =================rpg / mission helpers================= */
+  function habitExp(h){ return (h && h.exp) ? h.exp : 20; }
+
+  /* 오늘·과거 기록에서 그대로 계산하므로 체크를 풀면 EXP도 같은 만큼 줄어듭니다 */
+  function dayExp(key){
+    var d = state.days[key], t = 0;
+    if(d && d.habits){
+      for(var i = 0; i < HABITS.length; i++) if(d.habits[HABITS[i].id]) t += habitExp(HABITS[i]);
+    }
+    if(d && d.mission && d.mission.done) t += MISSION_EXP;
+    return t;
+  }
+  function totalExp(){
+    var t = 0, keys = Object.keys(state.days);
+    for(var i = 0; i < keys.length; i++) t += dayExp(keys[i]);
+    return t;
+  }
+  /* 레벨 1→2 = 100 EXP, 이후 60 EXP씩 늘어나는 완만한 곡선 */
+  function expNeed(lv){ return 100 + (Math.max(1, lv) - 1) * 60; }
+  function levelInfo(total){
+    var xp = Math.max(0, Math.floor(total || 0));
+    var lv = 1, guard = 0;
+    while(guard++ < 900 && xp >= expNeed(lv)){ xp -= expNeed(lv); lv++; }
+    return { level:lv, into:xp, need:expNeed(lv) };
+  }
+  function rankOf(lv){
+    var name = RANKS[0].name;
+    for(var i = 0; i < RANKS.length; i++) if(lv >= RANKS[i].lv) name = RANKS[i].name;
+    return name;
+  }
+  function defaultMissionIndex(key){
+    var len = MISSIONS.length;
+    return (((dayNumber(key) * 7 + 3) % len) + len) % len;
+  }
+  function missionIndex(key){
+    var d = state.days[key];
+    if(d && d.mission && typeof d.mission.i === 'number' && MISSIONS[d.mission.i]) return d.mission.i;
+    return defaultMissionIndex(key);
+  }
+  function missionFor(key){ return MISSIONS[missionIndex(key)]; }
+  function missionDone(key){
+    var d = state.days[key];
+    return !!(d && d.mission && d.mission.done);
   }
   /* =================youtube helpers================= */
   /* 직접 골라 확인한 영상은 단일 영상 주소로, 이름을 직접 바꾼 악기는 검색 주소로 엽니다. */
@@ -1923,6 +2227,126 @@ input,select{font:inherit}
     var ratio = done / HABITS.length;
     $('#todayProgress').textContent = done + '/' + HABITS.length;
     $('#todayBar').style.width = (ratio * 100).toFixed(1) + '%';
+  }
+
+  /* =================render: rpg companion================= */
+  var pulseTimer = null, levelupTimer = null, levelupCardTimer = null;
+
+  function rpgLine(key){
+    var done = dayDone(key);
+    var msn = missionDone(key);
+    var arr;
+    if(done >= HABITS.length && msn) arr = RPG_LINES.perfect;
+    else if(done >= HABITS.length) arr = RPG_LINES.all;
+    else if(msn) arr = RPG_LINES.mission;
+    else if(done === 0) arr = RPG_LINES.start;
+    else arr = RPG_LINES.progress;
+    var i = ((dayNumber(key) + done * 3 + (msn ? 2 : 0)) % arr.length + arr.length) % arr.length;
+    return arr[i]
+      .replace(/\{done\}/g, done)
+      .replace(/\{remain\}/g, Math.max(0, HABITS.length - done));
+  }
+
+  function renderRpg(){
+    var key = todayKey();
+    var card = $('#rpgCard');
+    if(!card) return;
+    var total = totalExp();
+    var info = levelInfo(total);
+    var today = dayExp(key);
+    var rank = rankOf(info.level);
+
+    $('#rpgLv').textContent = 'Lv. ' + info.level;
+    $('#rpgRank').textContent = rank;
+    $('#rpgToday').textContent = '오늘 +' + today + ' EXP';
+    $('#rpgExp').innerHTML = '<b>' + info.into + '</b> / ' + info.need + ' EXP';
+    var pct = info.into <= 0 ? 0 : Math.min(100, (info.into / info.need) * 100);
+    $('#rpgBar').style.width = pct.toFixed(1) + '%';
+    $('#rpgSay').textContent = rpgLine(key);
+    card.setAttribute('aria-label', '기사 여왕 동반자 · Lv. ' + info.level + ' ' + rank + ' · 오늘 +' + today + ' EXP');
+  }
+
+  function pulseRpg(){
+    var card = $('#rpgCard');
+    if(!card) return;
+    card.classList.remove('pulse');
+    void card.offsetWidth;
+    card.classList.add('pulse');
+    clearTimeout(pulseTimer);
+    pulseTimer = setTimeout(function(){ card.classList.remove('pulse'); }, 950);
+  }
+
+  function showLevelUp(from, lv){
+    var rank = rankOf(lv);
+    var banner = $('#levelup');
+    var card = $('#rpgCard');
+    var line = RPG_LINES.levelup[(lv - 1) % RPG_LINES.levelup.length].replace(/\{rank\}/g, rank);
+    if(banner){
+      $('#lvTitle').textContent = 'Lv. ' + lv + ' · ' + rank;
+      $('#lvSub').textContent = line;
+      banner.classList.add('on');
+      clearTimeout(levelupTimer);
+      levelupTimer = setTimeout(function(){ banner.classList.remove('on'); }, 3400);
+    }
+    if(card){
+      card.classList.add('levelup');
+      clearTimeout(levelupCardTimer);
+      levelupCardTimer = setTimeout(function(){ card.classList.remove('levelup'); }, 2700);
+    }
+    var say = $('#rpgSay');
+    if(say) say.textContent = line;   /* 레벨업 순간엔 카드 대사도 축하로 */
+    burst();
+    if(navigator.vibrate){ try{ navigator.vibrate([16, 44, 20, 44, 30]); }catch(e){} }
+  }
+
+  /* 이미 본 레벨보다 올라갔을 때만 축하합니다 */
+  function maybeLevelUp(){
+    var lv = levelInfo(totalExp()).level;
+    if(!state.rpg.seenLevel){ state.rpg.seenLevel = lv; save(); return; }
+    if(lv > state.rpg.seenLevel){
+      var from = state.rpg.seenLevel;
+      state.rpg.seenLevel = lv;
+      save();
+      showLevelUp(from, lv);
+    }
+  }
+
+  function spawnMotes(){
+    var host = $('#rpgMotes');
+    if(!host) return;
+    var html = '';
+    for(var i = 0; i < 7; i++){
+      html += '<i style="left:' + (9 + Math.round(Math.random() * 82)) + '%;--dur:'
+        + (3.6 + Math.random() * 2.8).toFixed(2) + 's;--delay:' + (Math.random() * 3.6).toFixed(2) + 's"></i>';
+    }
+    host.innerHTML = html;
+  }
+
+  /* 이미지를 못 불러오면(오프라인 등) 왕관 문양으로 조용히 대신합니다 */
+  function bindRpgImage(){
+    var img = $('#rpgImg');
+    if(!img) return;
+    img.addEventListener('error', function(){
+      if(img.parentNode) img.parentNode.classList.add('no-img');
+    });
+    if(img.complete && img.naturalWidth === 0 && img.parentNode) img.parentNode.classList.add('no-img');
+  }
+
+  /* =================render: random mission================= */
+  function renderMission(){
+    var key = todayKey();
+    var card = $('#missionCard');
+    if(!card) return;
+    var m = missionFor(key);
+    var done = missionDone(key);
+    card.classList.toggle('done', done);
+    $('#msIco').textContent = m.icon;
+    $('#msTitle').textContent = m.t;
+    $('#msDesc').textContent = m.d;
+    $('#msTip').innerHTML = '<b>+50 EXP · 기대수명 +10분</b> · ' + esc(m.tip);
+    var btn = $('[data-mission]', card);
+    if(btn) btn.setAttribute('aria-pressed', done ? 'true' : 'false');
+    $('#msDay').textContent = done ? '오늘 완료' : '매일 새로 하나';
   }
 
   /* =================render: habits================= */
@@ -2328,9 +2752,11 @@ input,select{font:inherit}
     renderMiniWeek();
     renderHistory();
     renderCoachCards();
+    renderRpg();
 
     if(now){
       if(navigator.vibrate){ try{ navigator.vibrate(12); }catch(e){} }
+      pulseRpg();
       if(dayDone(key) === HABITS.length){
         celebrate();
       }else if(id === 'music'){
@@ -2338,9 +2764,53 @@ input,select{font:inherit}
       }else{
         setTimeout(function(){ reactCheck(id); }, 360);
       }
+      maybeLevelUp();
     }else{
       reactUncheck(id);
     }
+  }
+
+  function toggleMission(){
+    var key = todayKey();
+    var day = getDay(key, true);
+    var now = !(day.mission && day.mission.done);
+    day.mission = { i: missionIndex(key), done: now };
+    save();
+    renderMission();
+    renderRpg();
+    renderHero();
+    renderMiniWeek();
+    renderHistory();
+
+    if(now){
+      if(navigator.vibrate){ try{ navigator.vibrate(14); }catch(e){} }
+      pulseRpg();
+      burst();
+      notice(pick(RPG_LINES.cleared, 'mission-clear'));
+      maybeLevelUp();
+    }else{
+      notice('뜻밖의 미션을 플었어요. 다시 도전할 수 있어요.');
+    }
+  }
+
+  function rerollMission(){
+    var key = todayKey();
+    var day = getDay(key, true);
+    var cur = missionIndex(key);
+    var next = cur, guard = 0;
+    while(next === cur && guard++ < 80) next = Math.floor(Math.random() * MISSIONS.length);
+    day.mission = { i: next, done: !!(day.mission && day.mission.done) };
+    state.rpg.rerolls = (state.rpg.rerolls || 0) + 1;
+    save();
+    renderMission();
+    var card = $('#missionCard');
+    if(card){
+      card.classList.remove('ms-flip');
+      void card.offsetWidth;
+      card.classList.add('ms-flip');
+      setTimeout(function(){ card.classList.remove('ms-flip'); }, 520);
+    }
+    if(navigator.vibrate){ try{ navigator.vibrate(8); }catch(e){} }
   }
 
   function speakInstrument(i){
@@ -2373,11 +2843,14 @@ input,select{font:inherit}
     renderMiniWeek();
     renderHistory();
     renderCoachCards();
+    renderRpg();
 
     if(added){
       if(navigator.vibrate){ try{ navigator.vibrate(10); }catch(e){} }
+      pulseRpg();
       if(!wasDone && dayDone(key) === HABITS.length) setTimeout(celebrate, 320);
       else setTimeout(function(){ speakInstrument(i); }, 300);
+      maybeLevelUp();
     }else if(day.practice.length === 0){
       reactUncheck('music');
     }
@@ -2443,6 +2916,12 @@ input,select{font:inherit}
         + '<span class="f-val">' + (on ? '+' : '') + h.minutes + '분</span>'
         + '</div>';
     });
+    var mFor = missionFor(key), mDone = missionDone(key);
+    html += '<div class="f-row' + (mDone ? ' on' : '') + '">'
+      + '<span class="f-ico">' + mFor.icon + '</span>'
+      + '<span class="f-name">뜻밖의 랜덤 미션<small>' + esc(mFor.t) + ' · +' + MISSION_EXP + ' EXP</small></span>'
+      + '<span class="f-val">' + (mDone ? '+' : '') + MISSION_MIN + '분</span>'
+      + '</div>';
     html += '</div>';
 
     html += '<div class="f-total"><span>오늘 합계</span><strong>+' + fmtMinutes(tm) + '</strong></div>';
@@ -2505,6 +2984,7 @@ input,select{font:inherit}
     clearTimeout(resetTimer);
     try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
     state = freshState();
+    state.rpg.seenLevel = 1;   /* 초기화 뒤 첫 레벨업은 다시 축하해 줍니다 */
     seed();
     save();
     shown = { today:-1, total:-1, proj:-1 };
@@ -2556,7 +3036,9 @@ input,select{font:inherit}
   function renderAll(){
     renderHeader();
     renderHero();
+    renderRpg();
     renderHabits();
+    renderMission();
     renderMiniWeek();
     renderStrip();
     renderHistory();
@@ -2604,6 +3086,9 @@ input,select{font:inherit}
       toggleHabit(habitEl.getAttribute('data-habit'));
       return;
     }
+
+    if(t.closest('#btnReroll')){ rerollMission(); return; }
+    if(t.closest('[data-mission]')){ toggleMission(); return; }
 
     var tab = t.closest('[data-view]');
     if(tab){ showView(tab.getAttribute('data-view')); return; }
@@ -2676,6 +3161,9 @@ input,select{font:inherit}
   seed();
   applyTheme();
   maybeMissedDayNote();
+  spawnMotes();
+  bindRpgImage();
+  maybeLevelUp();
   save();
   renderAll();
 })();
