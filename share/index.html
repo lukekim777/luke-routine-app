@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F6F4EF" id="metaTheme">
 <title>하루+ · 매일 1분 루틴 & RPG 습관 앱</title>
-<meta name="description" content="기상·운동·영어·악기 루틴을 체크할 때마다 기대수명이 늘어나는 나만의 하루 앱. 기사 여왕과 함께 레벨업하고, 기록은 내 폰 브라우저에만 저장됩니다.">
+<meta name="description" content="이름·나이·하고 싶은 루틴 주제를 고르면 맞춤 코치와 추천 콘텐츠가 자동으로 연결돼요. 체크할 때마다 기대수명이 늘어나는 나만의 하루 앱.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230B2A23'/%3E%3Cpath d='M32 44s-13-8.2-13-17a7.6 7.6 0 0 1 13-5.3A7.6 7.6 0 0 1 45 27c0 8.8-13 17-13 17z' fill='%2334D399'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="하루+ · 매일 1분 루틴 & RPG 습관 앱">
-<meta property="og:description" content="루틴을 하나 체크할 때마다 기대수명이 늘어납니다. 회원가입 없이, 내 폰 브라우저에만 저장되는 나만의 하루 앱.">
+<meta property="og:description" content="이름·나이·원하는 루틴 주제를 고르면 맞춤 코치와 추천 콘텐츠가 자동으로 연결돼요. 회원가입 없이, 내 폰 브라우저에만 저장되는 나만의 하루 앱.">
 <meta property="og:url" content="https://lukekim777.github.io/luke-routine-app/share/">
 <meta property="og:image" content="https://lukekim777.github.io/luke-routine-app/assets/knight-queen.webp">
 <meta name="twitter:card" content="summary_large_image">
@@ -102,6 +102,10 @@ img{display:block;max-width:100%}
 .brand{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;letter-spacing:.13em;color:var(--mint-deep);text-transform:uppercase;min-width:0}
 .brand i{display:grid;place-items:center;width:22px;height:22px;border-radius:8px;background:var(--mint);color:#fff;font-style:normal;font-size:13px;letter-spacing:0;line-height:1;flex:0 0 auto}
 .nav-right{display:flex;align-items:center;gap:8px}
+.lang-seg{display:inline-flex;gap:2px;padding:2px;border-radius:10px;background:var(--card);border:1px solid var(--line-2);margin-right:6px}
+.lang-seg button{font:inherit;font-size:10.5px;font-weight:800;letter-spacing:.02em;color:var(--ink-3);padding:5px 7px;border-radius:8px;line-height:1}
+.lang-seg button.on{background:var(--ink);color:var(--bg)}
+@media (max-width:360px){ .lang-seg button{padding:5px 5px;font-size:10px} }
 .nav-open{font-size:13.5px;font-weight:700;color:var(--ink-2);padding:9px 13px;border-radius:12px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-soft);white-space:nowrap}
 .icon-btn{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow-soft);color:var(--ink-2);flex:0 0 auto;transition:transform .18s,color .18s}
 .icon-btn:active{transform:scale(.94)}
@@ -263,6 +267,11 @@ footer{padding:26px 0 40px}
   <div class="nav-in">
     <a class="brand" href="../"><i>+</i>하루+</a>
     <div class="nav-right">
+      <div class="lang-seg" id="langSel" role="group" aria-label="Language">
+        <button type="button" data-lang="ko" aria-label="한국어" class="on">KO</button>
+        <button type="button" data-lang="en" aria-label="English">EN</button>
+        <button type="button" data-lang="fr" aria-label="Français">FR</button>
+      </div>
       <a class="nav-open" href="../">앱 열기</a>
       <button class="icon-btn" id="themeBtn" type="button" aria-label="다크 모드로 바꾸기" aria-pressed="false">
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.1M12 19.5v2.1M4.3 4.3l1.5 1.5M18.2 18.2l1.5 1.5M2.4 12h2.1M19.5 12h2.1M4.3 19.7l1.5-1.5M18.2 5.8l1.5-1.5"/></svg>
@@ -276,28 +285,28 @@ footer{padding:26px 0 40px}
   <section class="hero wrap">
     <div class="hero-grid">
       <div class="hero-copy">
-        <span class="badge"><span class="dot"></span>하루+ · 매일 1분 루틴 &amp; RPG 습관 앱</span>
-        <h1>루틴을 하나 체크할 때마다<br><em>기대수명</em>이 늘어납니다</h1>
-        <p class="sub">기상·근력 운동·영어·악기 연습. 오늘의 루틴을 채울 때마다 <b>기대수명이 몇 분 늘었는지 숫자로</b> 보여주고, 기사 여왕과 함께 EXP를 쌓아 레벨업합니다. 회원가입도, 설치도 없이 1분이면 시작.</p>
+        <span class="badge" data-i18n="heroBadge"><span class="dot"></span>하루+ · 매일 1분 루틴 &amp; RPG 습관 앱</span>
+        <h1 data-i18n="heroTitle">루틴을 하나 체크할 때마다<br><em>기대수명</em>이 늘어납니다</h1>
+        <p class="sub" data-i18n="heroSub">이름·나이·하고 싶은 루틴 주제를 고르면 <b>맞춤 코치와 추천 콘텐츠가 자동으로 연결</b>돼요. 기상·운동·영어·악기 연습을 체크할 때마다 기대수명이 몇 분 늘었는지 숫자로 보여주고, 기사 여왕과 함께 EXP를 쌓아 레벨업합니다. 회원가입도, 설치도 없이 3단계면 시작.</p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="../" id="startBtn">🚀 하루+ 바로 시작하기</a>
-          <button class="btn btn-ghost" id="copyBtn" type="button" aria-label="공유 링크 복사하기">🔗 링크 복사하기</button>
+          <a class="btn btn-primary" href="../" id="startBtn" data-i18n="ctaStart">🚀 하루+ 바로 시작하기</a>
+          <button class="btn btn-ghost" id="copyBtn" type="button" aria-label="공유 링크 복사하기"><span data-i18n="ctaCopy">🔗 링크 복사하기</span></button>
         </div>
         <ul class="hero-meta">
-          <li>회원가입 없음</li>
-          <li>무료</li>
-          <li>설치 없이 브라우저에서</li>
+          <li data-i18n="meta1">회원가입 없음</li>
+          <li data-i18n="meta2">무료</li>
+          <li data-i18n="meta3">내 루틴 맞춤 설정</li>
         </ul>
       </div>
 
       <div class="queen-wrap">
-        <span class="queen-float">오늘 <b>+20 EXP</b> 적립</span>
+        <span class="queen-float" data-i18n="floatXp">오늘 <b>+20 EXP</b> 적립</span>
         <figure class="queen">
           <img src="../assets/knight-queen.webp" width="420" height="560" alt="하루+의 기사 여왕 캐릭터" fetchpriority="high" decoding="async">
           <figcaption class="queen-cap">
-            <div class="queen-top"><span class="lv">Lv.1</span><span class="rank">견습 기사</span></div>
+            <div class="queen-top"><span class="lv">Lv.1</span><span class="rank" data-i18n="rankSample">견습 기사</span></div>
             <div class="queen-xp"><span class="bar"><i></i></span><span>38 / 100 EXP</span></div>
-            <p class="queen-q">"루틴을 채울수록 강해진다. 오늘 하루도 나와 함께."</p>
+            <p class="queen-q" data-i18n="queenQuote">"루틴을 채울수록 강해진다. 오늘 하루도 나와 함께."</p>
           </figcaption>
         </figure>
       </div>
@@ -307,54 +316,54 @@ footer{padding:26px 0 40px}
   <section class="sec wrap" id="features">
     <div class="sec-head">
       <span class="kicker">Features</span>
-      <h2>작심삼일을 버티게 하는 네 가지</h2>
-      <p class="sec-desc">의지가 아니라 재미로 이어가는 구조예요. 체크 한 번에 보상이 바로 눈앞에 보입니다.</p>
+      <h2 data-i18n="featH2">작심삼일을 버티게 하는 네 가지</h2>
+      <p class="sec-desc" data-i18n="featDesc">의지가 아니라 재미로 이어가는 구조예요. 체크 한 번에 보상이 바로 눈앞에 보입니다.</p>
     </div>
 
     <div class="features">
       <article class="feat">
         <div class="feat-ic ic-mint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10M7 21h10M8 3v3.2c0 1.5 4 3.3 4 5.8 0 2.5-4 4.3-4 5.8V21M16 3v3.2c0 1.5-4 3.3-4 5.8 0 2.5 4 4.3 4 5.8V21"/></svg></div>
-        <h3>기대수명 동기부여</h3>
-        <p>오늘의 루틴을 다 채우면 최대 <b>+80분</b>. 체크할 때마다 기대수명이 몇 분 늘었는지, 지금 몇 세인지 바로 확인합니다.</p>
+        <h3 data-i18n="f1t">기대수명 동기부여</h3>
+        <p data-i18n="f1p">오늘의 루틴을 다 채우면 최대 <b>+80분</b>. 체크할 때마다 기대수명이 몇 분 늘었는지, 지금 몇 세인지 바로 확인합니다.</p>
         <div class="stat">
-          <div class="stat-main">+80<small>분</small></div>
-          <div class="stat-sub"><b>83.5세</b> → <b>83.6세</b><br>예상 수명의 59%</div>
+          <div class="stat-main">+80<small data-i18n="statUnit">분</small></div>
+          <div class="stat-sub" data-i18n="f1sub"><b>83.5세</b> → <b>83.6세</b><br>예상 수명의 59%</div>
         </div>
-        <p class="note">동기부여를 위한 추정 모델이에요. 의학적 진단이나 보장이 아닙니다.</p>
+        <p class="note" data-i18n="f1note">동기부여를 위한 추정 모델이에요. 의학적 진단이나 보장이 아닙니다.</p>
       </article>
 
       <article class="feat">
         <div class="feat-ic ic-violet" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.2 8.4 7.6 12 12 4.6 16.4 12 20.8 8.4 19 19.2H5z"/><path d="M5.4 15.6h13.2"/></svg></div>
-        <h3>기사 여왕 &amp; RPG 레벨업</h3>
-        <p>루틴을 체크하면 EXP가 쌓이고 레벨과 칭호가 올라갑니다. 매일 바뀌는 <b>뜻밖의 랜덤 미션</b>을 완료하면 <b>+50 EXP</b>.</p>
+        <h3 data-i18n="f2t">기사 여왕 &amp; RPG 레벨업</h3>
+        <p data-i18n="f2p">루틴을 체크하면 EXP가 쌓이고 레벨과 칭호가 올라갑니다. 매일 바뀌는 <b>뜻밖의 랜덤 미션</b>을 완료하면 <b>+50 EXP</b>.</p>
         <div class="rpg-prev">
           <img src="../assets/knight-queen.webp" width="420" height="560" alt="" aria-hidden="true" loading="lazy" decoding="async">
           <div class="rpg-meta">
-            <div class="row"><span class="lv">Lv.4</span><span class="rank">성기사</span></div>
+            <div class="row"><span class="lv">Lv.4</span><span class="rank" data-i18n="rankSample2">성기사</span></div>
             <div class="bar"><i style="width:64%"></i></div>
-            <p class="q">견습 기사 → 수호 기사 → 성기사 → 빛의 기사단장 → 왕국 수호자</p>
+            <p class="q" data-i18n="f2q">견습 기사 → 수호 기사 → 성기사 → 빛의 기사단장 → 왕국 수호자</p>
           </div>
         </div>
       </article>
 
       <article class="feat">
         <div class="feat-ic ic-amber" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 0-7 7v4"/><path d="M12 3a7 7 0 0 1 7 7v4"/><rect x="3" y="13" width="4.2" height="7" rx="2.1"/><rect x="16.8" y="13" width="4.2" height="7" rx="2.1"/></svg></div>
-        <h3>코치 3인방 &amp; 바로가기</h3>
-        <p>건강·심리·음악 코치가 오늘 할 일을 콕 집어 알려줍니다. 운동·악기 유튜브 추천과 영어 앱으로 바로 이동.</p>
+        <h3 data-i18n="f3t">코치 3인방 &amp; 바로가기</h3>
+        <p data-i18n="f3p">이름·나이·루틴 주제를 고르면 맞춤 코치와 추천 콘텐츠가 자동으로 연결돼요. 건강·심리·음악·루틴 코치가 오늘 할 일을 콕 집어 알려주고, 운동·악기 유튜브 추천과 영어 앱으로 바로 이동합니다.</p>
         <div class="coaches">
-          <span class="chip"><span class="cdot c1" aria-hidden="true"></span>닥터 튼튼</span>
-          <span class="chip"><span class="cdot c2" aria-hidden="true"></span>마인드 메이</span>
-          <span class="chip"><span class="cdot c3" aria-hidden="true"></span>마에스트로 리</span>
-          <a class="chip go" href="https://www.duolingo.com/" target="_blank" rel="noopener">듀오링고</a>
-          <a class="chip go" href="https://epop.ai/ko" target="_blank" rel="noopener">말해보카</a>
+          <span class="chip"><span class="cdot c1" aria-hidden="true"></span><span data-i18n="coach1">닥터 튼튼</span></span>
+          <span class="chip"><span class="cdot c2" aria-hidden="true"></span><span data-i18n="coach2">마인드 메이</span></span>
+          <span class="chip"><span class="cdot c3" aria-hidden="true"></span><span data-i18n="coach3">마에스트로 리</span></span>
+          <a class="chip go" href="https://www.duolingo.com/" target="_blank" rel="noopener" data-i18n="duo">듀오링고</a>
+          <a class="chip go" href="https://epop.ai/ko" target="_blank" rel="noopener" data-i18n="mhb">말해보카</a>
         </div>
       </article>
 
       <article class="feat">
         <div class="feat-ic ic-lock" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10" width="15" height="10.5" rx="3"/><path d="M8.2 10V7.4a3.8 3.8 0 0 1 7.6 0V10"/><path d="M12 14.4v2.2"/></svg></div>
-        <h3>내 기록은 내 폰에만</h3>
-        <p>회원가입·로그인이 없습니다. 기록은 브라우저(<b>localStorage</b>)에만 저장되고 서버로 보내는 정보가 없어요. 링크를 받은 사람마다 <b>각자의 기록으로 독립</b>해서 씁니다.</p>
-        <div class="lock-line"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 5.6v5.2c0 4.3 2.9 7.9 7 9.2 4.1-1.3 7-4.9 7-9.2V5.6z"/><path d="m9.2 12 2 2 3.6-3.8"/></svg>내 폰 밖으로 나가지 않는 나만의 기록</div>
+        <h3 data-i18n="f4t">내 기록은 내 폰에만</h3>
+        <p data-i18n="f4p">회원가입·로그인이 없습니다. 기록은 브라우저(<b>localStorage</b>)에만 저장되고 서버로 보내는 정보가 없어요. 링크를 받은 사람마다 <b>각자의 기록으로 독립</b>해서 씁니다.</p>
+        <div class="lock-line"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 5.6v5.2c0 4.3 2.9 7.9 7 9.2 4.1-1.3 7-4.9 7-9.2V5.6z"/><path d="m9.2 12 2 2 3.6-3.8"/></svg><span data-i18n="f4line">내 폰 밖으로 나가지 않는 나만의 기록</span></div>
       </article>
     </div>
   </section>
@@ -362,29 +371,29 @@ footer{padding:26px 0 40px}
   <section class="sec wrap" id="how">
     <div class="sec-head">
       <span class="kicker">How to start</span>
-      <h2>1분이면 시작, 30초면 내 것으로</h2>
-      <p class="sec-desc">처음 열면 기본값으로 바로 쓸 수 있어요. 내 생활에 맞추고 싶다면 세 단계면 충분합니다.</p>
+      <h2 data-i18n="howH2">3단계면 내 하루가 됩니다</h2>
+      <p class="sec-desc" data-i18n="howDesc">처음 열면 이름·나이·루틴 주제를 묻는 3단계 안내가 나와요. 고른 주제에 맞춰 코치와 콘텐츠가 자동으로 붙습니다.</p>
     </div>
     <ol class="steps">
       <li class="step">
         <span class="step-n" aria-hidden="true">1</span>
         <div class="step-b">
-          <h3>바로 시작하기 누르기</h3>
-          <p>링크를 연 그 자리에서 오늘의 루틴이 시작됩니다. 가입도 결제도 없어요.</p>
+          <h3 data-i18n="s1t">바로 시작하기 누르기</h3>
+          <p data-i18n="s1p">링크를 연 그 자리에서 <b>이름·나이·루틴 주제</b>를 고르는 3단계 안내가 시작됩니다. 가입도 결제도 없어요.</p>
         </div>
       </li>
       <li class="step">
         <span class="step-n" aria-hidden="true">2</span>
         <div class="step-b">
-          <h3>⚙ 설정에서 내 것으로</h3>
-          <p>우측 상단 <code>⚙ 설정</code>에서 내 기상·취침 시간, 하는 운동과 취미 악기를 바꿉니다.</p>
+          <h3 data-i18n="s2t">⚙ 설정에서 내 것으로</h3>
+          <p data-i18n="s2p">우측 상단 <code>⚙ 설정</code>에서 이름·나이·기상·취침 시간과 <b>루틴 주제·코치</b>를 언제든 바꿉니다. 온보딩 다시 실행도 거기 있어요.</p>
         </div>
       </li>
       <li class="step">
         <span class="step-n" aria-hidden="true">3</span>
         <div class="step-b">
-          <h3>홈 화면에 추가</h3>
-          <p>크롬·사파리 메뉴에서 <code>홈 화면에 추가</code>를 누르면 앱처럼 전체 화면으로 열립니다.</p>
+          <h3 data-i18n="s3t">홈 화면에 추가</h3>
+          <p data-i18n="s3p">크롬·사파리 메뉴에서 <code>홈 화면에 추가</code>를 누르면 앱처럼 전체 화면으로 열립니다.</p>
         </div>
       </li>
     </ol>
@@ -392,16 +401,16 @@ footer{padding:26px 0 40px}
 
   <section class="wrap">
     <div class="final">
-      <span class="badge"><span class="dot"></span>하루+ · 매일 1분 루틴 &amp; RPG 습관 앱</span>
-      <h2>오늘 1분, 내일의 기대수명</h2>
-      <p>기록은 내 폰에만 남고, 링크는 누구에게나 그대로 전해집니다. 지금 열어서 첫 체크를 해보세요.</p>
+      <span class="badge" data-i18n="heroBadge"><span class="dot"></span>하루+ · 매일 1분 루틴 &amp; RPG 습관 앱</span>
+      <h2 data-i18n="finalH2">오늘 1분, 내일의 기대수명</h2>
+      <p data-i18n="finalP">기록은 내 폰에만 남고, 링크는 누구에게나 그대로 전해집니다. 지금 열어서 첫 체크를 해보세요.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="../">🚀 하루+ 바로 시작하기</a>
-        <button class="btn btn-ghost" id="copyBtn2" type="button" aria-label="공유 링크 복사하기">🔗 링크 복사하기</button>
+        <a class="btn btn-primary" href="../"><span data-i18n="ctaStart">🚀 하루+ 바로 시작하기</span></a>
+        <button class="btn btn-ghost" id="copyBtn2" type="button" aria-label="공유 링크 복사하기"><span data-i18n="ctaCopy">🔗 링크 복사하기</span></button>
       </div>
       <div class="final-rule">
-        <span>무료 · 회원가입 없음</span>
-        <span>기록은 브라우저에만</span>
+        <span data-i18n="rule1">무료 · 회원가입 없음</span>
+        <span data-i18n="rule2">기록은 브라우저에만</span>
       </div>
     </div>
   </section>
@@ -410,14 +419,176 @@ footer{padding:26px 0 40px}
 <footer class="wrap">
   <div class="foot">
     <a class="brand" href="../"><i>+</i>하루+</a>
-    <p>매일의 루틴을 체크하면 기대수명이 얼마나 늘어나는지 보여주는 개인용 앱입니다.<br>기대수명 수치는 동기부여용 추정 모델이며, 기록은 이 브라우저에만 저장됩니다.</p>
-    <p><a class="link" href="../">앱 열기</a></p>
+    <p data-i18n="footP">매일의 루틴을 체크하면 기대수명이 얼마나 늘어나는지 보여주는 개인용 앱입니다.<br>기대수명 수치는 동기부여용 추정 모델이며, 기록은 이 브라우저에만 저장됩니다.</p>
+    <p><a class="link" href="../" data-i18n="navOpen">앱 열기</a></p>
   </div>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite">
-  <span class="tick" aria-hidden="true">✓</span><span id="toastText">복사됐어요!</span>
+  <span class="tick" aria-hidden="true">✓</span><span id="toastText" data-i18n="copied">복사됐어요!</span>
 </div>
+
+<script>
+/* 하루+ /share 랜딩 페이지 다국어 (ko 기본, en/fr 번역) */
+(function(){
+  'use strict';
+  var D = {
+    ko: {},
+    en: {
+      navOpen: 'Open app',
+      heroBadge: 'Haru+ · 1-minute routines & RPG habit app',
+      heroTitle: 'Every routine you check<br>extends your <em>life expectancy</em>',
+      heroSub: 'Pick a name, an age and the routines you want and <b>matching coaches and content links are attached for you</b>. Every check shows how many minutes you added, and you level up with the knight companion. No sign-up, no install — three steps.',
+      ctaStart: '🚀 Start Haru+',
+      ctaCopy: '🔗 Copy link',
+      meta1: 'No sign-up',
+      statUnit: 'min',
+      meta2: 'Free',
+      meta3: 'Your own routine setup',
+      floatXp: 'Today <b>+20 EXP</b>',
+      queenQuote: '“The more routines you keep, the stronger you get. Spend today with me.”',
+      rankSample: 'Apprentice knight', rankSample2: 'Paladin',
+      featH2: 'Four things that outlast willpower',
+      featDesc: 'Built on reward, not discipline. Every check puts something in front of you.',
+      f1t: 'Life-expectancy motivation',
+      f1p: 'Fill every routine and today adds up to <b>+80 min</b>. See how many minutes each check added and what your life expectancy is now.',
+      f1sub: '<b>83.5 yrs</b> → <b>83.6 yrs</b><br>59% of expected life',
+      f1note: 'A motivation-only estimate. Not a medical diagnosis or a guarantee.',
+      f2t: 'Knight companion & RPG levels',
+      f2p: 'Every check earns EXP and raises your level and title. The daily <b>unexpected random mission</b> is worth <b>+50 EXP</b>.',
+      f2q: 'Apprentice → Guardian → Paladin → Radiant Commander → Kingdom Guardian',
+      f3t: 'Matched coaches & shortcuts',
+      f3p: 'Pick your name, age and routine topics and matching coaches and content attach automatically. Health, mind, music and routine coaches point at today’s task, with YouTube picks and English apps one tap away.',
+      coach1: 'Dr. Sturdy', coach2: 'Mind May', coach3: 'Maestro Lee',
+      duo: 'Duolingo', mhb: 'Malhaeboca',
+      f4t: 'Your records stay on your phone',
+      f4p: 'No sign-up or login. Records live only in your browser (<b>localStorage</b>) and nothing is sent to a server. Everyone who opens the link keeps <b>their own separate records</b>.',
+      f4line: 'My own records that never leave my phone',
+      howH2: 'Three steps and it is yours',
+      howDesc: 'On first open a three-step guide asks your name, age and routine topics. Coaches and content attach to your choices.',
+      s1t: 'Tap start',
+      s1p: 'The three-step guide for <b>name, age and routine topics</b> starts right there. No sign-up, no payment.',
+      s2t: '⚙ Make it yours in Settings',
+      s2p: 'Change name, age, wake and bed times and your <b>routine topics and coaches</b> anytime under <code>⚙ Settings</code>. Run onboarding again from there too.',
+      s3t: 'Add to home screen',
+      s3p: 'In Chrome or Safari, tap <code>Add to Home screen</code> to open it full screen like an app.',
+      finalH2: 'One minute today, tomorrow’s life',
+      finalP: 'Records stay on your phone, and the link passes to anyone unchanged. Open it and make your first check.',
+      rule1: 'Free · no sign-up',
+      rule2: 'Records only in your browser',
+      footP: 'A personal app that shows how much life expectancy each routine adds.<br>Life-expectancy figures are a motivation-only estimate; records stay in this browser.',
+      copied: 'Copied!',
+      copyFail: 'Copy the link from the address bar',
+      copyAria: 'Copy the share link'
+    },
+    fr: {
+      navOpen: 'Ouvrir l’app',
+      heroBadge: 'Haru+ · routines d’une minute & app d’habitudes RPG',
+      heroTitle: 'Chaque routine cochée<br>allonge votre <em>espérance de vie</em>',
+      heroSub: 'Choisissez un nom, un âge et les routines qui vous tentent : <b>les coachs et les contenus correspondants sont attachés automatiquement</b>. Chaque case montre les minutes gagnées, et vous progressez avec la compagne chevalière. Sans inscription, sans installation — trois étapes.',
+      ctaStart: '🚀 Démarrer Haru+',
+      ctaCopy: '🔗 Copier le lien',
+      meta1: 'Sans inscription',
+      statUnit: 'min',
+      meta2: 'Gratuit',
+      meta3: 'Routines sur mesure',
+      floatXp: 'Aujourd’hui <b>+20 EXP</b>',
+      queenQuote: '« Plus tu remplis de routines, plus tu deviens fort. Passe la journée avec moi. »',
+      rankSample: 'Chevalier apprenti', rankSample2: 'Paladin',
+      featH2: 'Quatre choses qui durent plus que la volonté',
+      featDesc: 'Tout repose sur la récompense, pas sur la discipline. Chaque case met une récompense devant vous.',
+      f1t: 'Motivation par l’espérance de vie',
+      f1p: 'Toutes les routines cochées ajoutent jusqu’à <b>+80 min</b> par jour. Voyez les minutes gagnées et votre espérance de vie actuelle.',
+      f1sub: '<b>83,5 ans</b> → <b>83,6 ans</b><br>59 % de la vie prévue',
+      f1note: 'Une estimation de motivation. Ni diagnostic médical ni garantie.',
+      f2t: 'Compagne chevalière & niveaux RPG',
+      f2p: 'Chaque case donne de l’EXP et fait monter niveau et titre. La <b>mission aléatoire inattendue</b> du jour vaut <b>+50 EXP</b>.',
+      f2q: 'Apprenti → Gardien → Paladin → Commandeur radieux → Gardien du royaume',
+      f3t: 'Coachs associés & raccourcis',
+      f3p: 'Choisissez nom, âge et thèmes : coachs et contenus s’attachent automatiquement. Les coachs santé, mental, musique et routines pointent la tâche du jour, avec les vidéos YouTube et les applis d’anglais à un geste.',
+      coach1: 'Docteur Robuste', coach2: 'Mind May', coach3: 'Maestro Lee',
+      duo: 'Duolingo', mhb: 'Malhaeboca',
+      f4t: 'Vos records restent sur votre téléphone',
+      f4p: 'Sans inscription ni connexion. Les records vivent seulement dans le navigateur (<b>localStorage</b>) et rien n’est envoyé à un serveur. Chaque personne qui ouvre le lien garde <b>ses propres records</b>.',
+      f4line: 'Mes records ne quittent pas mon téléphone',
+      howH2: 'Trois étapes et c’est à vous',
+      howDesc: 'À la première ouverture, un guide en trois étapes demande nom, âge et thèmes. Coachs et contenus suivent vos choix.',
+      s1t: 'Touchez démarrer',
+      s1p: 'Le guide en trois étapes pour le <b>nom, l’âge et les thèmes</b> commence tout de suite. Sans inscription ni paiement.',
+      s2t: '⚙ Personnalisez dans les réglages',
+      s2p: 'Changez nom, âge, heures de lever et de coucher et vos <b>thèmes et coachs</b> à tout moment dans <code>⚙ Réglages</code>. L’accueil guidé s’y relance aussi.',
+      s3t: 'Ajouter à l’écran d’accueil',
+      s3p: 'Dans Chrome ou Safari, touchez <code>Ajouter à l’écran d’accueil</code> pour l’ouvrir en plein écran comme une app.',
+      finalH2: 'Une minute aujourd’hui, la vie de demain',
+      finalP: 'Les records restent sur votre téléphone et le lien se transmet tel quel. Ouvrez-le et faites votre première case.',
+      rule1: 'Gratuit · sans inscription',
+      rule2: 'Records seulement dans le navigateur',
+      footP: 'Une app personnelle qui montre combien d’espérance de vie chaque routine ajoute.<br>Les chiffres sont une estimation de motivation ; les records restent dans ce navigateur.',
+      copied: 'Copié !',
+      copyFail: 'Copiez le lien depuis la barre d’adresse',
+      copyAria: 'Copier le lien de partage'
+    }
+  };
+
+  var nodes = [];
+  function collect(){
+    if(nodes.length) return;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      nodes.push({ el:el, key:el.getAttribute('data-i18n'), ko:el.innerHTML });
+    });
+  }
+  function current(){
+    var q = null;
+    try{ q = new URLSearchParams(location.search).get('lang'); }catch(e){}
+    if(q && D[q]) return q;
+    try{ var s = localStorage.getItem('haru-lang'); if(s && D[s]) return s; }catch(e){}
+    return 'ko';
+  }
+  function apply(l){
+    collect();
+    var dict = D[l] || {};
+    nodes.forEach(function(n){
+      var v = dict[n.key];
+      n.el.innerHTML = (v != null) ? v : n.ko;
+    });
+    document.documentElement.setAttribute('lang', l);
+    var href = (l === 'ko') ? '../' : '../?lang=' + l;
+    document.querySelectorAll('#startBtn, .final .btn-primary, .nav-open, .foot .link, .nav .brand, .foot .brand').forEach(function(a){
+      if(a.tagName === 'A') a.setAttribute('href', href);
+    });
+    document.querySelectorAll('#copyBtn, #copyBtn2').forEach(function(b){
+      var t = D[l] && D[l].copyAria; if(t) b.setAttribute('aria-label', t);
+    });
+    var seg = document.getElementById('langSel');
+    if(seg){
+      seg.querySelectorAll('button[data-lang]').forEach(function(b){
+        b.classList.toggle('on', b.getAttribute('data-lang') === l);
+      });
+    }
+    try{ localStorage.setItem('haru-lang', l); }catch(e){}
+    if(l === 'en') document.title = 'Haru+ · 1-minute routines & RPG habit app';
+    else if(l === 'fr') document.title = 'Haru+ · routines d’une minute & app d’habitudes RPG';
+    else document.title = '하루+ · 매일 1분 루틴 & RPG 습관 앱';
+  }
+
+  function boot(){
+    apply(current());
+    var seg = document.getElementById('langSel');
+    if(seg){
+      seg.addEventListener('click', function(e){
+        var b = e.target.closest ? e.target.closest('button[data-lang]') : null;
+        if(b) apply(b.getAttribute('data-lang'));
+      });
+    }
+    window.__shareT = function(key){
+      var l = document.documentElement.getAttribute('lang') || 'ko';
+      return (D[l] || {})[key] || null;
+    };
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
 
 <script>
 (function(){
@@ -475,20 +646,24 @@ footer{padding:26px 0 40px}
   /* ---------- copy link ---------- */
   var buttons = [document.getElementById('copyBtn'), document.getElementById('copyBtn2')].filter(Boolean);
 
+  function copiedText(){
+    return (window.__shareT && window.__shareT('copied')) || '복사됐어요!';
+  }
+
   function markCopied(){
     buttons.forEach(function(b){
-      if(!b.dataset.label){
-        b.dataset.label = b.textContent;
+      if(!b.dataset.labelHtml){
+        b.dataset.labelHtml = b.innerHTML;
         b.classList.add('copied');
-        b.textContent = '✅ 복사됐어요!';
+        b.innerHTML = '✅ ' + copiedText();
         setTimeout(function(){
           b.classList.remove('copied');
-          b.textContent = b.dataset.label;
-          delete b.dataset.label;
+          b.innerHTML = b.dataset.labelHtml;
+          delete b.dataset.labelHtml;
         }, 2400);
       }
     });
-    say('복사됐어요!');
+    say(copiedText());
   }
 
   function legacyCopy(text){
@@ -513,12 +688,12 @@ footer{padding:26px 0 40px}
     if(navigator.clipboard && window.isSecureContext){
       navigator.clipboard.writeText(SHARE_URL).then(done, function(){
         if(legacyCopy(SHARE_URL)) done();
-        else say('주소창의 링크를 복사해 주세요');
+        else say((window.__shareT && window.__shareT('copyFail')) || '주소창의 링크를 복사해 주세요');
       });
     } else if(legacyCopy(SHARE_URL)){
       done();
     } else {
-      say('주소창의 링크를 복사해 주세요');
+      say((window.__shareT && window.__shareT('copyFail')) || '주소창의 링크를 복사해 주세요');
     }
   }
   buttons.forEach(function(b){ b.addEventListener('click', copyLink); });

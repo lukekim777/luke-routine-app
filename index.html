@@ -32,6 +32,7 @@
   --amber:#C97C00;
   --amber-soft:#FFF1D6;
   --rose:#C94B4B;
+  --sky:#2E7DD1; --sky-soft:#E4F0FC;
   --hero-a:#0B2A23;
   --hero-b:#17453A;
   --done-bg:linear-gradient(180deg,#FFFFFF,#F1FAF6);
@@ -49,6 +50,7 @@
   --violet:#A48BFF; --violet-soft:rgba(124,92,252,.17);
   --amber:#F0B44C; --amber-soft:rgba(240,180,76,.13);
   --rose:#E27070;
+  --sky:#79B8FF; --sky-soft:rgba(121,184,255,.14);
   --hero-a:#08211C; --hero-b:#123C31;
   --done-bg:linear-gradient(180deg,#121A17,#10241D);
   --shadow:0 1px 2px rgba(0,0,0,.35), 0 18px 32px -26px rgba(0,0,0,.95);
@@ -64,6 +66,7 @@
     --violet:#A48BFF; --violet-soft:rgba(124,92,252,.17);
     --amber:#F0B44C; --amber-soft:rgba(240,180,76,.13);
     --rose:#E27070;
+    --sky:#79B8FF; --sky-soft:rgba(121,184,255,.14);
     --hero-a:#08211C; --hero-b:#123C31;
     --done-bg:linear-gradient(180deg,#121A17,#10241D);
     --shadow:0 1px 2px rgba(0,0,0,.35), 0 18px 32px -26px rgba(0,0,0,.95);
@@ -132,7 +135,7 @@ input,select{font:inherit}
 .ghost-btn{font-size:11.5px;font-weight:700;color:rgba(234,246,241,.82);border:1px solid rgba(255,255,255,.2);padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.06)}
 .ghost-btn:active{background:rgba(255,255,255,.14)}
 .hero-num{font-size:42px;font-weight:800;letter-spacing:-.035em;line-height:1.12;margin-top:9px;display:flex;align-items:baseline;gap:0}
-.hero-num .unit{font-size:19px;font-weight:700;letter-spacing:-.01em;opacity:.75;margin-left:2px}
+.hero-num .unit{font-size:19px;font-weight:700;letter-spacing:-.01em;opacity:.75;margin-left:5px}
 .hero-sub{font-size:12.5px;color:rgba(234,246,241,.66);margin-top:2px;font-weight:550}
 .hero-stats{display:flex;gap:10px;margin-top:15px}
 .hs{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:9px 11px}
@@ -190,6 +193,9 @@ input,select{font:inherit}
 .t-amber{--tint:var(--amber-soft)}
 .t-violet{--tint:var(--violet-soft)}
 .t-mint{--tint:var(--mint-soft)}
+.t-sky{--tint:var(--sky-soft)}
+.habit.habit-task{display:block;padding:12px 13px}
+.habit.habit-task .yt-row{margin-left:0;margin-top:10px}
 
 /* ============ challenge ============ */
 .challenge{
@@ -285,6 +291,7 @@ input,select{font:inherit}
 .avatar.mint{background:var(--mint-soft);border-color:rgba(14,159,110,.2)}
 .avatar.violet{background:var(--violet-soft);border-color:rgba(124,92,252,.2)}
 .avatar.amber{background:var(--amber-soft);border-color:rgba(201,124,0,.2)}
+.avatar.sky{background:var(--sky-soft);border-color:rgba(46,125,209,.22)}
 .strip-body{flex:1;min-width:0}
 .strip-head{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-2);font-weight:700}
 .strip-head b{color:var(--ink);font-weight:800}
@@ -482,7 +489,7 @@ input,select{font:inherit}
 .heat-legend .cell{width:10px;height:10px;aspect-ratio:auto;border-radius:3px;flex:0 0 auto}
 
 /* ============ coaches ============ */
-.coach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.coach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(76px,1fr));gap:8px}
 .coach-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 9px;text-align:center;box-shadow:var(--shadow-soft);position:relative;overflow:hidden}
 .coach-card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--accent,var(--mint))}
 .coach-card .avatar{margin:0 auto 7px}
@@ -574,6 +581,99 @@ input,select{font:inherit}
 .btn-danger{width:100%;margin-top:16px;padding:12px;border-radius:13px;border:1px solid rgba(201,75,75,.32);color:var(--rose);font-weight:750;font-size:12.5px;text-align:center;background:transparent}
 .btn-danger.armed{background:rgba(201,75,75,.1);border-color:rgba(201,75,75,.6)}
 
+/* ============ onboarding / tasks / settings ============ */
+.ob{position:fixed;inset:0;z-index:80;display:none;background:rgba(6,18,14,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.ob.on{display:block}
+.ob-card{position:absolute;left:0;right:0;bottom:0;max-width:520px;margin:0 auto;max-height:96vh;display:flex;flex-direction:column;
+  background:var(--card);border-radius:24px 24px 0 0;box-shadow:0 -24px 60px -20px rgba(0,0,0,.5);overflow:hidden;animation:obIn .34s cubic-bezier(.32,.72,0,1)}
+@keyframes obIn{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
+@media (min-width:521px){.ob-card{bottom:auto;top:50%;transform:translateY(-50%);border-radius:24px;max-height:88vh}}
+.ob-top{padding:16px 18px 6px;flex:0 0 auto;position:relative}
+.ob-close{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:11px;border:1px solid var(--line);background:var(--card-soft);color:var(--ink-3);font-size:14px;line-height:1;display:none;place-items:center}
+.ob-close.on{display:grid}
+.ob-kicker{font-size:10.5px;font-weight:850;letter-spacing:.14em;color:var(--mint-deep);text-transform:uppercase}
+.ob-title{font-size:20px;font-weight:850;letter-spacing:-.03em;margin-top:5px;line-height:1.28}
+.ob-sub{font-size:12px;color:var(--ink-2);font-weight:600;margin-top:5px;line-height:1.5}
+.ob-prog{display:flex;gap:5px;margin-top:13px}
+.ob-prog i{flex:1;height:4px;border-radius:99px;background:var(--line);transition:background .25s}
+.ob-prog i.on{background:var(--mint)}
+.ob-body{flex:1;overflow-y:auto;padding:6px 18px 10px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.ob-step{display:none}
+.ob-step.on{display:block}
+.ob-foot{display:flex;gap:8px;padding:10px 18px calc(16px + var(--safe-b));border-top:1px solid var(--line);flex:0 0 auto;background:var(--card)}
+.ob-back{flex:0 0 auto;padding:14px 17px;border-radius:14px;border:1px solid var(--line-2);font-weight:750;font-size:14px;color:var(--ink-2);background:var(--card-soft);text-align:center}
+.ob-next{flex:1;padding:14px;border-radius:14px;background:linear-gradient(120deg,#0E9F6E,#0B8A60);color:#fff;font-weight:850;font-size:15px;text-align:center;letter-spacing:-.01em;box-shadow:0 16px 26px -18px rgba(14,159,110,.85)}
+.ob-next:active{transform:scale(.99)}
+.pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.pick{display:flex;align-items:center;gap:8px;padding:10px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);text-align:left;transition:border-color .18s,background .18s,transform .16s}
+.pick:active{transform:scale(.98)}
+.pick .pi{font-size:17px;flex:0 0 auto}
+.pick .pt{display:block;font-size:12.5px;font-weight:750;line-height:1.25;letter-spacing:-.01em}
+.pick .pc{display:block;font-size:9.5px;color:var(--ink-3);font-weight:700;margin-top:1px}
+.pick .pk{margin-left:auto;font-size:12px;color:var(--mint-deep);font-weight:900;opacity:0;flex:0 0 auto}
+.pick.on{border-color:rgba(14,159,110,.5);background:var(--mint-soft)}
+.pick.on .pk{opacity:1}
+.ob-sel{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.ob-sel .row{display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:12px;background:var(--card-soft);border:1px solid var(--line);font-size:12.5px;font-weight:700}
+.ob-sel .row small{color:var(--ink-3);font-weight:650;font-size:10.5px}
+.ob-sel .rm{margin-left:auto;width:26px;height:26px;border-radius:9px;border:1px solid var(--line-2);color:var(--ink-3);display:grid;place-items:center;font-size:11px;flex:0 0 auto;background:var(--card)}
+.ob-err{font-size:11.5px;font-weight:750;color:var(--rose);margin-top:8px;min-height:15px}
+.ob-coach{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:14px;border:1.5px solid var(--line);margin-top:8px;background:var(--card);width:100%;text-align:left}
+.ob-coach.on{border-color:rgba(14,159,110,.5);background:linear-gradient(120deg,var(--mint-soft),var(--card) 70%)}
+.ob-coach .cb{flex:1;min-width:0}
+.ob-coach b{display:block;font-size:13px;font-weight:800;letter-spacing:-.01em}
+.ob-coach small{display:block;font-size:10.5px;color:var(--ink-3);font-weight:700;margin-top:1px}
+.ob-coach .sw{width:44px;height:26px;border-radius:99px;background:var(--line-2);position:relative;flex:0 0 auto;transition:background .2s}
+.ob-coach .sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.28)}
+.ob-coach.on .sw{background:var(--mint)}
+.ob-coach.on .sw::after{transform:translateX(18px)}
+.ob-prev-h{font-size:11.5px;font-weight:850;color:var(--ink-2);letter-spacing:.04em;margin:16px 0 0}
+.ob-prev{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.ob-prev li{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;padding:9px 11px;border-radius:12px;background:var(--card-soft);border:1px solid var(--line)}
+.ob-prev li .lk{margin-left:auto;font-size:10px;color:var(--ink-3);font-weight:700;text-align:right;max-width:46%}
+.ob-note{font-size:11px;color:var(--ink-3);font-weight:600;margin-top:12px;line-height:1.55}
+.set-sec{padding:12px 0 6px;border-bottom:1px solid var(--line)}
+.set-sec:last-child{border-bottom:0}
+.set-sec h3{font-size:11.5px;font-weight:850;color:var(--ink-2);letter-spacing:.06em;margin-bottom:4px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.set-sec h3 em{font-style:normal;color:var(--ink-3);font-weight:700;letter-spacing:0;font-size:10.5px}
+.field-note{display:block;font-size:10.5px;color:var(--ink-3);font-weight:650;margin-top:5px;line-height:1.45}
+.companion-row{display:flex;align-items:center;gap:10px}
+.companion-row select{flex:1;min-width:0}
+.companion-prev{width:44px;height:59px;border-radius:10px;object-fit:cover;object-position:50% 8%;border:1px solid var(--line-2);background:#0A1826;flex:0 0 auto}
+.field select{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line-2);background:var(--card-soft);color:var(--ink);font-size:14px;font-weight:700}
+.field input[type="url"]{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line-2);background:var(--card-soft);color:var(--ink);font-size:14px;font-weight:700}
+.tf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tf-grid .field{min-width:0}
+.task-list{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+.task-row{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:13px;border:1px solid var(--line);background:var(--card-soft)}
+.task-row.off{opacity:.55}
+.task-row .ti{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-size:15px;background:var(--card);border:1px solid var(--line);flex:0 0 auto}
+.task-row .tb{flex:1;min-width:0}
+.task-row b{display:block;font-size:12.5px;font-weight:800;letter-spacing:-.01em;line-height:1.3}
+.task-row small{display:block;font-size:10.5px;color:var(--ink-3);font-weight:650;margin-top:1px;line-height:1.35}
+.t-acts{display:flex;gap:4px;flex:0 0 auto}
+.t-acts button{width:28px;height:28px;border-radius:9px;border:1px solid var(--line-2);background:var(--card);color:var(--ink-2);display:grid;place-items:center;font-size:11.5px;line-height:1}
+.t-acts button.del{color:var(--rose);border-color:rgba(201,75,75,.3)}
+.t-acts button.armed{background:rgba(201,75,75,.12);border-color:rgba(201,75,75,.55)}
+.btn-soft{display:block;width:100%;margin-top:10px;padding:12px;border-radius:13px;border:1px dashed var(--line-2);background:var(--card-soft);font-weight:750;font-size:12.5px;color:var(--ink-2);text-align:center}
+.task-form{margin-top:10px;padding:12px;border-radius:16px;border:1px solid var(--line-2);background:var(--card-soft)}
+.task-form[hidden]{display:none}
+.task-form .field{border-bottom:0;padding:6px 0}
+.coach-toggles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.ct{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:13px;border:1.5px solid var(--line);background:var(--card);text-align:left}
+.ct.on{border-color:rgba(14,159,110,.45);background:var(--mint-soft)}
+.ct .ctb{flex:1;min-width:0}
+.ct b{display:block;font-size:11.5px;font-weight:800;letter-spacing:-.01em;line-height:1.25}
+.ct small{display:block;font-size:9.5px;color:var(--ink-3);font-weight:700;margin-top:1px}
+.ct .dot2{width:7px;height:7px;border-radius:50%;background:var(--line-2);flex:0 0 auto}
+.ct.on .dot2{background:var(--mint)}
+@media (max-width:360px){
+  .ob-title{font-size:18.5px}
+  .pick{padding:9px 8px;gap:6px}
+  .pick .pt{font-size:11.5px}
+  .coach-toggles{grid-template-columns:1fr}
+}
+
 /* toast + confetti */
 .toast-host{position:fixed;left:0;right:0;bottom:calc(78px + var(--safe-b));z-index:60;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;padding:0 14px}
 .toast{display:flex;align-items:center;gap:9px;max-width:460px;width:100%;padding:10px 13px;border-radius:15px;background:var(--ink);color:var(--bg);box-shadow:0 18px 34px -18px rgba(0,0,0,.6);animation:tin .35s cubic-bezier(.2,.9,.3,1.2);font-size:12.5px;font-weight:650;line-height:1.45}
@@ -656,7 +756,7 @@ input,select{font:inherit}
 
       <div class="sec-head">
         <h2><span class="dot"></span>오늘의 루틴</h2>
-        <span class="head-right"><span class="streak" id="streakChip">🌱 시작</span><span class="pill num" id="todayProgress">0/6</span></span>
+        <span class="head-right"><span class="streak" id="streakChip">🌱 시작</span><span class="pill num" id="todayProgress">–</span></span>
       </div>
       <div class="today-bar"><i id="todayBar"></i></div>
       <div class="list" id="habits"></div>
@@ -738,13 +838,13 @@ input,select{font:inherit}
           <span>많음</span>
         </div>
       </div>
-      <div class="card note-card">하루 6개 중 4개 이상 채우면 '달성'으로 기록돼요. 모든 기록은 이 기기(브라우저)에만 저장되고 서버로 보내지 않아요.</div>
+      <div class="card note-card" id="noteCard">하루 루틴 중 3분의 2 이상을 채우면 '달성'으로 기록돼요. 모든 기록은 이 기기(브라우저)에만 저장되고 서버로 보내지 않아요.</div>
     </section>
 
     <section class="view" id="view-coaches">
       <div class="view-head">
         <h1>코치</h1>
-        <p>건강 · 심리 · 음악, 세 명이 함께해요</p>
+        <p id="coachViewSub">고른 주제에 맞는 코치가 응원해요</p>
       </div>
       <div class="coach-grid" id="coachCards"></div>
       <button class="btn-cheer" id="btnCheer">💌 코치에게 응원받기</button>
@@ -786,33 +886,1069 @@ input,select{font:inherit}
     <h2 id="settingsTitle">설정</h2>
     <button class="sheet-close" data-close aria-label="닫기">✕</button>
   </div>
-  <div class="sheet-body">
-    <label class="field"><span>기상 시간 · 월–토</span><input type="time" id="inpWake" step="300"></label>
-    <label class="field"><span>기상 시간 · 일요일 (새벽미사)</span><input type="time" id="inpWakeSun" step="300"></label>
-    <label class="field"><span>취침 시간</span><input type="time" id="inpSleep" step="300"></label>
-    <label class="field"><span>악기 1</span><input type="text" id="inpInst1" maxlength="12" placeholder="예: 일렉트릭 기타"></label>
-    <label class="field"><span>악기 2 (비워도 돼요)</span><input type="text" id="inpInst2" maxlength="12" placeholder="예: 베이스"></label>
-    <label class="field"><span>생년월일</span><input type="date" id="inpBirth" min="1920-01-01" max="2025-12-31"></label>
-    <label class="field"><span>기준 기대수명 (세)</span><input type="number" id="inpBaseline" step="0.1" min="50" max="120"></label>
-    <div class="field">
-      <span>화면 테마</span>
-      <div class="seg" id="themeSeg" role="group" aria-label="화면 테마">
-        <button type="button" data-theme-opt="auto">자동</button>
-        <button type="button" data-theme-opt="light">라이트</button>
-        <button type="button" data-theme-opt="dark">다크</button>
+  <div class="sheet-body" id="setBody">
+    <div class="set-sec">
+      <h3>프로필</h3>
+      <div class="field"><span>언어</span><select id="inpLang"><option value="ko">한국어</option><option value="en">English</option><option value="fr">Français</option></select></div>
+      <div class="field"><span>동반자 캐릭터</span>
+        <div class="companion-row">
+          <img class="companion-prev" id="companionPrevSet" alt="" width="420" height="560" decoding="async">
+          <select id="inpCompanion">
+            <option value="unset">선택 안 함</option>
+            <option value="male">남성</option>
+            <option value="female">여성</option>
+          </select>
+        </div>
+      </div>
+      <label class="field"><span>이름</span><input type="text" id="inpName" maxlength="20" placeholder="이름을 적어 주세요" autocomplete="off"></label>
+      <label class="field"><span>나이</span><input type="number" id="inpAge" min="10" max="100" step="1"><small class="field-note" id="inpAgeNote">나이를 바꾸면 기준 기대수명을 다시 계산해요</small></label>
+      <label class="field"><span>기준 기대수명 (세)</span><input type="number" id="inpBaseline" step="0.1" min="50" max="120"></label>
+      <label class="field"><span>기상 시간 · 월–토</span><input type="time" id="inpWake" step="300"></label>
+      <label class="field"><span>기상 시간 · 일요일 (새벽미사)</span><input type="time" id="inpWakeSun" step="300"></label>
+      <label class="field"><span>취침 시간</span><input type="time" id="inpSleep" step="300"></label>
+      <div class="field">
+        <span>악기 연습 루틴에 쓸 악기</span>
+        <div class="tf-grid">
+          <input type="text" id="inpInst1" maxlength="12" placeholder="예: 일렉트릭 기타">
+          <input type="text" id="inpInst2" maxlength="12" placeholder="예: 베이스">
+        </div>
+      </div>
+      <div class="field">
+        <span>화면 테마</span>
+        <div class="seg" id="themeSeg" role="group" aria-label="화면 테마">
+          <button type="button" data-theme-opt="auto">자동</button>
+          <button type="button" data-theme-opt="light">라이트</button>
+          <button type="button" data-theme-opt="dark">다크</button>
+        </div>
+      </div>
+      <button class="btn-primary" id="btnSaveSettings">저장하기</button>
+      <p class="hint">크롬 메뉴 ⋮ → '홈 화면에 추가'를 누르면 앱처럼 열려요.</p>
+    </div>
+
+    <div class="set-sec">
+      <h3>내 태스크 <em id="setTaskCount"></em></h3>
+      <div class="task-list" id="setTasks"></div>
+      <button class="btn-soft" id="btnAddTask" type="button">+ 태스크 추가 (프리셋 · 직접 입력)</button>
+      <div class="task-form" id="taskForm" hidden>
+        <label class="field"><span>태스크 이름</span><input type="text" id="tfTitle" maxlength="24" placeholder="예: 저녁 스트레칭"></label>
+        <div class="tf-grid">
+          <label class="field"><span>분류</span><select id="tfCat"></select></label>
+          <label class="field"><span>일정</span><select id="tfSched"><option value="daily">매일</option><option value="weekend">주말</option></select></label>
+        </div>
+        <label class="field"><span>분량 (분)</span><input type="number" id="tfMinutes" min="1" max="180" step="1" placeholder="15"></label>
+        <label class="field"><span>콘텐츠 검색어 (선택)</span><input type="text" id="tfQuery" maxlength="80" placeholder="예: 요가 스트레칭 루틴"></label>
+        <label class="field"><span>콘텐츠 주소 (선택)</span><input type="url" id="tfUrl" maxlength="500" placeholder="https://..."></label>
+        <div class="tf-grid">
+          <button class="btn-soft" id="tfCancel" type="button" style="margin-top:10px">취소</button>
+          <button class="btn-primary" id="tfSave" type="button" style="margin-top:10px">저장</button>
+        </div>
+        <div class="pick-grid" id="tfPresets" style="margin-top:12px"></div>
       </div>
     </div>
-    <button class="btn-primary" id="btnSaveSettings">저장하기</button>
-    <p class="hint">크롬 메뉴 ⋮ → '홈 화면에 추가'를 누르면 앱처럼 열려요.</p>
-    <button class="btn-danger" id="btnReset">모든 기록 초기화</button>
+
+    <div class="set-sec">
+      <h3>코치</h3>
+      <div class="coach-toggles" id="setCoaches"></div>
+      <p class="field-note">고른 주제에 맞는 코치가 자동으로 붙어요. 직접 켜고 끌 수 있어요.</p>
+    </div>
+
+    <div class="set-sec">
+      <h3>온보딩</h3>
+      <button class="btn-soft" id="btnReopenOnboarding" type="button">온보딩 다시 실행</button>
+      <p class="hint">이름 · 나이 · 주제를 처음부터 다시 고를 수 있어요. 기록은 그대로 남아요.</p>
+      <button class="btn-danger" id="btnReset">모든 기록 초기화</button>
+    </div>
   </div>
 </section>
 
 <div class="toast-host" id="toastHost" aria-live="polite" aria-atomic="true"></div>
+
+<div class="ob" id="onboard" aria-hidden="true">
+  <div class="ob-card" role="dialog" aria-modal="true" aria-labelledby="obTitle">
+    <div class="ob-top">
+      <button type="button" class="ob-close" id="obClose" aria-label="온보딩 닫기">✕</button>
+      <span class="ob-kicker" id="obKicker">하루+ 시작하기</span>
+      <h2 class="ob-title" id="obTitle">내 하루를 맞춰 볼까요?</h2>
+      <p class="ob-sub" id="obSub">이름·나이·하고 싶은 루틴 주제를 고르면 맞춤 코치와 추천 콘텐츠가 자동으로 연결돼요.</p>
+      <div class="ob-prog" id="obProg" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+    </div>
+    <div class="ob-body">
+      <div class="ob-step on" data-ob-step="1">
+        <label class="field"><span>언어</span><select id="obLang"><option value="ko">한국어</option><option value="en">English</option><option value="fr">Français</option></select></label>
+        <label class="field"><span>이름</span><input type="text" id="obName" maxlength="20" placeholder="이름을 알려주세요" autocomplete="off"></label>
+        <label class="field"><span>나이</span><input type="number" id="obAge" min="10" max="100" step="1" placeholder="예: 40"><small class="field-note" id="obAgeNote">나이에 맞춰 기준 기대수명을 채워 드려요</small></label>
+        <label class="field"><span>기준 기대수명 (세)</span><input type="number" id="obBase" step="0.1" min="50" max="120"><small class="field-note">생명표를 참고한 대략값이에요. 직접 고쳐도 돼요.</small></label>
+        <label class="field"><span>기상 시간 · 월–토</span><input type="time" id="obWake" step="300"></label>
+        <label class="field"><span>기상 시간 · 주말·일요일 (선택)</span><input type="time" id="obWakeSun" step="300"></label>
+        <label class="field"><span>취침 시간</span><input type="time" id="obSleep" step="300"></label>
+        <div class="field"><span>동반자 캐릭터</span>
+          <div class="companion-row">
+            <img class="companion-prev" id="companionPrev" alt="" width="420" height="560" decoding="async">
+            <select id="obCompanion">
+              <option value="unset">선택 안 함</option>
+              <option value="male">남성</option>
+              <option value="female">여성</option>
+            </select>
+          </div>
+          <small class="field-note">RPG 카드에 함께하는 기사예요. 언제든 설정에서 바꿀 수 있어요.</small>
+        </div>
+        <div class="field"><span>기본 루틴</span>
+          <div class="pick-grid">
+            <button type="button" class="pick on" data-ob-fixed="wake" aria-pressed="true"><span class="pi" aria-hidden="true">☀️</span><span><span class="pt">기상 시간</span><span class="pc">+8분</span></span><span class="pk" aria-hidden="true">✓</span></button>
+            <button type="button" class="pick on" data-ob-fixed="sleep" aria-pressed="true"><span class="pi" aria-hidden="true">🌙</span><span><span class="pt">취침 시간</span><span class="pc">+10분</span></span><span class="pk" aria-hidden="true">✓</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="ob-step" data-ob-step="2">
+        <div class="pick-grid" id="obPresets"></div>
+        <button class="btn-soft" id="obAddCustom" type="button">+ 직접 주제 추가</button>
+        <div class="task-form" id="obCustom" hidden>
+          <label class="field"><span>주제 이름</span><input type="text" id="obCustomTitle" maxlength="24" placeholder="예: 일본어 단어 20개"></label>
+          <div class="tf-grid">
+            <label class="field"><span>분류</span><select id="obCustomCat"></select></label>
+            <label class="field"><span>일정</span><select id="obCustomSched"><option value="daily">매일</option><option value="weekend">주말</option></select></label>
+          </div>
+          <label class="field"><span>콘텐츠 검색어 · 주소 (선택)</span><input type="text" id="obCustomQ" maxlength="300" placeholder="예: 일본어 단어 암기법 / https://..."></label>
+          <div class="tf-grid">
+            <button class="btn-soft" id="obCustomCancel" type="button" style="margin-top:10px">취소</button>
+            <button class="btn-primary" id="obCustomSave" type="button" style="margin-top:10px">추가</button>
+          </div>
+        </div>
+        <div class="ob-sel" id="obSelected"></div>
+        <p class="ob-err" id="obTaskErr"></p>
+      </div>
+      <div class="ob-step" data-ob-step="3">
+        <p class="ob-note" style="margin:0">고른 주제에 맞춰 코치를 자동으로 붙였어요. 응원받고 싶은 코치만 남겨도 돼요.</p>
+        <div id="obCoaches"></div>
+        <h3 class="ob-prev-h">이렇게 연결돼요</h3>
+        <ul class="ob-prev" id="obPreview"></ul>
+      </div>
+    </div>
+    <div class="ob-foot">
+      <button type="button" class="ob-back" id="obBack">이전</button>
+      <button type="button" class="ob-next" id="obNext">다음</button>
+    </div>
+  </div>
+</div>
+
 <div class="levelup" id="levelup" role="status" aria-live="polite"><em>LEVEL UP</em><strong id="lvTitle">Lv. 2 · 수호 기사</strong><span id="lvSub">새로운 칭호가 기다려요</span></div>
 <div class="confetti" id="confetti" aria-hidden="true"></div>
 
 <noscript><p style="padding:20px;text-align:center">이 앱을 쓰려면 브라우저의 자바스크립트를 켜 주세요.</p></noscript>
+
+<script>
+/* 하루+ 다국어 팩 — 한국어는 앱 안의 기본 문자열을 그대로 쓰고, 여기에는 English / Français 만 담습니다.
+   ui: 화면 문구(키), data: 코치·주제·칭호·미션·도전·메시지 번역. */
+window.HARU_I18N = {
+  en: {
+    weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    ui: {
+      appName: 'Haru',
+      docTitle: "{name}'s Haru+ · Routines & life expectancy",
+      docTitlePlain: 'Haru+ · Routines & life expectancy',
+      dateFmt: '{m}/{d} ({w})',
+      greetDawn: 'Late night',
+      greetMorning: 'Good morning',
+      greetAfternoon: 'Good afternoon',
+      greetEvening: 'Good evening',
+      massSunday: 'dawn Mass',
+      fmtMin: '{n} min',
+      fmtHour: '{h} h',
+      fmtHourMin: '{h} h {m} min',
+      fmtDay: '{n} d',
+      fmtDayHourMin: '{d} d {h} h {m} min',
+      heroEyebrow: 'Life added today',
+      heroUnit: 'min',
+      formulaBtn: 'How it adds up',
+      heroSub: 'Every routine you check adds up here',
+      statTotal: 'Total added',
+      statProj: 'Current life expectancy',
+      lifeNow: 'lived',
+      lifeTarget: 'expected',
+      heroDone: 'All routines done! {min} added to your life',
+      heroRemain: '{n} routines left · up to +{m} min more',
+      lifeNote: 'Baseline {base} → now {proj} · {pct}% of expected life',
+      streakChip: '🔥 {n}-day streak',
+      streakStart: '🌱 Starting',
+      secRoutines: "Today's routines",
+      secMission: 'Unexpected random mission',
+      secChallenge: "Today's challenge",
+      secCoachLine: 'Coach says',
+      seeAll: 'See all',
+      secWeek: 'This week',
+      rpgLv: 'Lv. {n}',
+      rpgToday: 'Today +{n} EXP',
+      lvTitle: 'Lv. {n} · {rank}',
+      missionChip: '🎲 Unexpected mission',
+      otherMission: '↻ Another mission',
+      missionDone: 'Done today',
+      missionNew: 'New one every day',
+      missionEvery: 'One per day',
+      missionReward: '+50 EXP · life +10 min',
+      chChip: '🎲 Only for today',
+      challengePlus: '+12 min',
+      challengeDayFmt: '{w} mission',
+      challengeEveryDay: 'Changes every day',
+      historyTitle: 'History',
+      historySub: 'Time you banked never disappears',
+      statStreak: 'Current streak',
+      statWeekDays: 'Days done in 7',
+      statWeekMin: 'Time added in 7 days',
+      last7: 'Last 7 days',
+      perRoutine: 'By routine this week',
+      checkedDays: 'Days checked',
+      last4weeks: 'Last 4 weeks',
+      heatLegend: 'Darker means more done',
+      less: 'Less',
+      more: 'More',
+      noteCard: "A day counts as 'done' when you check {k} of {n} routines. Everything is stored only in this browser — nothing is sent to a server.",
+      miniWeekDone: '{n} days done',
+      miniWeekEmpty: 'Nothing yet',
+      coachTitle: 'Coaches',
+      coachJoin: '{names} are with you',
+      cheerBtn: '💌 Get a cheer from a coach',
+      coachFeed: 'Coach feed',
+      clearFeed: 'Clear',
+      clearFeedArmed: 'Tap again to clear',
+      feedEmpty: 'No coach messages yet. Check a routine or ask for a cheer.',
+      coachToday: 'Today {d}/{t}',
+      tabToday: 'Today',
+      tabHistory: 'History',
+      tabCoaches: 'Coaches',
+      wakeTitle: 'Wake-up time',
+      sleepTitle: 'Bedtime',
+      wakeDesc: 'Target {t} wake-up',
+      wakeDescSun: 'Dawn Mass · wake at {t}',
+      sleepDesc: 'Target {t} bedtime',
+      strengthDesc: 'Today: {focus} · {desc}',
+      englishDesc: 'Duolingo · Malhaeboca 10 min',
+      musicTitle: 'Instrument practice',
+      musicDescWeekend: 'A little longer on weekends',
+      musicDescWeekday: '10 minutes on weekdays is fine',
+      musicWeekendBadge: 'Weekend',
+      musicWeekendHint: 'Weekend routine',
+      badgeWeekend: 'Weekend',
+      badgeWeekendTask: 'Weekend routine',
+      dailyRoutine: 'Daily routine',
+      weekendRoutine: 'Weekend routine',
+      ytStrength: 'Follow along on YouTube',
+      ytRef: 'Reference video',
+      ytFind: 'Find a video',
+      ytSearchNote: 'Search YouTube for “{q}”',
+      ytOpen: 'Open link',
+      guitarBtn: 'Guitar practice video',
+      bassBtn: 'Bass practice video',
+      instBtn: 'Instrument practice video',
+      duolingo: 'Duolingo',
+      malhaeboca: 'Malhaeboca',
+      duoTip: 'Open Duolingo (duolingo.com)',
+      mhbTip: 'Open Malhaeboca (Korean learners)',
+      mhbTipPlay: 'Open the Malhaeboca app (Google Play)',
+      formulaTitle: 'How life expectancy is estimated',
+      fIntro: 'Here is exactly how many minutes today’s checks added. Each routine’s weight is this app’s motivation-only model.',
+      fToday: 'Today total',
+      fTotal: 'All-time total',
+      fBasis: 'Inputs',
+      fBirth: 'Age',
+      fBase: 'Baseline life expectancy',
+      fNow: 'Current life expectancy',
+      fHow: 'Formula',
+      fHowBody: 'Today = sum of minutes of checked routines<br>All-time = sum of every day<br>Current life = baseline + total ÷ (365.25 × 24 × 60)',
+      fUse: 'What it means',
+      fUseBody: 'Checking all {n} routines adds <b>+{sum} min</b> a day, about <b>+{year} days</b> a year. One routine a day is still about <b>+2 days</b> a year. The numbers exist to make small checks visible.',
+      fNote: '<b>Please note.</b> This is a <b>motivation-only estimate</b> to make the value of habits visible. It is not a medical prediction or a promise of lifespan; real lifespan depends on genes, environment, healthcare and chance. You can change the baseline ({base}) in Settings.',
+      fMission: 'Unexpected random mission',
+      fMissionSub: '{title} · +50 EXP',
+      fDaily: 'Daily routine',
+      setTitle: 'Settings',
+      profileSec: 'Profile',
+      lvSample: 'Lv. 2 · Guardian Knight',
+      lvSubSample: 'A new title is waiting',
+      relNow: 'just now',
+      relAgo: '{n} min ago',
+      am: 'am',
+      pm: 'pm',
+      obPlus8: '+8 min',
+      obPlus10: '+10 min',
+      obCoachTop: 'Coaches are matched to your topics automatically. Keep only the ones you want cheering.',
+      setAgeNoteCalc: 'Age {age} · baseline recalculated',
+      fmtYears: '{y} yrs',
+      nameSuffix: '',
+      rpgCardAria: 'Knight companion · Lv. {n} {rank} · today +{x} EXP',
+      linkWord: 'link',
+      plusMin: '+{n} min',
+      weekOf: '{n}/7 days',
+      stripHello: '{name}, one step at a time today.',
+      fSubChallenge: 'New stimulus · changes daily',
+      fSubSleep: 'Regular sleep',
+      fSubStrength: 'Keep muscle · 10–15 min',
+      fSubEnglish: 'Language · cognitive stimulus',
+      fChallengeRow: "Today's challenge · {title}",
+      tasksEmpty: 'No tasks yet. Add one below.',
+      defaultQuery: '{title} routine',
+      removeAria: 'Remove {name}',
+      obNeedsCustomName: 'Give the topic a name.',
+      seedHealth: 'Hello {name}. Health coach Dr. Sturdy here. Every check becomes minutes of life — I will show you.',
+      seedMind: "I'm Mind May. On days your routine wobbles, I'll be right here. Perfect is not required.",
+      seedMusic: "Maestro Lee here. Let's close the week with {insts}. Ten minutes on weekdays is plenty.",
+      seedLife: "I'm Architect Jin. I'll turn {name}'s days into structure. Start with one small order.",
+      seedMissed: "Yesterday was a bit empty. That's all right — one check today brings the flow back.",
+      memberWord: 'friend',
+      chipsAria: 'Instruments played today',
+      instrRowAria: 'Instrument practice videos',
+      weekUnit: 'days',
+      setNamePh: 'Your name',
+      instrPh1: 'e.g. Electric guitar',
+      instrPh2: 'e.g. Bass',
+      openSettings: 'Open settings',
+      cheerAria: 'Get a cheer',
+      ytNext: 'Show another video',
+      appsAria: 'Open English study apps',
+      addBtn: 'Add',
+      setName: 'Name',
+      setAge: 'Age',
+      setAgeNote: 'Changing age recalculates the baseline life expectancy',
+      setAgeLine: 'Age {age} · born {birth}',
+      setBase: 'Baseline life expectancy (years)',
+      setWake: 'Wake-up · Mon–Sat',
+      setWakeSun: 'Wake-up · Sunday (dawn Mass)',
+      setSleep: 'Bedtime',
+      setInstr: 'Instruments for the practice routine',
+      setTheme: 'Theme',
+      themeAuto: 'Auto',
+      themeLight: 'Light',
+      themeDark: 'Dark',
+      saveBtn: 'Save',
+      installHint: "In Chrome, tap ⋮ → 'Add to Home screen' to open it like an app.",
+      myTasks: 'My tasks',
+      tasksCount: '{n} active · {m} total',
+      addTask: '+ Add a task (preset or your own)',
+      taskName: 'Task name',
+      taskNamePh: 'e.g. Evening stretch',
+      category: 'Category',
+      schedule: 'Schedule',
+      daily: 'Daily',
+      weekend: 'Weekend',
+      minutes: 'Minutes',
+      query: 'Content search words (optional)',
+      queryPh: 'e.g. evening stretching routine',
+      url: 'Content link (optional)',
+      cancel: 'Cancel',
+      save: 'Save',
+      coachesSec: 'Coaches',
+      coachHint: 'Coaches are matched to your topics automatically. You can switch them on or off.',
+      onboardingSec: 'Onboarding',
+      reopenOnboarding: 'Run onboarding again',
+      reopenHint: 'Pick your name, age and topics again from scratch. Your records stay.',
+      resetAll: 'Erase all records',
+      resetArmed: 'Erase everything? Tap once more',
+      language: 'Language',
+      companion: 'Companion',
+      companionHint: 'Your knight follows you on the RPG card.',
+      companionMale: 'Male',
+      companionFemale: 'Female',
+      companionUnset: 'Prefer not to say',
+      tasksPaused: 'Paused',
+      tasksResume: 'Resume',
+      tasksPause: 'Pause',
+      editTask: 'Edit task',
+      deleteTask: 'Delete task',
+      settingsSaved: 'Settings saved',
+      taskAdded: 'Task added',
+      taskEdited: 'Task updated',
+      taskToggled: 'Task updated',
+      taskDeleted: 'Task deleted',
+      coachMinNotice: 'Keep at least one coach',
+      taskNameNotice: 'Give the task a name',
+      resetNotice: 'All records erased',
+      clearedFeedNotice: 'Coach feed cleared',
+      missionUndone: 'Mission unchecked. You can try again.',
+      linkStrength: 'Weekday strength videos',
+      linkMusic: 'Guitar · bass videos',
+      linkApps: 'Duolingo · Malhaeboca',
+      linkUrl: 'My link',
+      linkSearch: 'Find a video',
+      linkNone: 'No link',
+      stepKicker: 'STEP {n} / 3',
+      obKickerStart: 'GET STARTED',
+      obTitle1: 'Let’s shape your day',
+      obTitle2: 'What do you want to do?',
+      obTitle3: 'Your coaches and content',
+      obSub1: 'Tell us your name, age and sleep hours. We’ll fill in a baseline life expectancy for you.',
+      obSub2: 'Pick topics or add your own. Matching coaches and content links are attached automatically.',
+      obSub3: 'Coaches are matched to your topics. Keep only the ones you want cheering for you.',
+      obName: 'Name',
+      obNamePh: 'What should we call you?',
+      obAge: 'Age',
+      obAgePh: 'e.g. 40',
+      obAgeNote: 'We fill the baseline life expectancy from your age',
+      obBase: 'Baseline life expectancy (years)',
+      obBaseNote: 'A rough figure based on life tables — edit it freely.',
+      obWake: 'Wake-up · Mon–Sat',
+      obWakeSun: 'Wake-up · weekend / Sunday (optional)',
+      obSleep: 'Bedtime',
+      obFixed: 'Basic routines',
+      obWakeShort: 'Wake-up time',
+      obSleepShort: 'Bedtime',
+      obCustomAdd: '+ Add your own topic',
+      obCustomTitle: 'Topic name',
+      obCustomPh: 'e.g. 20 Japanese words',
+      obCustomQ: 'Search words or link (optional)',
+      obCustomQPh: 'e.g. Japanese vocabulary routine / https://...',
+      obAdd: 'Add',
+      obEmptySel: 'Pick at least one topic below.',
+      obNeedsTask: 'Pick at least one topic.',
+      obNeedsName: 'Tell us your name first',
+      obNeedsCoach: 'Keep at least one coach.',
+      obCoachHint: 'Coaches are matched to your topics automatically.',
+      obPreviewTitle: 'How it connects',
+      obPreviewChallenge: "Today's challenge · unexpected random mission",
+      obPreviewAuto: 'Changes automatically every day',
+      obPreviewBasic: 'Basic routine',
+      obNext: 'Next',
+      obStart: 'Start Haru+',
+      obBack: 'Back',
+      obWelcome: "Starting {name}'s Haru+",
+      obReplayWelcome: '{name}, your routines are reset. Start with one small check today.',
+      altQueen: 'Queen of light, knight companion',
+      altKing: 'King of light, knight companion',
+      altCute: 'Little knight companion',
+      closed: 'Close'
+    },
+    data: {
+      coach: {
+        health: { name: 'Dr. Sturdy', role: 'Health coach', line: 'Notices your body’s signals first' },
+        mind: { name: 'Mind May', role: 'Mind coach', line: 'Keeps the rhythm of mind and learning' },
+        music: { name: 'Maestro Lee', role: 'Music coach', line: 'Adds melody to your days' },
+        life: { name: 'Architect Jin', role: 'Routine & strategy coach', line: 'Turns scattered days into structure' }
+      },
+      cat: { health: 'Health', mind: 'Mind', study: 'Study', music: 'Music', hobby: 'Hobby', life: 'Life', work: 'Focus' },
+      presets: {
+        strength: 'Strength training', running: 'Running & cardio', yoga: 'Yoga & stretching',
+        walk: 'Light walk', water: 'Water & supplements', english: 'English study',
+        study: 'Study & certification', reading: 'Reading & writing',
+        meditation: 'Meditation & mindfulness', music: 'Instrument practice'
+      },
+      presetQuery: {
+        running: 'beginner running form and pace guide',
+        yoga: 'daily 15 minute yoga stretching routine',
+        walk: 'health benefits of walking after meals',
+        study: 'pomodoro study focus routine',
+        reading: 'how to build a daily reading habit',
+        meditation: 'beginner 10 minute meditation guide'
+      },
+      ranks: ['Apprentice Knight', 'Guardian Knight', 'Paladin', 'Radiant Commander', 'Kingdom Guardian',
+              'Knight of Dawn', 'Silver Paladin', 'Golden Commander', 'Crown Guardian', 'Legendary Knight King'],
+      strength: [
+        { focus: 'Full-body stretch', desc: 'Loosen up and recover' },
+        { focus: 'Squats · lower body', desc: 'Squats 15 × 3 sets' },
+        { focus: 'Push-ups · upper body', desc: 'Push-ups 10 × 3 sets' },
+        { focus: 'Plank · core', desc: 'Plank 30 s × 3 sets' },
+        { focus: '10-min full body', desc: 'Three moves, 2 rounds' },
+        { focus: 'Back & shoulders', desc: 'Band rows and shoulder press' },
+        { focus: 'Legs + stretch', desc: 'Lunges and hip bridge' }
+      ],
+      missions: [
+        { t: '60 seconds of sunlight and deep breaths', d: 'One minute by the window, eyes closed', tip: 'Morning light sets your body clock. One minute is enough.' },
+        { t: 'One-minute neck and shoulder stretch', d: 'Head slowly left and right, shoulders back', tip: 'A minute loosens a stiff neck from sitting.' },
+        { t: 'Drink a full glass of water', d: 'Right where you are, slowly to the end', tip: 'Water before thirst is the best water.' },
+        { t: 'Take the stairs once', d: 'One floor instead of the lift', tip: 'Even one flight wakes up legs and lungs.' },
+        { t: 'Write one line of gratitude', d: 'Notes app or paper, one good thing today', tip: 'Written gratitude stays longer in the brain.' },
+        { t: 'Three minutes on a favourite guitar riff', d: 'One phrase on repeat is enough', tip: 'One riff your fingers remember is real practice.' },
+        { t: 'Twelve-bar blues on bass', d: 'Roll the low end through the changes', tip: 'Twelve-bar blues is a bassist’s basic fitness.' },
+        { t: '30 seconds of slow breathing', d: 'Long exhales while washing hands', tip: 'A long exhale releases tension.' },
+        { t: 'Look at the sky for 30 seconds', d: 'Step away from the screen, focus far', tip: 'Looking far rests your focusing muscles.' },
+        { t: 'Ten squats, right now', d: 'No chair, slowly, ten times', tip: 'Ten a day is still a signal to your muscles.' },
+        { t: '30-second calf stretch at the wall', d: 'One foot forward, heel down', tip: 'Calf stretches ease swollen legs.' },
+        { t: 'Sing one line of a favourite song', d: 'Loud is fine', tip: 'Singing is the fastest way to change a mood.' },
+        { t: 'Five breaths with a straight back', d: 'Sit at the edge of the chair, spine tall', tip: 'A tall spine opens the lungs.' },
+        { t: '20 seconds with eyes closed', d: 'Just count the breath', tip: 'A short pause restores afternoon focus.' },
+        { t: 'Bring one grateful person to mind', d: 'Their face and their voice', tip: 'Remembering alone warms you.' },
+        { t: 'Fill a water bottle on your desk', d: 'Visible water is drunk water', tip: 'Water you can see is water you drink.' },
+        { t: 'Walk outside for 5 minutes', d: 'One loop around the building', tip: 'Five minutes is enough to reset your mood.' },
+        { t: 'Shoulder rolls, 10 each way', d: 'Slow and big, let them crack', tip: 'Rolling shoulders eases neck tension.' },
+        { t: 'Warm hands over your eyes', d: '20 seconds of warm palms', tip: 'Twenty covered seconds reset tired eyes.' },
+        { t: '20-second plank', d: 'On your knees is fine', tip: '20 seconds is the minimum to wake the core.' },
+        { t: '30 seconds of outside air', d: 'Open the window, change the air', tip: 'Fresh air is the quickest way to clear your head.' },
+        { t: 'One line to your family', d: 'A short message is enough', tip: 'One line fuels a relationship.' },
+        { t: 'Photograph the sunset sky', d: 'Keep today’s sky', tip: 'A photo makes the day last longer.' },
+        { t: 'Say one thing you did well', d: 'Out loud, to yourself', tip: 'Praise spoken aloud becomes confidence.' },
+        { t: '15 heel raises', d: 'Standing or sitting, a calf pump', tip: 'Heel raises push blood back to the heart.' },
+        { t: 'Four breaths, hand on heart', d: 'In and out, four times', tip: 'Warmth and slow breath calm the mind.' }
+      ],
+      challenges: [
+        { title: 'Drink 1.5 L of water', desc: 'Slowly through the day', tip: 'Too little water makes you feel more tired. Start with a bottle on your desk.' },
+        { title: 'Walk 10 minutes after lunch', desc: 'One easy loop', tip: 'A post-meal walk softens the blood sugar spike.' },
+        { title: 'No phone one hour before bed', desc: 'Charger outside the bedroom', tip: 'Bright screens delay sleep signals. Keep a book or music nearby.' },
+        { title: 'Five minutes of stretching', desc: 'Neck, shoulders, back in order', tip: 'The more you sat, the more those five minutes give back.' },
+        { title: 'Climb three floors by stairs', desc: 'Once today, instead of the lift', tip: 'Short stair climbs still work legs and heart.' },
+        { title: 'Send a short hello to someone you appreciate', desc: 'One line is enough', tip: 'Relationships work like muscles: use them and they improve.' },
+        { title: 'Listen to one song with full attention', desc: 'Three minutes doing nothing else', tip: 'Listening closely lightens stress.' },
+        { title: '3 sets of 4-7-8 breathing', desc: 'In 4 s, hold 7 s, out 8 s', tip: 'The long exhale relaxes the body. Try one now.' },
+        { title: 'Add one protein side dish', desc: 'Egg, tofu, fish or chicken', tip: 'Keeping muscle needs protein as much as exercise.' },
+        { title: 'Ten minutes of meditation or a quiet walk', desc: 'Phone in your pocket', tip: 'Ten minutes of nothing brings focus back.' },
+        { title: 'Five minutes of scales', desc: 'Fingers over volume today', tip: 'Five minutes of scales wakes the hands.' },
+        { title: 'Straighten up and breathe for a minute', desc: 'Right where you sit', tip: 'Straightening up deepens the breath.' },
+        { title: 'Say three new English phrases out loud', desc: 'Pick them from Duolingo or Malhaeboca', tip: 'Spoken phrases stay longer.' },
+        { title: 'One meal without your phone', desc: 'Focus on the food', tip: 'Eating slowly brings fullness sooner.' },
+        { title: 'Sing along to a favourite song', desc: 'One line is enough', tip: 'Singing changes a mood fastest.' },
+        { title: 'Write three things you did well before bed', desc: 'Paper or notes', tip: 'The brain remembers what you write down. It becomes tomorrow’s confidence.' },
+        { title: '15-minute walk at sunset', desc: 'Find some daylight if you can', tip: 'An evening walk brings bedtime forward.' },
+        { title: 'Skip sweet drinks once today', desc: 'Just once', tip: 'Liquid sugar hides hunger from you.' }
+      ],
+      msg: {
+        check: {
+          wake: ['{wake} done! Protecting the morning changes the whole day, a little at a time.',
+                 'Five minutes of sunlight after waking makes the rhythm lighter.',
+                 'A morning on time is already half the day won.'],
+          sleep: ['{sleep} wind-down — good. Sleep is the only time the body repairs.',
+                  'A regular bedtime builds tomorrow’s morning.',
+                  'Just lying down ten minutes earlier is enough today.'],
+          strength: ['Strength done! After 40, muscle leaves a little each year; today’s 25 minutes count.',
+                     'Squats, push-ups, planks — you invested in your body today.',
+                     'Muscle is one of the few things you can still build with age.'],
+          english: ['Ten minutes of English laid another path in your brain.',
+                    'Duolingo and Malhaeboca: short but daily becomes language.',
+                    'Say one phrase out loud today and it sticks twice as well.'],
+          music: ['{insts} done! Finger memory fades in days — you filled today well.',
+                  'Playing lowers stress and sharpens focus.',
+                  'These 20 minutes change the rhythm of your week.'],
+          challenge: ['Challenge complete! A day that tried something new stays with you.',
+                      'One small dare keeps a routine from going stale.',
+                      'That was today’s mission only. Tomorrow brings another.'],
+          _default: ['{task} done! One more slot filled today.',
+                     '{task} checked — a small slot that slowly changes a day.',
+                     '{name}, you did {task} too. Take the rest slowly.']
+        },
+        uncheck: {
+          wake: 'Unchecked. Try {wake} again tomorrow.',
+          sleep: 'That’s all right. Try lying down a little earlier tonight.',
+          strength: 'Maybe your body wants rest. Start lightly tomorrow.',
+          english: 'Even briefly is fine. Five minutes is enough.',
+          music: 'Music lasts when it is fun. Resting today is fine too.',
+          challenge: 'See you tomorrow. What you did today was already enough.',
+          _default: 'Unchecked. You can try again.'
+        },
+        allDone: {
+          health: 'All {n} done! You wrote today into your body. Tomorrow morning will feel lighter.',
+          mind: 'You kept every promise to yourself today. That is what self-respect is made of.',
+          music: 'A full sweep! Play one bar of something you love and close the day.',
+          life: 'Everything checked, {name}. This is how a day turns into a structure.',
+          _default: '{name}, all routines done! Days like this build next week.'
+        },
+        cheer: {
+          health: ['Drink a glass of water and roll your shoulders. That is the start.',
+                   'Ten squats — even now your muscles respond.',
+                   'Straighten up and your breath deepens. Try it.',
+                   'Move the phone a little further before sleep and sleep deepens.',
+                   'Ten minutes of walking changes your mood. After lunch is a good time.'],
+          mind: ['Write three things you did well. Your brain will remember them.',
+                 'Breathe in four, out six. Three minutes is enough.',
+                 'You don’t have to be perfect. One slot today is enough.',
+                 'Send someone a short hello. Relationships work like muscles.',
+                 'Name what you feel right now. That alone is a step.'],
+          music: ['Listen to a song you love for three minutes. Ears learn first.',
+                  'Ten minutes daily stays longer than an hour once a week.',
+                  'Changing the tone once is practice. Start with the amp.',
+                  'Bass talks with the drums. Listen to the bass line only today.',
+                  'Learn one bar before the weekend and you will enjoy it more.',
+                  'Ten minutes each on guitar and bass works too.'],
+          life: ['{name}, pick just one thing today. Small lasts longer.',
+                 'Routines come from order, not time. Start with the easiest.',
+                 'You are at {done}/{total} today. Pick one more to close the day.',
+                 'One reminder today makes tomorrow’s you much freer.']
+        },
+        streak: ['{n} days in a row! At this point it is habit, not willpower.',
+                 '{n} days straight — impressive. Not breaking the chain is the key.',
+                 '{n} days in a row. Your body already remembers this rhythm.'],
+        inst: {
+          0: ['{inst1} done! Tone and wrist strength matter, so today’s 15 minutes turn into sound.',
+              '{inst1} sounds good. Try clean once and harder once — the hands remember.',
+              'You filled 15 minutes on {inst1}. Ease the pick grip and you can play longer.'],
+          1: ['{inst2} done! The low end holds the song together, so today’s groove stays.',
+              '{inst2} is good. Tap the beat with your hand instead of drums and the rhythm tightens.',
+              'You filled 15 minutes on {inst2}. Listen to just the bass line of a song you like.']
+        },
+        both: ['{inst1} and {inst2} both — busy fingers today!',
+               'Both instruments done. Think melody on guitar, roots on bass — it is fun.']
+      },
+      rpg: {
+        start: ['Knight, time to draw today’s first sword. One small thing is enough.',
+                'The morning is still quiet. Open the day with one routine.',
+                'The kingdom is waiting. Fill just one slot now.'],
+        progress: ['{done} done. Don’t lose this flow.',
+                   'Your grip is getting firmer. {remain} left — take them slowly.',
+                   'The energy is rising. The crown will shine at this rate.'],
+        mission: ['You took the unexpected mission! A knight who grabs random chances grows strong.',
+                  'You found a hidden treasure. Today’s luck is yours.',
+                  'Doing the unplanned is real skill. Well done.'],
+        all: ['All {n} routines done! You kept the whole day.',
+              'Every routine complete. This knight’s day will be in the kingdom’s records.'],
+        perfect: ['Routines and the unexpected mission — a perfect day!',
+                  'A radiant day. The crown has never shone like today.'],
+        levelup: ['A new title suits you, {rank}!',
+                  'One step higher. Guard today in the name of {rank}.'],
+        cleared: ['Unexpected mission complete! +50 EXP and 10 minutes of life.',
+                  'Random mission cleared! The knight’s senses are alive.']
+      }
+    }
+  },
+
+  fr: {
+    weekdays: ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'],
+    ui: {
+      appName: 'Haru',
+      docTitle: 'Haru+ de {name} · routines et espérance de vie',
+      docTitlePlain: 'Haru+ · routines et espérance de vie',
+      dateFmt: '{d}/{m} ({w})',
+      greetDawn: 'Il se fait tard',
+      greetMorning: 'Bonjour',
+      greetAfternoon: 'Bon après-midi',
+      greetEvening: 'Bonsoir',
+      massSunday: 'messe de l’aube',
+      fmtMin: '{n} min',
+      fmtHour: '{h} h',
+      fmtHourMin: '{h} h {m} min',
+      fmtDay: '{n} j',
+      fmtDayHourMin: '{d} j {h} h {m} min',
+      heroEyebrow: 'Vie gagnée aujourd’hui',
+      heroUnit: 'min',
+      formulaBtn: 'Le calcul',
+      heroSub: 'Chaque routine cochée s’ajoute ici',
+      statTotal: 'Total gagné',
+      statProj: 'Espérance de vie actuelle',
+      lifeNow: 'vécu',
+      lifeTarget: 'prévu',
+      heroDone: 'Tout est fait ! {min} ajoutées à votre vie',
+      heroRemain: 'Encore {n} routines · jusqu’à +{m} min',
+      lifeNote: 'Base {base} → maintenant {proj} · {pct} % de la vie prévue',
+      streakChip: '🔥 {n} jours d’affilée',
+      streakStart: '🌱 Début',
+      secRoutines: 'Routines du jour',
+      secMission: 'Mission aléatoire inattendue',
+      secChallenge: 'Défi du jour',
+      secCoachLine: 'Le coach dit',
+      seeAll: 'Tout voir',
+      secWeek: 'Cette semaine',
+      rpgLv: 'Niv. {n}',
+      rpgToday: 'Aujourd’hui +{n} EXP',
+      lvTitle: 'Niv. {n} · {rank}',
+      missionChip: '🎲 Mission inattendue',
+      otherMission: '↻ Autre mission',
+      missionDone: 'Fait aujourd’hui',
+      missionNew: 'Une nouvelle chaque jour',
+      missionEvery: 'Une par jour',
+      missionReward: '+50 EXP · vie +10 min',
+      chChip: '🎲 Rien que pour aujourd’hui',
+      challengePlus: '+12 min',
+      challengeDayFmt: 'Mission de {w}',
+      challengeEveryDay: 'Change chaque jour',
+      historyTitle: 'Historique',
+      historySub: 'Le temps accumulé ne s’efface pas',
+      statStreak: 'Série en cours',
+      statWeekDays: 'Jours réussis sur 7',
+      statWeekMin: 'Temps ajouté en 7 jours',
+      last7: '7 derniers jours',
+      perRoutine: 'Par routine cette semaine',
+      checkedDays: 'Jours cochés',
+      last4weeks: '4 dernières semaines',
+      heatLegend: 'Plus c’est foncé, plus la journée est remplie',
+      less: 'Moins',
+      more: 'Plus',
+      noteCard: 'Une journée est « réussie » quand vous cochez {k} routines sur {n}. Tout reste dans ce navigateur — rien n’est envoyé à un serveur.',
+      miniWeekDone: '{n} jours réussis',
+      miniWeekEmpty: 'Rien encore',
+      coachTitle: 'Coachs',
+      coachJoin: '{names} vous accompagnent',
+      cheerBtn: '💌 Recevoir un encouragement',
+      coachFeed: 'Fil des coachs',
+      clearFeed: 'Vider',
+      clearFeedArmed: 'Touchez encore pour vider',
+      feedEmpty: 'Pas encore de message. Cochez une routine ou demandez un encouragement.',
+      coachToday: 'Aujourd’hui {d}/{t}',
+      tabToday: 'Aujourd’hui',
+      tabHistory: 'Historique',
+      tabCoaches: 'Coachs',
+      wakeTitle: 'Heure de lever',
+      sleepTitle: 'Heure de coucher',
+      wakeDesc: 'Objectif {t}',
+      wakeDescSun: 'Messe de l’aube · lever {t}',
+      sleepDesc: 'Objectif coucher {t}',
+      strengthDesc: 'Aujourd’hui : {focus} · {desc}',
+      englishDesc: 'Duolingo · Malhaeboca 10 min',
+      musicTitle: 'Pratique d’instrument',
+      musicDescWeekend: 'Un peu plus long le week-end',
+      musicDescWeekday: '10 minutes en semaine suffisent',
+      musicWeekendBadge: 'Week-end',
+      musicWeekendHint: 'Routine du week-end',
+      badgeWeekend: 'Week-end',
+      badgeWeekendTask: 'Routine du week-end',
+      dailyRoutine: 'Routine quotidienne',
+      weekendRoutine: 'Routine du week-end',
+      ytStrength: 'Suivre sur YouTube',
+      ytRef: 'Vidéo de référence',
+      ytFind: 'Trouver une vidéo',
+      ytSearchNote: 'Chercher « {q} » sur YouTube',
+      ytOpen: 'Ouvrir le lien',
+      guitarBtn: 'Vidéo de guitare',
+      bassBtn: 'Vidéo de basse',
+      instBtn: 'Vidéo d’instrument',
+      duolingo: 'Duolingo',
+      malhaeboca: 'Malhaeboca',
+      duoTip: 'Ouvrir Duolingo (duolingo.com)',
+      mhbTip: 'Ouvrir Malhaeboca (pour apprendre le coréen)',
+      mhbTipPlay: 'Ouvrir l’appli Malhaeboca (Google Play)',
+      formulaTitle: 'Comment l’espérance de vie est estimée',
+      fIntro: 'Voici exactement combien de minutes les cases cochées ajoutent. Le poids de chaque routine est un modèle de motivation.',
+      fToday: 'Total du jour',
+      fTotal: 'Total cumulé',
+      fBasis: 'Données',
+      fBirth: 'Âge',
+      fBase: 'Espérance de vie de base',
+      fNow: 'Espérance de vie actuelle',
+      fHow: 'Formule',
+      fHowBody: 'Aujourd’hui = somme des minutes cochées<br>Cumul = somme de tous les jours<br>Vie actuelle = base + cumul ÷ (365,25 × 24 × 60)',
+      fUse: 'À quoi ça sert',
+      fUseBody: 'Cocher les {n} routines ajoute <b>+{sum} min</b> par jour, environ <b>+{year} jours</b> par an. Une routine par jour fait déjà <b>+2 jours</b> par an. Ces chiffres rendent les petits gestes visibles.',
+      fNote: '<b>À noter.</b> Ceci est une <b>estimation de motivation</b> pour rendre la valeur des habitudes visible. Ce n’est ni une prédiction médicale ni une promesse de longévité ; la durée de vie réelle dépend des gènes, de l’environnement, des soins et du hasard. La base ({base}) se change dans les réglages.',
+      fMission: 'Mission aléatoire inattendue',
+      fMissionSub: '{title} · +50 EXP',
+      fDaily: 'Routine quotidienne',
+      setTitle: 'Réglages',
+      profileSec: 'Profil',
+      lvSample: 'Niv. 2 · Chevalier gardien',
+      lvSubSample: 'Un nouveau titre vous attend',
+      relNow: 'à l’instant',
+      relAgo: 'il y a {n} min',
+      am: '',
+      pm: '',
+      obPlus8: '+8 min',
+      obPlus10: '+10 min',
+      obCoachTop: 'Les coachs sont associés à vos thèmes automatiquement. Gardez ceux qui vous encouragent.',
+      setAgeNoteCalc: 'Âge {age} · base recalculée',
+      fmtYears: '{y} ans',
+      nameSuffix: '',
+      rpgCardAria: 'Compagnon chevalier · Niv. {n} {rank} · aujourd’hui +{x} EXP',
+      linkWord: 'lien',
+      plusMin: '+{n} min',
+      weekOf: '{n}/7 j',
+      stripHello: '{name}, une chose à la fois aujourd’hui.',
+      fSubChallenge: 'Nouveau stimulus · change chaque jour',
+      fSubSleep: 'Sommeil régulier',
+      fSubStrength: 'Garder le muscle · 10–15 min',
+      fSubEnglish: 'Langue · stimulation cognitive',
+      fChallengeRow: 'Défi du jour · {title}',
+      tasksEmpty: 'Pas encore de tâche. Ajoutez-en une ci-dessous.',
+      defaultQuery: 'routine {title}',
+      removeAria: 'Retirer {name}',
+      obNeedsCustomName: 'Donnez un nom au thème.',
+      seedHealth: 'Bonjour {name}. Docteur Robuste, coach santé. Chaque case cochée devient des minutes de vie — je vous montre.',
+      seedMind: 'Je suis Mind May. Les jours où la routine vacille, je suis là. La perfection n’est pas demandée.',
+      seedMusic: 'Maestro Lee. Terminons la semaine avec {insts}. Dix minutes en semaine suffisent.',
+      seedLife: 'Architecte Jin. Je transformerai les journées de {name} en structure. Commencez par un petit ordre.',
+      seedMissed: 'Hier était un peu vide. Ce n’est rien — une case aujourd’hui ramène le flux.',
+      memberWord: 'ami(e)',
+      chipsAria: 'Instruments joués aujourd’hui',
+      instrRowAria: 'Vidéos de pratique',
+      weekUnit: 'jours',
+      setNamePh: 'Votre nom',
+      instrPh1: 'ex. guitare électrique',
+      instrPh2: 'ex. basse',
+      openSettings: 'Ouvrir les réglages',
+      cheerAria: 'Recevoir un encouragement',
+      ytNext: 'Voir une autre vidéo',
+      appsAria: 'Ouvrir les applis d’anglais',
+      addBtn: 'Ajouter',
+      setName: 'Nom',
+      setAge: 'Âge',
+      setAgeNote: 'Changer l’âge recalcule l’espérance de vie de base',
+      setAgeLine: 'Âge {age} · né(e) le {birth}',
+      setBase: 'Espérance de vie de base (ans)',
+      setWake: 'Lever · lun–sam',
+      setWakeSun: 'Lever · dimanche (messe de l’aube)',
+      setSleep: 'Coucher',
+      setInstr: 'Instruments pour la routine de pratique',
+      setTheme: 'Thème',
+      themeAuto: 'Auto',
+      themeLight: 'Clair',
+      themeDark: 'Sombre',
+      saveBtn: 'Enregistrer',
+      installHint: 'Dans Chrome, ⋮ → « Ajouter à l’écran d’accueil » pour l’ouvrir comme une app.',
+      myTasks: 'Mes tâches',
+      tasksCount: '{n} actives · {m} au total',
+      addTask: '+ Ajouter une tâche (modèle ou la vôtre)',
+      taskName: 'Nom de la tâche',
+      taskNamePh: 'ex. étirements du soir',
+      category: 'Catégorie',
+      schedule: 'Fréquence',
+      daily: 'Chaque jour',
+      weekend: 'Week-end',
+      minutes: 'Minutes',
+      query: 'Mots-clés de contenu (facultatif)',
+      queryPh: 'ex. routine d’étirements du soir',
+      url: 'Lien de contenu (facultatif)',
+      cancel: 'Annuler',
+      save: 'Enregistrer',
+      coachesSec: 'Coachs',
+      coachHint: 'Les coachs s’accordent à vos thèmes automatiquement. Activez ou désactivez-les.',
+      onboardingSec: 'Accueil guidé',
+      reopenOnboarding: 'Refaire l’accueil guidé',
+      reopenHint: 'Choisir à nouveau nom, âge et thèmes. Vos records restent.',
+      resetAll: 'Effacer tous les records',
+      resetArmed: 'Tout effacer ? Touchez encore',
+      language: 'Langue',
+      companion: 'Compagnon',
+      companionHint: 'Votre chevalier vous suit sur la carte RPG.',
+      companionMale: 'Homme',
+      companionFemale: 'Femme',
+      companionUnset: 'Non précisé',
+      tasksPaused: 'En pause',
+      tasksResume: 'Reprendre',
+      tasksPause: 'Mettre en pause',
+      editTask: 'Modifier la tâche',
+      deleteTask: 'Supprimer la tâche',
+      settingsSaved: 'Réglages enregistrés',
+      taskAdded: 'Tâche ajoutée',
+      taskEdited: 'Tâche modifiée',
+      taskToggled: 'Tâche modifiée',
+      taskDeleted: 'Tâche supprimée',
+      coachMinNotice: 'Gardez au moins un coach',
+      taskNameNotice: 'Donnez un nom à la tâche',
+      resetNotice: 'Tous les records effacés',
+      clearedFeedNotice: 'Fil des coachs vidé',
+      missionUndone: 'Mission décochée. Vous pouvez réessayer.',
+      linkStrength: 'Vidéos de musculation par jour',
+      linkMusic: 'Vidéos guitare · basse',
+      linkApps: 'Duolingo · Malhaeboca',
+      linkUrl: 'Mon lien',
+      linkSearch: 'Trouver une vidéo',
+      linkNone: 'Aucun lien',
+      stepKicker: 'ÉTAPE {n} / 3',
+      obKickerStart: 'POUR COMMENCER',
+      obTitle1: 'Façonnons votre journée',
+      obTitle2: 'Que voulez-vous faire ?',
+      obTitle3: 'Vos coachs et vos contenus',
+      obSub1: 'Dites-nous votre nom, votre âge et vos heures de sommeil. Nous remplissons l’espérance de vie de base.',
+      obSub2: 'Choisissez des thèmes ou ajoutez les vôtres. Coachs et liens de contenu s’attachent automatiquement.',
+      obSub3: 'Les coachs correspondent à vos thèmes. Gardez seulement ceux qui vous encouragent.',
+      obName: 'Nom',
+      obNamePh: 'Comment vous appelez-vous ?',
+      obAge: 'Âge',
+      obAgePh: 'ex. 40',
+      obAgeNote: 'Nous déduisons la base de votre âge',
+      obBase: 'Espérance de vie de base (ans)',
+      obBaseNote: 'Une valeur approximative issue des tables de mortalité — modifiable.',
+      obWake: 'Lever · lun–sam',
+      obWakeSun: 'Lever · week-end / dimanche (facultatif)',
+      obSleep: 'Coucher',
+      obFixed: 'Routines de base',
+      obWakeShort: 'Heure de lever',
+      obSleepShort: 'Heure de coucher',
+      obCustomAdd: '+ Ajouter votre propre thème',
+      obCustomTitle: 'Nom du thème',
+      obCustomPh: 'ex. 20 mots de japonais',
+      obCustomQ: 'Mots-clés ou lien (facultatif)',
+      obCustomQPh: 'ex. routine de vocabulaire japonais / https://...',
+      obAdd: 'Ajouter',
+      obEmptySel: 'Choisissez au moins un thème ci-dessous.',
+      obNeedsTask: 'Choisissez au moins un thème.',
+      obNeedsName: 'Dites-nous d’abord votre nom',
+      obNeedsCoach: 'Gardez au moins un coach.',
+      obCoachHint: 'Les coachs sont associés à vos thèmes automatiquement.',
+      obPreviewTitle: 'Comment tout se relie',
+      obPreviewChallenge: 'Défi du jour · mission aléatoire inattendue',
+      obPreviewAuto: 'Change automatiquement chaque jour',
+      obPreviewBasic: 'Routine de base',
+      obNext: 'Suivant',
+      obStart: 'Démarrer Haru+',
+      obBack: 'Retour',
+      obWelcome: 'Haru+ de {name} commence',
+      obReplayWelcome: '{name}, vos routines sont réglées à nouveau. Commencez par une petite case aujourd’hui.',
+      altQueen: 'Reine de lumière, compagne chevalière',
+      altKing: 'Roi de lumière, compagnon chevalier',
+      altCute: 'Petit chevalier compagnon',
+      closed: 'Fermer'
+    },
+    data: {
+      coach: {
+        health: { name: 'Docteur Robuste', role: 'Coach santé', line: 'Repère les signaux du corps en premier' },
+        mind: { name: 'Mind May', role: 'Coach mental', line: 'Accorde le rythme du mental et de l’apprentissage' },
+        music: { name: 'Maestro Lee', role: 'Coach musique', line: 'Ajoute une mélodie à vos journées' },
+        life: { name: 'Architecte Jin', role: 'Coach routines et stratégie', line: 'Transforme les journées dispersées en structure' }
+      },
+      cat: { health: 'Santé', mind: 'Esprit', study: 'Études', music: 'Musique', hobby: 'Loisir', life: 'Vie', work: 'Concentration' },
+      presets: {
+        strength: 'Musculation', running: 'Course et cardio', yoga: 'Yoga et étirements',
+        walk: 'Marche légère', water: 'Eau et compléments', english: 'Étudier l’anglais',
+        study: 'Études et certification', reading: 'Lecture et écriture',
+        meditation: 'Méditation et pleine conscience', music: 'Pratique d’un instrument'
+      },
+      presetQuery: {
+        running: 'guide de course débutant posture et allure',
+        yoga: 'routine de yoga et étirements 15 minutes par jour',
+        walk: 'bienfaits de la marche après les repas',
+        study: 'routine de concentration pomodoro',
+        reading: 'comment prendre l’habitude de lire chaque jour',
+        meditation: 'guide de méditation débutant 10 minutes'
+      },
+      ranks: ['Chevalier apprenti', 'Chevalier gardien', 'Paladin', 'Commandeur radieux', 'Gardien du royaume',
+              'Chevalier de l’aube', 'Paladin d’argent', 'Commandeur doré', 'Gardien de la couronne', 'Roi chevalier légendaire'],
+      strength: [
+        { focus: 'Étirements complets', desc: 'S’assouplir et récupérer' },
+        { focus: 'Squats · bas du corps', desc: 'Squats 15 × 3 séries' },
+        { focus: 'Pompes · haut du corps', desc: 'Pompes 10 × 3 séries' },
+        { focus: 'Gainage · centre', desc: 'Gainage 30 s × 3 séries' },
+        { focus: '10 min corps entier', desc: 'Trois mouvements, 2 tours' },
+        { focus: 'Dos et épaules', desc: 'Tirage élastique et développé' },
+        { focus: 'Jambes + étirements', desc: 'Fentes et pont de hanches' }
+      ],
+      missions: [
+        { t: '60 secondes de soleil et de respiration', d: 'Une minute près de la fenêtre, yeux fermés', tip: 'La lumière du matin règle l’horloge du corps. Une minute suffit.' },
+        { t: 'Une minute d’étirements cou et épaules', d: 'Tête lentement à gauche et à droite, épaules en arrière', tip: 'Une minute détend un cou raidi par la position assise.' },
+        { t: 'Boire un grand verre d’eau', d: 'Là où vous êtes, doucement jusqu’au bout', tip: 'L’eau bue avant la soif est la meilleure.' },
+        { t: 'Prendre les escaliers une fois', d: 'Un étage au lieu de l’ascenseur', tip: 'Même un étage réveille jambes et souffle.' },
+        { t: 'Écrire une ligne de gratitude', d: 'Application ou papier, une bonne chose aujourd’hui', tip: 'La gratitude écrite reste plus longtemps.' },
+        { t: 'Trois minutes sur un riff de guitare', d: 'Une phrase en boucle suffit', tip: 'Un riff que les doigts connaissent, c’est déjà de la pratique.' },
+        { t: 'Douze mesures de blues à la basse', d: 'Faire rouler le grave sur la grille', tip: 'Le blues de douze mesures, c’est la condition physique du bassiste.' },
+        { t: '30 secondes de respiration lente', d: 'Expirer longuement en se lavant les mains', tip: 'Une longue expiration relâche la tension.' },
+        { t: 'Regarder le ciel 30 secondes', d: 'Loin de l’écran, regarder au loin', tip: 'Regarder loin repose les muscles de la mise au point.' },
+        { t: 'Dix squats, tout de suite', d: 'Sans chaise, lentement, dix fois', tip: 'Dix par jour restent un signal pour les muscles.' },
+        { t: '30 secondes de mollet contre le mur', d: 'Un pied devant, talon au sol', tip: 'Étirer les mollets soulage les jambes gonflées.' },
+        { t: 'Chanter une ligne d’une chanson aimée', d: 'Fort, c’est très bien', tip: 'Chanter change l’humeur le plus vite.' },
+        { t: 'Cinq respirations dos droit', d: 'Assis au bord de la chaise, colonne haute', tip: 'Un dos droit ouvre les poumons.' },
+        { t: '20 secondes les yeux fermés', d: 'Compter simplement le souffle', tip: 'Une courte pause rend la concentration de l’après-midi.' },
+        { t: 'Penser à une personne reconnaissante', d: 'Son visage et sa voix', tip: 'Y penser suffit à réchauffer.' },
+        { t: 'Remplir une bouteille sur le bureau', d: 'L’eau visible est l’eau bue', tip: 'L’eau qu’on voit est celle qu’on boit.' },
+        { t: 'Marcher dehors 5 minutes', d: 'Un tour du bâtiment', tip: 'Cinq minutes suffisent à changer l’humeur.' },
+        { t: 'Rotations d’épaules, 10 de chaque côté', d: 'Lentement et grand, laissez craquer', tip: 'Rouler les épaules détend la nuque.' },
+        { t: 'Mains chaudes sur les yeux', d: '20 secondes de paumes chaudes', tip: 'Vingt secondes couvertes reposent les yeux.' },
+        { t: 'Gainage 20 secondes', d: 'Sur les genoux, c’est permis', tip: '20 secondes est le minimum pour réveiller le centre.' },
+        { t: '30 secondes d’air extérieur', d: 'Ouvrir la fenêtre, renouveler l’air', tip: 'L’air frais est le moyen le plus rapide de clarifier l’esprit.' },
+        { t: 'Un mot à votre famille', d: 'Un message court suffit', tip: 'Une ligne nourrit une relation.' },
+        { t: 'Photographier le ciel du soir', d: 'Garder le ciel d’aujourd’hui', tip: 'Une photo fait durer la journée.' },
+        { t: 'Dire une chose bien faite', d: 'À voix haute, pour vous', tip: 'Un compliment dit à voix haute devient confiance.' },
+        { t: '15 élévations de talons', d: 'Debout ou assis, une pompe à mollets', tip: 'Les talons renvoient le sang vers le cœur.' },
+        { t: 'Quatre respirations, main sur le cœur', d: 'Inspirer, expirer, quatre fois', tip: 'La chaleur et le souffle lent apaisent.' }
+      ],
+      challenges: [
+        { title: 'Boire 1,5 L d’eau', desc: 'Doucement toute la journée', tip: 'Manquer d’eau fatigue davantage. Commencez par une bouteille sur le bureau.' },
+        { title: 'Marcher 10 minutes après le déjeuner', desc: 'Un petit tour', tip: 'Marcher après manger adoucit le pic de glycémie.' },
+        { title: 'Pas de téléphone une heure avant le lit', desc: 'Chargeur hors de la chambre', tip: 'Les écrans brillants retardent le sommeil. Gardez un livre ou de la musique.' },
+        { title: 'Cinq minutes d’étirements', desc: 'Cou, épaules, dos dans l’ordre', tip: 'Plus vous êtes resté assis, plus ces cinq minutes rendent.' },
+        { title: 'Monter trois étages à pied', desc: 'Une fois aujourd’hui, sans ascenseur', tip: 'Même quelques étages travaillent jambes et cœur.' },
+        { title: 'Envoyer un petit bonjour à quelqu’un', desc: 'Une ligne suffit', tip: 'Les relations fonctionnent comme les muscles : on les utilise et elles progressent.' },
+        { title: 'Écouter une chanson attentivement', desc: 'Trois minutes sans rien d’autre', tip: 'Écouter de près allège le stress.' },
+        { title: '3 séries de respiration 4-7-8', desc: 'Inspirer 4 s, retenir 7 s, expirer 8 s', tip: 'La longue expiration détend. Essayez maintenant.' },
+        { title: 'Ajouter un accompagnement protéiné', desc: 'Œuf, tofu, poisson ou poulet', tip: 'Garder du muscle demande autant de protéines que d’exercice.' },
+        { title: 'Dix minutes de méditation ou marche calme', desc: 'Téléphone dans la poche', tip: 'Dix minutes de rien ramènent la concentration.' },
+        { title: 'Cinq minutes de gammes', desc: 'Aux doigts plutôt qu’au son', tip: 'Cinq minutes de gammes réveillent les mains.' },
+        { title: 'Se redresser et respirer une minute', desc: 'Là où vous êtes assis', tip: 'Se redresser approfondit le souffle.' },
+        { title: 'Dire trois expressions anglaises à voix haute', desc: 'Choisies dans Duolingo ou Malhaeboca', tip: 'Les phrases prononcées restent plus longtemps.' },
+        { title: 'Un repas sans téléphone', desc: 'Se concentrer sur l’assiette', tip: 'Manger lentement rassasie plus vite.' },
+        { title: 'Chanter un refrain que vous aimez', desc: 'Une ligne suffit', tip: 'Chanter change l’humeur le plus vite.' },
+        { title: 'Noter trois réussites avant le lit', desc: 'Papier ou notes', tip: 'Le cerveau retient ce qu’il écrit. C’est la confiance de demain.' },
+        { title: '15 minutes de marche au coucher du soleil', desc: 'Cherchez la lumière si possible', tip: 'Marcher le soir avance l’heure du coucher.' },
+        { title: 'Sauter les boissons sucrées une fois', desc: 'Une seule fois', tip: 'Le sucre liquide cache la faim.' }
+      ],
+      msg: {
+        check: {
+          wake: ['{wake} noté ! Protéger le matin change toute la journée, un peu à la fois.',
+                 'Cinq minutes de lumière au lever rendent le rythme plus léger.',
+                 'Un matin à l’heure, c’est déjà la moitié gagnée.'],
+          sleep: ['{sleep}, préparation du coucher — bien. Le sommeil est le seul temps de réparation.',
+                  'Un coucher régulier construit le lever de demain.',
+                  'Se coucher dix minutes plus tôt suffit aujourd’hui.'],
+          strength: ['Musculation faite ! Après 40 ans le muscle part un peu chaque année : les 25 minutes d’aujourd’hui comptent.',
+                     'Squats, pompes, gainage — vous avez investi dans votre corps.',
+                     'Le muscle est l’une des rares choses qui se construit encore avec l’âge.'],
+          english: ['Dix minutes d’anglais ont tracé un chemin de plus dans votre cerveau.',
+                    'Duolingo et Malhaeboca : court mais quotidien devient une langue.',
+                    'Dites une expression à voix haute et elle reste deux fois mieux.'],
+          music: ['{insts} terminé ! La mémoire des doigts s’efface en quelques jours — bien rempli aujourd’hui.',
+                  'Jouer baisse le stress et affine la concentration.',
+                  'Ces 20 minutes changent le rythme de votre semaine.'],
+          challenge: ['Défi réussi ! Une journée qui essaie du neuf reste en mémoire.',
+                      'Un petit défi empêche la routine de s’encrasser.',
+                      'C’était la mission du jour. Demain en apporte une autre.'],
+          _default: ['{task} fait ! Une case de plus aujourd’hui.',
+                     '{task} coché — une petite case qui change une journée.',
+                     '{name}, vous avez fait {task}. Le reste, doucement.']
+        },
+        uncheck: {
+          wake: 'Décoché. Essayez {wake} demain.',
+          sleep: 'Ce n’est rien. Essayez de vous coucher un peu plus tôt ce soir.',
+          strength: 'Votre corps veut peut-être du repos. Reprenez léger demain.',
+          english: 'Même brièvement, c’est bien. Cinq minutes suffisent.',
+          music: 'La musique dure quand elle amuse. Se reposer aujourd’hui est permis.',
+          challenge: 'À demain. Ce que vous avez fait aujourd’hui suffisait déjà.',
+          _default: 'Décoché. Vous pouvez réessayer.'
+        },
+        allDone: {
+          health: 'Les {n} sont faits ! Vous avez écrit cette journée dans votre corps. Demain sera plus léger.',
+          mind: 'Vous avez tenu toutes vos promesses aujourd’hui. C’est cela, le respect de soi.',
+          music: 'Tour complet ! Jouez une mesure de ce que vous aimez et fermez la journée.',
+          life: 'Tout est coché, {name}. C’est ainsi qu’une journée devient une structure.',
+          _default: '{name}, toutes les routines sont faites ! Ces journées construisent la semaine prochaine.'
+        },
+        cheer: {
+          health: ['Buvez un verre d’eau et roulez les épaules. C’est le début.',
+                   'Dix squats — même maintenant, vos muscles répondent.',
+                   'Redressez-vous et le souffle s’approfondit. Essayez.',
+                   'Éloignez un peu le téléphone avant le lit et le sommeil s’améliore.',
+                   'Dix minutes de marche changent l’humeur. Après le déjeuner, c’est parfait.'],
+          mind: ['Notez trois choses réussies. Le cerveau s’en souviendra.',
+                 'Inspirez quatre, expirez six. Trois minutes suffisent.',
+                 'Pas besoin d’être parfait. Une case aujourd’hui suffit.',
+                 'Envoyez un petit bonjour. Les relations travaillent comme les muscles.',
+                 'Nommez ce que vous ressentez. C’est déjà un pas.'],
+          music: ['Écoutez trois minutes une chanson aimée. L’oreille apprend d’abord.',
+                  'Dix minutes par jour restent mieux qu’une heure par semaine.',
+                  'Changer le son une fois, c’est de la pratique. Commencez par l’ampli.',
+                  'La basse dialogue avec la batterie. Écoutez seulement la ligne de basse aujourd’hui.',
+                  'Apprenez une mesure avant le week-end et vous en profiterez mieux.',
+                  'Dix minutes de guitare et dix de basse, c’est bien aussi.'],
+          life: ['{name}, choisissez une seule chose aujourd’hui. Petit dure plus longtemps.',
+                 'La routine vient de l’ordre, pas du temps. Commencez par le plus simple.',
+                 'Vous êtes à {done}/{total}. Choisissez-en une pour finir la journée.',
+                 'Un seul rappel aujourd’hui libère le vous de demain.']
+        },
+        streak: ['{n} jours d’affilée ! À ce stade, c’est l’habitude, pas la volonté.',
+                 '{n} jours de suite — impressionnant. Ne pas casser la chaîne est la clé.',
+                 '{n} jours d’affilée. Votre corps connaît déjà ce rythme.'],
+        inst: {
+          0: ['{inst1} terminé ! Le son et le poignet comptent : ces 15 minutes deviennent du son.',
+              '{inst1} sonne bien. Essayez propre une fois, plus fort une fois — les mains retiennent.',
+              '15 minutes sur {inst1}. Relâchez le médiator et vous jouerez plus longtemps.'],
+          1: ['{inst2} terminé ! Le grave tient la chanson, le groove d’aujourd’hui reste.',
+              '{inst2}, bien. Tapez le tempo avec la main et le rythme se solidifie.',
+              '15 minutes sur {inst2}. Écoutez seulement la ligne de basse d’un morceau.']
+        },
+        both: ['{inst1} et {inst2} — doigts actifs aujourd’hui !',
+               'Deux instruments faits. Mélodie à la guitare, racines à la basse : amusez-vous.']
+      },
+      rpg: {
+        start: ['Chevalier, il est temps de tirer la première épée du jour. Une petite chose suffit.',
+                'Le matin est encore calme. Ouvrez la journée par une routine.',
+                'Le royaume attend. Remplissez une seule case.'],
+        progress: ['{done} faits. Ne perdez pas ce flux.',
+                   'La prise se raffermit. Encore {remain} — doucement.',
+                   'L’énergie monte. La couronne brillera à ce rythme.'],
+        mission: ['Vous avez pris la mission inattendue ! Un chevalier qui saisit le hasard devient fort.',
+                  'Vous avez trouvé un trésor caché. La chance du jour est à vous.',
+                  'Faire l’imprévu est une vraie compétence. Bien joué.'],
+        all: ['Les {n} routines sont faites ! Vous avez gardé la journée entière.',
+              'Tout est terminé. Cette journée entrera dans les annales du royaume.'],
+        perfect: ['Routines et mission inattendue — une journée parfaite !',
+                  'Une journée radieuse. La couronne n’a jamais autant brillé.'],
+        levelup: ['Un nouveau titre vous va bien, {rank} !',
+                  'Un pas de plus. Gardez aujourd’hui au nom de {rank}.'],
+        cleared: ['Mission inattendue réussie ! +50 EXP et 10 minutes de vie.',
+                  'Mission aléatoire validée ! Les sens du chevalier sont vifs.']
+      }
+    }
+  }
+};
+</script>
 
 <script>
 (function(){
@@ -820,26 +1956,49 @@ input,select{font:inherit}
 
   /* =================constants================= */
   var STORAGE_KEY = 'routine-app-v1';
-  var USER_NAME = '루크김';
+  var DEFAULT_NAME = '루크김';
   var WEEKDAYS = ['일','월','화','수','목','금','토'];
 
   var COACHES = {
     health:{ key:'health', name:'닥터 튼튼', role:'건강 코치', emoji:'🩺', tone:'mint',
       line:'몸의 신호를 가장 먼저 살펴요' },
     mind:{ key:'mind', name:'마인드 메이', role:'심리 코치', emoji:'🌿', tone:'violet',
-      line:'마음의 리듬을 함께 맞춰요' },
+      line:'마음과 배움의 리듬을 함께 맞춰요' },
     music:{ key:'music', name:'마에스트로 리', role:'음악 코치', emoji:'🎼', tone:'amber',
-      line:'삶에 선율을 더하는 코치' }
+      line:'삶에 선율을 더하는 코치' },
+    life:{ key:'life', name:'아키텍트 진', role:'루틴·전략 코치', emoji:'🧭', tone:'sky',
+      line:'흩어진 하루를 구조로 바꿔요' }
   };
+  var COACH_ORDER = ['health','mind','music','life'];
 
-  var HABITS = [
-    { id:'wake', title:'기상 시간 지키기', icon:'☀️', minutes:8, exp:20, coach:'health', tone:'t-amber' },
-    { id:'sleep', title:'취침 시간 지키기', icon:'🌙', minutes:10, exp:20, coach:'health', tone:'t-violet' },
-    { id:'strength', title:'근력 유지 운동', icon:'💪', minutes:25, exp:25, coach:'health', tone:'t-mint' },
-    { id:'english', title:'영어 공부', icon:'🦉', minutes:10, exp:20, coach:'mind', tone:'t-violet' },
-    { id:'music', title:'악기 연습', icon:'🎵', minutes:15, exp:25, coach:'music', tone:'t-amber', weekend:true },
-    { id:'challenge', title:'오늘의 도전', icon:'🎲', minutes:12, exp:20, coach:'mind', tone:'t-amber' }
+  /* ===== 주제 분류 → 코치 자동 매칭 ===== */
+  var CATEGORIES = {
+    health:{ label:'건강', coach:'health' },
+    mind:{ label:'마음', coach:'mind' },
+    study:{ label:'공부', coach:'mind' },
+    music:{ label:'음악', coach:'music' },
+    hobby:{ label:'취미', coach:'music' },
+    life:{ label:'생활', coach:'life' },
+    work:{ label:'일·집중', coach:'life' }
+  };
+  var CAT_KEYS = ['health','mind','study','music','hobby','life','work'];
+
+  /* ===== 프리셋 주제 (온보딩과 설정에서 바로 고를 수 있어요) ===== */
+  var TASK_PRESETS = [
+    { id:'strength', title:'근력 운동', icon:'💪', category:'health', minutes:25, exp:25, schedule:'daily', link:{ type:'strength' } },
+    { id:'running', title:'러닝·유산소', icon:'🏃', category:'health', minutes:20, exp:22, schedule:'daily', link:{ type:'search', q:'초보 러닝 자세와 페이스 가이드' } },
+    { id:'yoga', title:'요가·스트레칭', icon:'🧘', category:'health', minutes:15, exp:20, schedule:'daily', link:{ type:'search', q:'매일 15분 요가 스트레칭 루틴' } },
+    { id:'walk', title:'가벼운 산책', icon:'🚶', category:'health', minutes:15, exp:18, schedule:'daily', link:{ type:'search', q:'식후 걷기 건강 효과 가이드' } },
+    { id:'water', title:'물 마시기·영양제', icon:'💧', category:'health', minutes:5, exp:15, schedule:'daily', link:{ type:'none' } },
+    { id:'english', title:'영어 공부', icon:'🦉', category:'study', minutes:10, exp:20, schedule:'daily', link:{ type:'apps' } },
+    { id:'study', title:'공부·자격증', icon:'📝', category:'study', minutes:30, exp:25, schedule:'daily', link:{ type:'search', q:'집중 공부 타이머 뽀모도로 루틴' } },
+    { id:'reading', title:'독서·글쓰기', icon:'📚', category:'mind', minutes:20, exp:20, schedule:'daily', link:{ type:'search', q:'매일 독서 습관 만드는 법' } },
+    { id:'meditation', title:'명상·마음챙김', icon:'🌿', category:'mind', minutes:10, exp:20, schedule:'daily', link:{ type:'search', q:'초보 명상 10분 가이드' } },
+    { id:'music', title:'악기 연습', icon:'🎵', category:'music', minutes:15, exp:25, schedule:'weekend', link:{ type:'music' } }
   ];
+
+  /* 지금 화면에 그릴 루틴 목록(기상·취침 + 내 태스크 + 오늘의 도전). state 에 맞춰 다시 만듭니다 */
+  var HABITS = [];
 
   /* ===== 검증된 유튜브 영상 라이브러리: 총 654개 =====
      유튜브 oembed(HTTP 200)로 제목·채널을 확인한 영상만 담았어요. id -> [제목, 채널] */
@@ -1596,6 +2755,11 @@ input,select{font:inherit}
         '오늘의 도전 성공! 새로운 걸 해본 하루는 오래 기억에 남아요.',
         '작은 도전 하나가 루틴을 지루하지 않게 만들어요.',
         '이건 오늘만의 미션이었어요. 내일은 또 다른 도전이 기다려요.'
+      ],
+      _default:[
+        '{task} 완료! 오늘 한 칸을 더 채웠어요.',
+        '{task} 체크, 이 작은 칸이 하루를 조금씩 바꿔요.',
+        '{name}님, {task}까지 해냈어요. 남은 칸도 천천히 가요.'
       ]
     },
     uncheck:{
@@ -1604,12 +2768,14 @@ input,select{font:inherit}
       strength:'몸이 쉬고 싶다는 신호일 수도 있어요. 내일 가볍게 다시 시작해요.',
       english:'짧게라도 다시 해보면 좋아요. 5분이면 충분해요.',
       music:'음악은 재미있을 때 오래 가요. 오늘은 쉬어가도 괜찮아요.',
-      challenge:'도전은 내일 다시 만나요. 오늘 한 것만으로도 충분히 잘하셨어요.'
+      challenge:'도전은 내일 다시 만나요. 오늘 한 것만으로도 충분히 잘하셨어요.',
+      _default:'체크를 풀었어요. 다시 해보면 좋아요.'
     },
     allDone:{
       health:'여섯 개 전부 완료! 오늘 하루를 몸에 잘 새기셨어요. 내일 아침이 더 가벼울 거예요.',
       mind:'오늘 스스로와 한 약속을 모두 지키셨어요. 이게 자존감의 실체예요.',
-      music:'완주! 일렉트릭 기타든 베이스든, 좋아하는 곡 한 소절만 연주하고 하루를 마무리해봐요.'
+      music:'완주! 일렉트릭 기타든 베이스든, 좋아하는 곡 한 소절만 연주하고 하루를 마무리해봐요.',
+      _default:'{name}님, 오늘 루틴을 모두 채웠어요! 이 하루가 쌓여 다음 주를 만들어요.'
     },
     inst:{
       0:[
@@ -1649,6 +2815,12 @@ input,select{font:inherit}
         '{inst2}는 드럼과 대화하는 악기예요. 오늘은 베이스 라인만 귀 기울여 들어보세요.',
         '주말 연주를 위해 이번 주에 한 소절만 미리 익혀두면 좋아요.',
         '{inst1}과 {inst2}, 오늘은 10분씩 번갈아 연주해도 좋아요.'
+      ],
+      life:[
+        '{name}님, 오늘 할 일을 딱 하나만 정해봐요. 작은 게 오히려 오래 가요.',
+        '루틴은 시간이 아니라 순서에서 나와요. 가장 쉬운 것부터 채워볼까요?',
+        '오늘 {done}/{total}칸이에요. 남은 칸 하나만 골라 마무리해봐요.',
+        '리마인더를 하나만 걸어두면 내일의 내가 훨씬 편해져요.'
       ]
     },
     streak:[
@@ -1739,6 +2911,228 @@ input,select{font:inherit}
     ]
   };
 
+  /* =================i18n================= */
+  var I18N = window.HARU_I18N || {};
+  var LANGS = ['ko', 'en', 'fr'];
+  var LANG_LABEL = { ko:'한국어', en:'English', fr:'Français' };
+  var BASE = {
+    coaches: COACHES, categories: CATEGORIES, presets: TASK_PRESETS,
+    missions: MISSIONS, challenges: CHALLENGES, ranks: RANKS,
+    strength: STRENGTH_DAYS, msg: MSG, rpg: RPG_LINES, weekdays: WEEKDAYS
+  };
+  var staticNodes = null;
+
+  function lang(){
+    if(state && state.lang && I18N[state.lang]) return state.lang;
+    return 'ko';
+  }
+  function pack(){ return I18N[lang()] || null; }
+  function uiText(key){ var p = pack(); return (p && p.ui && p.ui[key] != null) ? p.ui[key] : null; }
+  function fmtVars(str, vars){
+    if(!vars) return String(str);
+    return String(str).replace(/\{(\w+)\}/g, function(m, k){ return (vars[k] != null) ? vars[k] : m; });
+  }
+  function T(key, ko, vars){ var v = uiText(key); return fmtVars(v != null ? v : (ko != null ? ko : key), vars); }
+
+  function resolveLang(cur){
+    var q = null;
+    try{ q = new URLSearchParams(location.search).get('lang'); }catch(e){ q = null; }
+    if(q && I18N[q]) return q;
+    if(cur && I18N[cur]) return cur;
+    try{ var st = localStorage.getItem('haru-lang'); if(st && I18N[st]) return st; }catch(e){}
+    var n = String((navigator.language || 'ko')).slice(0, 2).toLowerCase();
+    return I18N[n] ? n : 'ko';
+  }
+
+  function mergeI18n(base, over){
+    if(!over) return base;
+    if(Array.isArray(base)) return base.map(function(v, i){ return over[i] != null ? over[i] : v; });
+    if(base && typeof base === 'object'){
+      var out = {};
+      Object.keys(base).forEach(function(k){ out[k] = (over && over[k] != null) ? mergeI18n(base[k], over[k]) : base[k]; });
+      return out;
+    }
+    return over != null ? over : base;
+  }
+
+  function presetById(id){
+    for(var i = 0; i < TASK_PRESETS.length; i++) if(TASK_PRESETS[i].id === id) return TASK_PRESETS[i];
+    return null;
+  }
+  function presetForTask(t){
+    if(!t) return null;
+    if(t.preset === null || t.preset === '') return null;   /* 직접 고친 태스크 */
+    return presetById(t.preset || t.id || '');
+  }
+  /* 언어를 바꾸면 미리 골라 둔 콘텐츠 검색어도 그 언어로 바뀝니다 */
+  function linkForTask(t){
+    if(!t) return { type:'none' };
+    var p = presetForTask(t);
+    if(t.linkAuto && p && p.link) return p.link;
+    return t.link || { type:'none' };
+  }
+  function taskTitleOf(t){
+    var p = presetForTask(t);
+    return (p && p.title) || (t && t.title) || '';
+  }
+
+  function applyLang(){
+    var p = pack(), d = (p && p.data) || null;
+    var coaches = {};
+    Object.keys(BASE.coaches).forEach(function(k){
+      var c = BASE.coaches[k], tr = d && d.coach && d.coach[k];
+      coaches[k] = tr ? Object.assign({}, c, tr) : c;
+    });
+    COACHES = coaches;
+    var cats = {};
+    Object.keys(BASE.categories).forEach(function(k){
+      cats[k] = { label: (d && d.cat && d.cat[k]) || BASE.categories[k].label, coach: BASE.categories[k].coach };
+    });
+    CATEGORIES = cats;
+    TASK_PRESETS = BASE.presets.map(function(ps){
+      var title = (d && d.presets && d.presets[ps.id]) || ps.title;
+      var q = d && d.presetQuery && d.presetQuery[ps.id];
+      var link = (q && ps.link && ps.link.type === 'search') ? { type:'search', q:q } : ps.link;
+      return Object.assign({}, ps, { title:title, link:link });
+    });
+    MISSIONS = BASE.missions.map(function(m, i){
+      var tr = d && d.missions && d.missions[i];
+      return tr ? Object.assign({}, m, { t:tr.t || m.t, d:tr.d || m.d, tip:tr.tip || m.tip }) : m;
+    });
+    CHALLENGES = BASE.challenges.map(function(c, i){
+      var tr = d && d.challenges && d.challenges[i];
+      return tr ? Object.assign({}, c, { title:tr.title || c.title, desc:tr.desc || c.desc, tip:tr.tip || c.tip }) : c;
+    });
+    RANKS = BASE.ranks.map(function(r, i){
+      var tr = d && d.ranks && d.ranks[i];
+      return tr ? Object.assign({}, r, { name:tr }) : r;
+    });
+    STRENGTH_DAYS = BASE.strength.map(function(s, i){
+      var tr = d && d.strength && d.strength[i];
+      return tr ? Object.assign({}, s, tr) : s;
+    });
+    WEEKDAYS = (p && p.weekdays) || BASE.weekdays;
+    MSG = mergeI18n(BASE.msg, d && d.msg);
+    RPG_LINES = mergeI18n(BASE.rpg, d && d.rpg);
+  }
+
+  /* 정적인 화면 문구는 한국어 원문을 키 삼아 번역합니다 (마크업은 그대로) */
+  var KO_TEXT = {
+    '하루':'appName',
+    '오늘 더해진 기대수명':'heroEyebrow', '계산 근거':'formulaBtn',
+    '루틴을 체크할 때마다 여기에 쌓여요':'heroSub',
+    '누적 기대수명':'statTotal', '지금 기대수명':'statProj',
+    '지금까지':'lifeNow', '예상':'lifeTarget',
+    '오늘의 루틴':'secRoutines', '뜻밖의 랜덤 미션':'secMission', '오늘의 도전':'secChallenge',
+    '분':'heroUnit', '+8분':'obPlus8', '+10분':'obPlus10', '+12분':'challengePlus',
+    '🎲 오늘의 뜻밖의 랜덤 미션':'missionChip',
+    '고른 주제에 맞춰 코치를 자동으로 붙였어요. 응원받고 싶은 코치만 남겨도 돼요.':'obCoachTop',
+    '고른 주제에 맞는 코치가 자동으로 붙어요. 직접 켜고 끌 수 있어요.':'coachHint',
+    'RPG 카드에 함께하는 기사예요. 언제든 설정에서 바꿀 수 있어요.':'companionHint',
+    'Lv. 2 · 수호 기사':'lvSample', '새로운 칭호가 기다려요':'lvSubSample',
+    '선택 안 함':'companionUnset', '남성':'companionMale', '여성':'companionFemale',
+    '생명표를 참고한 대략값이에요. 직접 고쳐도 돼요.':'obBaseNote',
+    '코치 한마디':'secCoachLine', '전체 보기':'seeAll', '이번 주':'secWeek',
+    '오늘의 뜻밖의 랜덤 미션':'missionChip', '↻ 다른 미션':'otherMission',
+    '🎲 오늘만의 미션':'chChip', '매일 하나':'missionEvery', '매일 바뀌어요':'challengeEveryDay',
+    '기록':'historyTitle', '쌓인 시간은 사라지지 않아요':'historySub',
+    '연속 달성':'statStreak', '최근 7일 달성일':'statWeekDays', '최근 7일 더한 시간':'statWeekMin',
+    '최근 7일':'last7', '루틴별 이번 주':'perRoutine', '체크한 날':'checkedDays',
+    '최근 4주':'last4weeks', '진할수록 많이 채운 날':'heatLegend', '적음':'less', '많음':'more',
+    '코치':'coachTitle', '💌 코치에게 응원받기':'cheerBtn', '코치 피드':'coachFeed', '비우기':'clearFeed',
+    '오늘':'tabToday', '설정':'setTitle', '기대수명 계산 근거':'formulaTitle',
+    '프로필':'profileSec', '이름':'obName', '나이':'obAge', '기준 기대수명 (세)':'setBase',
+    '기상 시간 · 월–토':'setWake', '기상 시간 · 일요일 (새벽미사)':'setWakeSun',
+    '취침 시간':'setSleep', '악기 연습 루틴에 쓸 악기':'setInstr', '화면 테마':'setTheme',
+    '자동':'themeAuto', '라이트':'themeLight', '다크':'themeDark', '저장하기':'saveBtn',
+    '모든 기록 초기화':'resetAll', '내 태스크':'myTasks',
+    '+ 태스크 추가 (프리셋 · 직접 입력)':'addTask',
+    '태스크 이름':'taskName', '분류':'category', '일정':'schedule', '매일':'daily', '주말':'weekend',
+    '분량 (분)':'minutes', '콘텐츠 검색어 (선택)':'query', '콘텐츠 주소 (선택)':'url',
+    '취소':'cancel', '저장':'save', '추가':'addBtn',
+    '온보딩':'onboardingSec', '온보딩 다시 실행':'reopenOnboarding',
+    '이름 · 나이 · 주제를 처음부터 다시 고를 수 있어요. 기록은 그대로 남아요.':'reopenHint',
+    "크롬 메뉴 ⋮ → '홈 화면에 추가'를 누르면 앱처럼 열려요.":'installHint',
+    '언어':'language', '동반자 캐릭터':'companion',
+    '이렇게 연결돼요':'obPreviewTitle', '기본 루틴':'obFixed', '기상 시간':'obWakeShort',
+    '주제 이름':'obCustomTitle', '+ 직접 주제 추가':'obCustomAdd',
+    '기상 시간 · 주말·일요일 (선택)':'obWakeSun'
+  };
+  var KO_PH = {
+    '이름을 알려주세요':'obNamePh', '예: 40':'obAgePh', '이름을 적어 주세요':'setNamePh',
+    '예: 저녁 스트레칭':'taskNamePh', '예: 요가 스트레칭 루틴':'queryPh',
+    'https://...':null, '예: 일본어 단어 20개':'obCustomPh',
+    '예: 일본어 단어 암기법 / https://...':'obCustomQPh',
+    '예: 일렉트릭 기타':'instrPh1', '예: 베이스':'instrPh2'
+  };
+  var KO_ARIA = {
+    '닫기':'closed', '설정 열기':'openSettings', '응원받기':'cheerAria',
+    '다른 영상 보기':'ytNext', '영어 공부 앱 열기':'appsAria'
+  };
+
+  function collectStatic(){
+    if(staticNodes) return staticNodes;
+    staticNodes = { text: [], ph: [], aria: [] };
+    try{
+      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+      var n;
+      while((n = walker.nextNode())){
+        var s = String(n.nodeValue);
+        var key = KO_TEXT[s.trim()];
+        if(key) staticNodes.text.push({ node:n, key:key, ko:s });
+      }
+      $$('[placeholder]').forEach(function(el){
+        var v = el.getAttribute('placeholder') || '';
+        var key = KO_PH[v];
+        if(key) staticNodes.ph.push({ el:el, key:key, ko:v });
+      });
+      $$('[aria-label]').forEach(function(el){
+        var v = el.getAttribute('aria-label') || '';
+        var key = KO_ARIA[v];
+        if(key) staticNodes.aria.push({ el:el, key:key, ko:v });
+      });
+    }catch(e){}
+    return staticNodes;
+  }
+
+  function applyStatic(){
+    var st = collectStatic(), L = lang();
+    st.text.forEach(function(it){
+      var v = uiText(it.key);
+      it.node.nodeValue = (v == null) ? it.ko : it.ko.replace(it.ko.trim(), v);
+    });
+    st.ph.forEach(function(it){
+      var v = uiText(it.key);
+      it.el.setAttribute('placeholder', v == null ? it.ko : v);
+    });
+    st.aria.forEach(function(it){
+      var v = uiText(it.key);
+      it.el.setAttribute('aria-label', v == null ? it.ko : v);
+    });
+    document.documentElement.setAttribute('lang', L);
+    ['#inpLang', '#obLang'].forEach(function(sel){ var el = $(sel); if(el) el.value = L; });
+  }
+
+  function setLang(l){
+    if(l !== 'ko' && !I18N[l]) return;
+    state.lang = l;
+    /* 주소의 ?lang 도 함께 맞춰 새로고침해도 같은 언어로 열리게 합니다 */
+    try{
+      var u = new URL(location.href);
+      if(l === 'ko') u.searchParams.delete('lang'); else u.searchParams.set('lang', l);
+      history.replaceState(null, '', u.toString());
+    }catch(e){}
+    try{ localStorage.setItem('haru-lang', l); }catch(e){}
+    applyLang();
+    applyStatic();
+    rebuildHabits();
+    shown = { today:-1, total:-1, proj:-1 };
+    save();
+    renderAll();
+    if(openSheetId === 'sheetSettings') fillSettings();
+    if($('#onboard') && $('#onboard').classList.contains('on')) obRender();
+  }
+
   /* =================utils================= */
   function $(sel, root){ return (root || document).querySelector(sel); }
   function $$(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
@@ -1775,16 +3169,16 @@ input,select{font:inherit}
   }
   function fmtMinutes(m){
     m = Math.max(0, Math.round(m));
-    if(m < 60) return m + '분';
+    if(m < 60) return T('fmtMin', '{n}분', { n:m });
     var h = Math.floor(m / 60), mm = m % 60;
-    return mm ? h + '시간 ' + mm + '분' : h + '시간';
+    return mm ? T('fmtHourMin', '{h}시간 {m}분', { h:h, m:mm }) : T('fmtHour', '{h}시간', { h:h });
   }
   function fmtTotal(m){
     m = Math.max(0, Math.round(m));
     var d = Math.floor(m / 1440), h = Math.floor((m % 1440) / 60), mm = m % 60, out = [];
-    if(d) out.push(d + '일');
-    if(h) out.push(h + '시간');
-    if(mm || out.length === 0) out.push(mm + '분');
+    if(d) out.push(T('fmtDay', '{n}일', { n:d }));
+    if(h) out.push(T('fmtHour', '{h}시간', { h:h }));
+    if(mm || out.length === 0) out.push(T('fmtMin', '{n}분', { n:mm }));
     return out.join(' ');
   }
   function fmtYears(y){ return (Math.round(y * 100) / 100).toFixed(2); }
@@ -1793,9 +3187,10 @@ input,select{font:inherit}
   }
   function relTime(ts){
     var diff = Date.now() - ts;
-    if(diff < 60000) return '방금';
-    if(diff < 3600000) return Math.floor(diff / 60000) + '분 전';
-    var d = new Date(ts), h = d.getHours(), ap = h < 12 ? '오전' : '오후', hh = h % 12 || 12;
+    if(diff < 60000) return T('relNow', '방금');
+    if(diff < 3600000) return T('relAgo', '{n}분 전', { n:Math.floor(diff / 60000) });
+    var d = new Date(ts), h = d.getHours(), hh = h % 12 || 12;
+    var ap = h < 12 ? T('am', '오전') : T('pm', '오후');
     return ap + ' ' + hh + ':' + pad2(d.getMinutes());
   }
   function wakeTarget(key){
@@ -1803,16 +3198,34 @@ input,select{font:inherit}
     return parseKey(k).getDay() === 0 ? fmtClock(state.settings.wakeSun) : fmtClock(state.settings.wake);
   }
   function isSunday(key){ return parseKey(key || todayKey()).getDay() === 0; }
-  function instNames(){ return (state.settings.instruments || []).filter(Boolean); }
-  function fill(text){
+  var INST_DEFAULTS = { '일렉트릭 기타':{ en:'Electric guitar', fr:'Guitare électrique' },
+                        '베이스':{ en:'Bass', fr:'Basse' } };
+  function instLabel(name){
+    var m = INST_DEFAULTS[name];
+    var p = pack();
+    return (m && p && p.data && p.data.inst && p.data.inst[name]) || (m && lang() !== 'ko' && m[lang()]) || name;
+  }
+  function instNames(){
+    return (state.settings.instruments || []).filter(Boolean).map(instLabel);
+  }
+  function fill(text, extra){
     var names = instNames();
-    return String(text)
+    var out = String(text)
       .replace(/\{wake\}/g, wakeTarget(todayKey()))
       .replace(/\{sleep\}/g, fmtClock(state.settings.sleep))
       .replace(/\{insts\}/g, names.join(' · '))
       .replace(/\{inst1\}/g, names[0] || '악기')
       .replace(/\{inst2\}/g, names[1] || names[0] || '악기')
-      .replace(/\{instrument\}/g, names.join(' · '));
+      .replace(/\{instrument\}/g, names.join(' · '))
+      .replace(/\{name\}/g, userName() || '회원')
+      .replace(/\{done\}/g, String(dayDone(todayKey())))
+      .replace(/\{total\}/g, String(HABITS.length));
+    if(extra){
+      Object.keys(extra).forEach(function(k){
+        out = out.split('{' + k + '}').join(String(extra[k]));
+      });
+    }
+    return out;
   }
   function pick(arr, key){
     if(!arr || !arr.length) return '';
@@ -1826,42 +3239,195 @@ input,select{font:inherit}
   var lastPick = {};
 
   /* =================state================= */
+  /* 나이별 기대수명 대략값 — 통계청 생명표(2023)의 기대여명을 단순화한 표예요. */
+  var LIFE_TABLE = [[0,83.5],[20,83.7],[40,84.2],[60,86.0],[70,88.0],[80,89.5],[90,92.0],[100,95.0]];
+
   var DEFAULT_SETTINGS = {
     wake:'06:00', wakeSun:'05:20', sleep:'23:30',
     instruments:['일렉트릭 기타', '베이스'],
-    birthDate:'1977-10-01', baseline:83.5, theme:'auto'
+    birthDate:'1977-10-01', baseline:83.5, theme:'auto',
+    wakeOn:true, sleepOn:true
   };
 
-  function freshState(){
-    return { settings: Object.assign({}, DEFAULT_SETTINGS), days:{}, feed:[], rpg:{ rerolls:0, seenLevel:0 }, version:1 };
+  /* 루크김님이 처음 만들 때의 6개 루틴 — 예전 기록이 있는 분은 이 구성 그대로 이어서 씁니다 */
+  function defaultTasks(){
+    return [
+      { id:'strength', title:'근력 운동', icon:'💪', category:'health', minutes:25, exp:25, tone:'t-mint',
+        schedule:'daily', enabled:true, preset:'strength', linkAuto:true, link:{ type:'strength' } },
+      { id:'english', title:'영어 공부', icon:'🦉', category:'study', minutes:10, exp:20, tone:'t-violet',
+        schedule:'daily', enabled:true, preset:'english', linkAuto:true, link:{ type:'apps' } },
+      { id:'music', title:'악기 연습', icon:'🎵', category:'music', minutes:15, exp:25, tone:'t-amber',
+        schedule:'weekend', enabled:true, preset:'music', linkAuto:true, link:{ type:'music' } }
+    ];
+  }
+
+  function clampNum(v, lo, hi, dflt){
+    var n = Number(v);
+    if(!isFinite(n)) n = dflt;
+    return Math.min(hi, Math.max(lo, n));
+  }
+  function toneForCategory(cat){
+    if(cat === 'music' || cat === 'hobby') return 't-amber';
+    if(cat === 'life' || cat === 'work') return 't-sky';
+    return 't-mint';
+  }
+  function iconForCategory(cat){
+    if(cat === 'music' || cat === 'hobby') return '🎸';
+    if(cat === 'study') return '📚';
+    if(cat === 'mind') return '🌿';
+    if(cat === 'life' || cat === 'work') return '🧭';
+    return '💪';
+  }
+  function coachForCategory(cat){ return (CATEGORIES[cat] && CATEGORIES[cat].coach) || 'life'; }
+
+  function normLink(l, t){
+    l = l || {};
+    var type = String(l.type || '');
+    if(type === 'strength' || type === 'music' || type === 'apps' || type === 'none') return { type:type };
+    if(type === 'url' && l.url) return { type:'url', url:String(l.url).slice(0, 500), q:String(l.q || '') };
+    if(type === 'search') return { type:'search', q:String(l.q || (t && t.title) || '').slice(0, 80) };
+    if(l.url) return { type:'url', url:String(l.url).slice(0, 500), q:'' };
+    return { type:'search', q:String(l.q || ((t && t.title) || '') + ' 루틴').slice(0, 80) };
+  }
+  function normTask(t, i){
+    t = t || {};
+    var cat = CATEGORIES[t.category] ? t.category : 'life';
+    var id = String(t.id || ('task' + Date.now().toString(36) + (i || 0)));
+    if(id === 'wake' || id === 'sleep' || id === 'challenge') id = 'task_' + id;
+    var o = {
+      id: id,
+      title: String(t.title || '새 루틴').slice(0, 24),
+      icon: String(t.icon || iconForCategory(cat)).slice(0, 4),
+      category: cat,
+      minutes: Math.round(clampNum(t.minutes, 1, 180, 15)),
+      exp: Math.round(clampNum(t.exp, 5, 60, 20)),
+      tone: /^t-(mint|violet|amber|sky)$/.test(String(t.tone)) ? t.tone : toneForCategory(cat),
+      schedule: t.schedule === 'weekend' ? 'weekend' : 'daily',
+      enabled: t.enabled !== false
+    };
+    if(t.preset === null) o.preset = null;
+    else if(t.preset && /^[a-z]+$/.test(String(t.preset))) o.preset = String(t.preset);
+    o.linkAuto = t.linkAuto === true;
+    o.link = normLink(t.link, o);
+    return o;
+  }
+  function normTasks(list){
+    var out = [], seen = {};
+    (list || []).forEach(function(t, i){
+      var o = normTask(t, i);
+      var base = o.id, n = 1;
+      while(seen[o.id]) o.id = base + '_' + (++n);
+      seen[o.id] = 1;
+      out.push(o);
+    });
+    return out;
+  }
+
+  function freshState(name){
+    var st = Object.assign({}, DEFAULT_SETTINGS);
+    st.birthDate = birthDateFromAge(40);      /* 새 사용자는 40세에서 시작해 마법사에서 고칩니다 */
+    st.baseline = estimateBaseline(40);
+    return {
+      onboarded:false,
+      lang:'', companion:'unset',
+      name: name || '',
+      settings: st,
+      tasks: defaultTasks(),
+      coaches: ['health','mind','music'],
+      days:{}, feed:[], rpg:{ rerolls:0, seenLevel:0 }, version:2
+    };
   }
   function loadState(){
     var s = freshState();
-    try{
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if(!raw) return s;
-      var p = JSON.parse(raw);
-      if(p && typeof p === 'object'){
-        if(p.settings) s.settings = Object.assign({}, DEFAULT_SETTINGS, p.settings);
-        if(p.days && typeof p.days === 'object') s.days = p.days;
-        if(Array.isArray(p.feed)) s.feed = p.feed.slice(-60);
-      }
-      /* 이전 버전(악기 하나) 설정을 두 악기 구조로 옮김 */
-      if(!Array.isArray(s.settings.instruments) || !s.settings.instruments.length){
-        s.settings.instruments = s.settings.instrument
-          ? [String(s.settings.instrument), '베이스']
-          : DEFAULT_SETTINGS.instruments.slice();
-      }
-      s.settings.instruments = s.settings.instruments.slice(0, 2).map(function(v){ return String(v || '').slice(0, 12); });
-      if(!s.settings.wakeSun) s.settings.wakeSun = DEFAULT_SETTINGS.wakeSun;
-      /* RPG 레벨 기록은 없던 시절 데이터도 그대로 쓸 수 있게 조용히 더함 */
-      if(!s.rpg || typeof s.rpg !== 'object') s.rpg = { rerolls:0, seenLevel:0 };
-      if(typeof s.rpg.rerolls !== 'number' || !isFinite(s.rpg.rerolls)) s.rpg.rerolls = 0;
-      if(typeof s.rpg.seenLevel !== 'number' || !isFinite(s.rpg.seenLevel)) s.rpg.seenLevel = 0;
-    }catch(e){ /* 저장소를 못 쓰면 메모리로만 동작 */ }
+    var raw = null;
+    try{ raw = localStorage.getItem(STORAGE_KEY); }catch(e){ return s; }
+    if(!raw) return s;                       /* 처음 온 사람 → 온보딩으로 안내 */
+    var p = null;
+    try{ p = JSON.parse(raw); }catch(e){ p = null; }
+    if(!p || typeof p !== 'object' || Array.isArray(p)) return s;
+
+    /* 설정·루틴 기록·피드·RPG 중 하나라도 있던 기록은 예전 사용자로 보고 온보딩 없이 이어 씁니다 */
+    var legacy = p.onboarded === true || !!p.settings || !!p.feed ||
+                 !!(p.days && Object.keys(p.days).length) || !!p.rpg;
+
+    if(p.settings) s.settings = Object.assign({}, DEFAULT_SETTINGS, p.settings);
+    if(p.days && typeof p.days === 'object') s.days = p.days;
+    if(Array.isArray(p.feed)) s.feed = p.feed.slice(-60);
+    if(typeof p.lang === 'string' && I18N[p.lang]) s.lang = p.lang;
+    if(['male', 'female', 'unset'].indexOf(p.companion) !== -1) s.companion = p.companion;
+    else if(legacy) s.companion = 'female';   /* 예전 사용자는 지금 보던 기사를 그대로 */
+    if(typeof p.name === 'string' && p.name) s.name = p.name.slice(0, 20);
+    else if(p.profile && p.profile.name) s.name = String(p.profile.name).slice(0, 20);
+    else if(legacy) s.name = DEFAULT_NAME;   /* 예전 기록에는 이름이 없어서 기본 이름으로 이어 씀 */
+
+    s.tasks = normTasks(Array.isArray(p.tasks) && p.tasks.length ? p.tasks : defaultTasks());
+
+    if(Array.isArray(p.coaches) && p.coaches.length){
+      s.coaches = p.coaches.filter(function(k){ return !!COACHES[k]; });
+      if(!s.coaches.length) s.coaches = ['health','mind','music'];
+    }
+
+    /* 온보딩을 끝낸 기록만 건너뜁니다. 명시적으로 false 면 다시 안내합니다 */
+    s.onboarded = (p.onboarded === false) ? false : legacy;
+
+    /* 이전 버전(악기 하나) 설정을 두 악기 구조로 옮김 */
+    if(!Array.isArray(s.settings.instruments) || !s.settings.instruments.length){
+      s.settings.instruments = s.settings.instrument
+        ? [String(s.settings.instrument), '베이스']
+        : DEFAULT_SETTINGS.instruments.slice();
+    }
+    s.settings.instruments = s.settings.instruments.slice(0, 2).map(function(v){ return String(v || '').slice(0, 12); });
+    if(!s.settings.wakeSun) s.settings.wakeSun = DEFAULT_SETTINGS.wakeSun;
+    s.settings.wakeOn = s.settings.wakeOn !== false;
+    s.settings.sleepOn = s.settings.sleepOn !== false;
+    /* RPG 레벨 기록은 없던 시절 데이터도 그대로 쓸 수 있게 조용히 더함 */
+    if(!s.rpg || typeof s.rpg !== 'object') s.rpg = { rerolls:0, seenLevel:0 };
+    if(typeof s.rpg.rerolls !== 'number' || !isFinite(s.rpg.rerolls)) s.rpg.rerolls = 0;
+    if(typeof s.rpg.seenLevel !== 'number' || !isFinite(s.rpg.seenLevel)) s.rpg.seenLevel = 0;
     return s;
   }
   var state = loadState();
+  state.lang = resolveLang(state.lang);
+  applyLang();
+
+  function userName(){ return (state && state.name) ? String(state.name) : ''; }
+  function activeCoaches(){
+    var list = (state && state.coaches && state.coaches.length ? state.coaches : []).filter(function(k){ return !!COACHES[k]; });
+    return list.length ? list : ['health','mind','music'];
+  }
+  function matchedCoaches(){
+    var out = [];
+    (state.tasks || []).forEach(function(t){
+      if(t.enabled === false) return;
+      var k = coachForCategory(t.category);
+      if(out.indexOf(k) === -1) out.push(k);
+    });
+    return COACH_ORDER.filter(function(k){ return out.indexOf(k) !== -1; });
+  }
+
+  /* 대시보드 루틴 목록 = 기상·취침 + 내 태스크 + 오늘의 도전 */
+  function buildHabits(){
+    var s = state.settings, out = [];
+    if(s.wakeOn !== false){
+      out.push({ id:'wake', title:T('wakeTitle', '기상 시간 지키기'), icon:'☀️', minutes:8, exp:20, coach:'health', tone:'t-amber', fixed:true });
+    }
+    if(s.sleepOn !== false){
+      out.push({ id:'sleep', title:T('sleepTitle', '취침 시간 지키기'), icon:'🌙', minutes:10, exp:20, coach:'health', tone:'t-violet', fixed:true });
+    }
+    (state.tasks || []).forEach(function(t){
+      if(t.enabled === false) return;
+      var task = Object.assign({}, t, { title: taskTitleOf(t), link: linkForTask(t) });
+      out.push({
+        id:t.id, title: task.title, icon:t.icon, minutes:t.minutes, exp:t.exp,
+        coach: coachForCategory(t.category), tone:t.tone,
+        weekend: t.schedule === 'weekend', task: task
+      });
+    });
+    out.push({ id:'challenge', title:T('secChallenge', '오늘의 도전'), icon:'🎲', minutes:12, exp:20, coach:'mind', tone:'t-amber', fixed:true });
+    return out;
+  }
+  function rebuildHabits(){ HABITS = buildHabits(); }
+  rebuildHabits();
 
   function save(){
     try{
@@ -1908,7 +3474,8 @@ input,select{font:inherit}
     for(var i = 0; i < keys.length; i++) t += dayMinutes(keys[i]);
     return t;
   }
-  function isSuccess(key){ return dayDone(key) >= 4; }
+  function isSuccess(key){ return dayDone(key) >= successNeed(); }
+  function successNeed(){ return Math.max(1, Math.round(HABITS.length * 2 / 3)); }
   function currentStreak(){
     var n = 0, d = new Date();
     if(!isSuccess(keyOf(d))) d = new Date(d.getFullYear(), d.getMonth(), d.getDate() - 1);
@@ -1924,6 +3491,33 @@ input,select{font:inherit}
     var b = parseISODate(state.settings.birthDate);
     var now = new Date();
     return (now.getTime() - b.getTime()) / (365.2425 * 86400000);
+  }
+
+  /* 나이별 기대수명 대략값 — 통계청 생명표(2023)의 기대여명을 단순화한 표예요.
+     의학적 계산이 아니라 기준값을 채워 주는 동기부여용 출발점입니다. */
+  function estimateBaseline(age){
+    var a = Number(age);
+    if(!isFinite(a) || a <= 0) return DEFAULT_SETTINGS.baseline;
+    if(a <= LIFE_TABLE[0][0]) return LIFE_TABLE[0][1];
+    for(var i = 1; i < LIFE_TABLE.length; i++){
+      if(a <= LIFE_TABLE[i][0]){
+        var a0 = LIFE_TABLE[i-1][0], v0 = LIFE_TABLE[i-1][1];
+        var a1 = LIFE_TABLE[i][0], v1 = LIFE_TABLE[i][1];
+        return Math.round((v0 + (v1 - v0) * (a - a0) / (a1 - a0)) * 10) / 10;
+      }
+    }
+    var last = LIFE_TABLE[LIFE_TABLE.length - 1];
+    return Math.min(120, Math.round((last[1] + (a - last[0]) * 0.2) * 10) / 10);
+  }
+  function birthDateFromAge(age){
+    var a = Math.round(clampNum(age, 10, 100, 40));
+    var d = new Date();
+    return (d.getFullYear() - a) + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+  }
+  function ageFromBirthDate(bd){
+    var b = parseISODate(bd), now = new Date();
+    if(!b || isNaN(b.getTime())) return null;
+    return Math.max(0, Math.round((now.getTime() - b.getTime()) / (365.2425 * 86400000)));
   }
   function projectedYears(){
     return Number(state.settings.baseline) + totalMinutes() / (365.2425 * 1440);
@@ -2020,7 +3614,8 @@ input,select{font:inherit}
     return '<div class="yt-row" data-yt-pool="' + esc(key) + '" data-yt-i="' + i + '">'
       + '<div class="yt-line">'
       + ytLink(ytWatch(ids[i]), label, ytTooltip(v))
-      + '<button type="button" class="yt-next" data-yt-next aria-label="다른 영상 보기" title="다른 영상">↻</button>'
+      + '<button type="button" class="yt-next" data-yt-next aria-label="' + esc(T('ytNext', '다른 영상 보기')) + '" title="'
+      + esc(T('ytNext', '다른 영상 보기')) + '">↻</button>'
       + '</div>'
       + '<span class="yt-note"><span class="yt-note-t">' + esc(ytCaption(v)) + '</span>'
       + '<span class="yt-count">' + (i + 1) + '/' + ids.length + '</span></span>'
@@ -2110,22 +3705,25 @@ input,select{font:inherit}
     return HABITS[0];
   }
   function habitTitle(id){
-    if(id === 'music') return '악기 연습';
+    if(id === 'music') return T('musicTitle', '악기 연습');
     return habitMeta(id).title;
   }
   function habitDesc(id){
     var s = state.settings;
     if(id === 'wake'){
       var t = wakeTarget(todayKey());
-      return isSunday(todayKey()) ? '새벽미사 · ' + t + ' 기상' : '목표 ' + t + ' 기상';
+      return isSunday(todayKey()) ? T('wakeDescSun', '새벽미사 · {t} 기상', { t:t })
+        : T('wakeDesc', '목표 {t} 기상', { t:t });
     }
-    if(id === 'sleep') return '목표 ' + fmtClock(s.sleep) + ' 취침';
+    if(id === 'sleep') return T('sleepDesc', '목표 {t} 취침', { t:fmtClock(s.sleep) });
     if(id === 'strength'){
       var f = strengthFocus(todayKey());
-      return '오늘은 ' + f.focus + ' · ' + f.desc;
+      return T('strengthDesc', '오늘은 {focus} · {desc}', { focus:f.focus, desc:f.desc });
     }
-    if(id === 'english') return '듀오링고 · 말해보카 10분';
-    if(id === 'music') return instNames().join(' · ') + (isWeekendKey(todayKey()) ? ' · 오늘은 조금 더 길게' : ' · 주말 루틴, 평일 10분도 좋아요');
+    if(id === 'english') return T('englishDesc', '듀오링고 · 말해보카 10분');
+    if(id === 'music') return instNames().join(' · ') + (isWeekendKey(todayKey())
+      ? ' · ' + T('musicDescWeekend', '오늘은 조금 더 길게')
+      : ' · ' + T('musicDescWeekday', '주말 루틴, 평일 10분도 좋아요'));
     if(id === 'challenge') return challengeFor(todayKey()).desc;
     return '';
   }
@@ -2154,17 +3752,21 @@ input,select{font:inherit}
   /* =================render: header================= */
   function greeting(){
     var h = new Date().getHours();
-    if(h < 5) return '늦은 밤이에요';
-    if(h < 11) return '좋은 아침이에요';
-    if(h < 17) return '좋은 오후예요';
-    if(h < 22) return '좋은 저녁이에요';
-    return '늦은 밤이에요';
+    if(h < 5) return T('greetDawn', '늦은 밤이에요');
+    if(h < 11) return T('greetMorning', '좋은 아침이에요');
+    if(h < 17) return T('greetAfternoon', '좋은 오후예요');
+    if(h < 22) return T('greetEvening', '좋은 저녁이에요');
+    return T('greetDawn', '늦은 밤이에요');
   }
   function renderHeader(){
     var d = new Date();
-    $('#todayDate').textContent = (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + WEEKDAYS[d.getDay()] + '요일'
-      + (d.getDay() === 0 ? ' · 새벽미사' : '');
-    $('#greet').textContent = greeting() + ', ' + USER_NAME + '님';
+    $('#todayDate').textContent = T('dateFmt', '{m}월 {d}일 {w}요일',
+        { m:d.getMonth() + 1, d:d.getDate(), w:WEEKDAYS[d.getDay()] })
+      + (d.getDay() === 0 ? ' · ' + T('massSunday', '새벽미사') : '');
+    var nm = userName();
+    $('#greet').textContent = greeting() + (nm ? ', ' + nm + T('nameSuffix', '님') : '');
+    document.title = nm ? T('docTitle', "{name}님의 하루+ · 루틴과 기대수명", { name:nm })
+      : T('docTitlePlain', '하루+ · 루틴과 기대수명');
   }
 
   /* =================render: hero================= */
@@ -2206,23 +3808,26 @@ input,select{font:inherit}
       shown.total = tot;
     }
     if(shown.proj !== proj){
-      tween($('#projAge'), shown.proj, proj, function(v){ return fmtYears(v) + '세'; });
+      tween($('#projAge'), shown.proj, proj, function(v){ return T('fmtYears', '{y}세', { y:fmtYears(v) }); });
       shown.proj = proj;
     }
 
     $('#todayDeltaSub').textContent = remain === 0
-      ? '오늘 루틴 완주! ' + fmtMinutes(tm) + '이 그대로 쌓였어요'
-      : (tm >= 60 ? fmtMinutes(tm) + ' · ' : '') + '남은 루틴 ' + remain + '개 · 최대 +' + maxMore + '분 더';
+      ? T('heroDone', '오늘 루틴 완주! {min}이 그대로 쌓였어요', { min:fmtMinutes(tm) })
+      : (tm >= 60 ? fmtMinutes(tm) + ' · ' : '')
+        + T('heroRemain', '남은 루틴 {n}개 · 최대 +{m}분 더', { n:remain, m:maxMore });
 
     var age = ageYears();
     var pct = Math.max(0, Math.min(100, (age / proj) * 100));
-    $('#lifeNow').textContent = (Math.round(age * 10) / 10).toFixed(1) + '년';
-    $('#lifeTarget').textContent = (Math.round(proj * 10) / 10).toFixed(1) + '년';
+    $('#lifeNow').textContent = T('fmtYears', '{y}년', { y:(Math.round(age * 10) / 10).toFixed(1) });
+    $('#lifeTarget').textContent = T('fmtYears', '{y}년', { y:(Math.round(proj * 10) / 10).toFixed(1) });
     $('#lifeFill').style.width = pct.toFixed(1) + '%';
     var streakNow = currentStreak();
     var chip = $('#streakChip');
-    if(chip) chip.textContent = streakNow > 0 ? '🔥 ' + streakNow + '일 연속' : '🌱 시작';
-    $('#lifeNote').textContent = '기준 ' + Number(state.settings.baseline).toFixed(1) + '세 → 지금 ' + fmtYears(proj) + '세 · 예상 수명의 ' + Math.round(pct) + '%';
+    if(chip) chip.textContent = streakNow > 0 ? T('streakChip', '🔥 {n}일 연속', { n:streakNow })
+      : T('streakStart', '🌱 시작');
+    $('#lifeNote').textContent = T('lifeNote', '기준 {base}세 → 지금 {proj}세 · 예상 수명의 {pct}%',
+      { base:Number(state.settings.baseline).toFixed(1), proj:fmtYears(proj), pct:Math.round(pct) });
 
     var ratio = done / HABITS.length;
     $('#todayProgress').textContent = done + '/' + HABITS.length;
@@ -2256,14 +3861,15 @@ input,select{font:inherit}
     var today = dayExp(key);
     var rank = rankOf(info.level);
 
-    $('#rpgLv').textContent = 'Lv. ' + info.level;
+    $('#rpgLv').textContent = T('rpgLv', 'Lv. {n}', { n:info.level });
     $('#rpgRank').textContent = rank;
-    $('#rpgToday').textContent = '오늘 +' + today + ' EXP';
+    $('#rpgToday').textContent = T('rpgToday', '오늘 +{n} EXP', { n:today });
     $('#rpgExp').innerHTML = '<b>' + info.into + '</b> / ' + info.need + ' EXP';
     var pct = info.into <= 0 ? 0 : Math.min(100, (info.into / info.need) * 100);
     $('#rpgBar').style.width = pct.toFixed(1) + '%';
     $('#rpgSay').textContent = rpgLine(key);
-    card.setAttribute('aria-label', '기사 여왕 동반자 · Lv. ' + info.level + ' ' + rank + ' · 오늘 +' + today + ' EXP');
+    card.setAttribute('aria-label', T('rpgCardAria', '기사 여왕 동반자 · Lv. {n} {rank} · 오늘 +{x} EXP',
+      { n:info.level, rank:rank, x:today }));
   }
 
   function pulseRpg(){
@@ -2282,7 +3888,7 @@ input,select{font:inherit}
     var card = $('#rpgCard');
     var line = RPG_LINES.levelup[(lv - 1) % RPG_LINES.levelup.length].replace(/\{rank\}/g, rank);
     if(banner){
-      $('#lvTitle').textContent = 'Lv. ' + lv + ' · ' + rank;
+      $('#lvTitle').textContent = T('lvTitle', 'Lv. {n} · {rank}', { n:lv, rank:rank });
       $('#lvSub').textContent = line;
       banner.classList.add('on');
       clearTimeout(levelupTimer);
@@ -2343,36 +3949,93 @@ input,select{font:inherit}
     $('#msIco').textContent = m.icon;
     $('#msTitle').textContent = m.t;
     $('#msDesc').textContent = m.d;
-    $('#msTip').innerHTML = '<b>+50 EXP · 기대수명 +10분</b> · ' + esc(m.tip);
+    $('#msTip').innerHTML = '<b>' + esc(T('missionReward', '+50 EXP · 기대수명 +10분')) + '</b> · ' + esc(m.tip);
     var btn = $('[data-mission]', card);
     if(btn) btn.setAttribute('aria-pressed', done ? 'true' : 'false');
-    $('#msDay').textContent = done ? '오늘 완료' : '매일 새로 하나';
+    $('#msDay').textContent = done ? T('missionDone', '오늘 완료') : T('missionNew', '매일 새로 하나');
   }
 
   /* =================render: habits================= */
   function checkSvg(){
     return '<span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.5 12.5 10 18l9.5-11"/></svg></span>';
   }
+  function habitBadge(h, weekend){
+    if(!h.weekend) return '';
+    return weekend
+      ? '<span class="badge-week">' + esc(T('badgeWeekend', '주말')) + '</span>'
+      : '<span class="badge-week" style="color:var(--ink-3);background:var(--card-soft);border-color:var(--line)">'
+        + esc(T('badgeWeekendTask', '주말 루틴')) + '</span>';
+  }
+  function taskDesc(h){
+    var t = h.task;
+    if(!t) return '';
+    var cat = (CATEGORIES[t.category] || CATEGORIES.life).label;
+    var when = t.schedule === 'weekend' ? T('weekendRoutine', '주말 루틴') : T('dailyRoutine', '매일 루틴');
+    return cat + ' · ' + when;
+  }
+  function linkLabel(link){
+    var l = link || {};
+    if(l.type === 'strength') return T('linkStrength', '요일별 근력 영상');
+    if(l.type === 'music') return T('linkMusic', '기타·베이스 영상');
+    if(l.type === 'apps') return T('linkApps', '듀오링고 · 말해보카');
+    if(l.type === 'url') return T('linkUrl', '내가 넣은 링크');
+    if(l.type === 'search') return T('linkSearch', '추천 영상 찾기');
+    return T('linkNone', '연결 없음');
+  }
+  function hostOf(url){
+    return String(url || '').replace(/^https?:\/\//, '').split('/')[0] || T('linkWord', '링크');
+  }
+  /* 주제에 맞는 콘텐츠 링크 — 검증된 풀이 없는 주제는 유튜브 검색이나 직접 넣은 주소로 연결 */
+  function taskLinkHtml(h){
+    var l = (h.task && h.task.link) || {};
+    if(l.type === 'search' && l.q){
+      return '<div class="yt-row"><div class="yt-line">'
+        + ytLink(ytUrl(l.q), T('linkSearch', '추천 영상 찾기'), l.q)
+        + '</div><span class="yt-note"><span class="yt-note-t">'
+        + esc(T('ytSearchNote', '유튜브에서 “{q}” 검색', { q:l.q })) + '</span></span></div>';
+    }
+    if(l.type === 'url' && l.url){
+      return '<div class="yt-row"><div class="yt-line">'
+        + ytLink(l.url, T('ytOpen', '바로가기'), l.url)
+        + '</div><span class="yt-note"><span class="yt-note-t">' + esc(hostOf(l.url)) + '</span></span></div>';
+    }
+    return '';
+  }
+  function taskCardHtml(h){
+    var key = todayKey();
+    var done = isChecked(key, h.id);
+    var weekend = h.weekend && isWeekendKey(key);
+    return '<div class="habit habit-task ' + h.tone + (done ? ' done' : '') + (weekend ? ' weekend' : '') + '" data-task="' + esc(h.id) + '">'
+      + '<button type="button" class="m-top" data-habit="' + esc(h.id) + '" aria-pressed="' + (done ? 'true' : 'false') + '">'
+      + '<span class="ico" aria-hidden="true">' + esc(h.icon) + '</span>'
+      + '<span class="txt"><span class="t">' + esc(h.title) + habitBadge(h, weekend) + '</span>'
+      + '<span class="d">' + esc(taskDesc(h)) + '</span></span>'
+      + '<span class="plus">' + esc(T('plusMin', '+{n}분', { n:h.minutes })) + '</span>'
+      + checkSvg()
+      + '</button>'
+      + taskLinkHtml(h)
+      + '</div>';
+  }
+
   function renderHabits(){
     var key = todayKey();
     var host = $('#habits');
     var html = '';
     HABITS.forEach(function(h){
       if(h.id === 'challenge') return;
-      if(h.id === 'music'){ html += musicCardHtml(); return; }
-      if(h.id === 'strength'){ html += strengthCardHtml(); return; }
-      if(h.id === 'english'){ html += englishCardHtml(); return; }
+      if(h.task){
+        if(h.task.link.type === 'strength' && h.id === 'strength'){ html += strengthCardHtml(); return; }
+        if(h.task.link.type === 'music' && h.id === 'music'){ html += musicCardHtml(); return; }
+        if(h.task.link.type === 'apps' && h.id === 'english'){ html += englishCardHtml(); return; }
+        html += taskCardHtml(h);
+        return;
+      }
       var done = isChecked(key, h.id);
       var weekend = h.weekend && isWeekendKey(key);
-      var title = habitTitle(h.id);
-      var badge = '';
-      if(h.weekend) badge = weekend
-        ? '<span class="badge-week">주말</span>'
-        : '<span class="badge-week" style="color:var(--ink-3);background:var(--card-soft);border-color:var(--line)">주말 루틴</span>';
       html += '<button class="habit ' + h.tone + (done ? ' done' : '') + (weekend ? ' weekend' : '') + '" data-habit="' + h.id + '" aria-pressed="' + (done ? 'true' : 'false') + '">'
         + '<span class="ico" aria-hidden="true">' + h.icon + '</span>'
-        + '<span class="txt"><span class="t">' + esc(title) + badge + '</span><span class="d">' + esc(habitDesc(h.id)) + '</span></span>'
-        + '<span class="plus">+' + h.minutes + '분</span>'
+        + '<span class="txt"><span class="t">' + esc(habitTitle(h.id)) + habitBadge(h, weekend) + '</span><span class="d">' + esc(habitDesc(h.id)) + '</span></span>'
+        + '<span class="plus">' + esc(T('plusMin', '+{n}분', { n:h.minutes })) + '</span>'
         + checkSvg()
         + '</button>';
     });
@@ -2382,7 +4045,7 @@ input,select{font:inherit}
     $('#chTitle').textContent = ch.title;
     $('#chDesc').textContent = ch.desc;
     $('#chTip').textContent = ch.tip;
-    $('#challengeDay').textContent = WEEKDAYS[parseKey(key).getDay()] + '요일의 미션';
+    $('#challengeDay').textContent = T('challengeDayFmt', '{w}요일의 미션', { w:WEEKDAYS[parseKey(key).getDay()] });
     var card = $('#challengeCard');
     var cd = isChecked(key, 'challenge');
     card.classList.toggle('done', cd);
@@ -2391,7 +4054,7 @@ input,select{font:inherit}
     var row = $('#chVideoRow');
     if(row){
       if(ch.pool != null && ch.pool !== undefined && ytPoolIds('challenge:' + ch.pool).length){
-        row.innerHTML = ytRow('challenge:' + ch.pool, '참고 영상');
+        row.innerHTML = ytRow('challenge:' + ch.pool, T('ytRef', '참고 영상'));
         row.hidden = false;
       }else{
         row.innerHTML = '';
@@ -2406,17 +4069,23 @@ input,select{font:inherit}
     var key = todayKey();
     var done = isChecked(key, 'english');
     var h = habitMeta('english');
+    var ep = presetById('english');
+    var t = (h && h.task) || { title:(ep ? ep.title : T('presets', '영어 공부')), minutes:10, icon:'🦉' };
     return '<div class="habit habit-english t-violet' + (done ? ' done' : '') + '">'
       + '<button type="button" class="m-top" data-habit="english" aria-pressed="' + (done ? 'true' : 'false') + '">'
-      + '<span class="ico" aria-hidden="true">' + h.icon + '</span>'
-      + '<span class="txt"><span class="t">' + esc(h.title) + '</span>'
+      + '<span class="ico" aria-hidden="true">' + esc(t.icon) + '</span>'
+      + '<span class="txt"><span class="t">' + esc(t.title) + '</span>'
       + '<span class="d">' + esc(habitDesc('english')) + '</span></span>'
-      + '<span class="plus">+' + h.minutes + '분</span>'
+      + '<span class="plus">' + esc(T('plusMin', '+{n}분', { n:h.minutes })) + '</span>'
       + checkSvg()
       + '</button>'
-      + '<div class="app-row" role="group" aria-label="영어 공부 앱 열기">'
-      + appLink('duo', DUOLINGO_URL, '듀오링고', '듀오링고 열기 (duolingo.com)')
-      + appLink('mhb', malhaebocaUrl(), '말해보카', isAndroid() ? '말해보카 앱 열기 (Google Play)' : '말해보카 공식 홈페이지 열기 (epop.ai)')
+      + '<div class="app-row" role="group" aria-label="' + esc(T('appsAria', '영어 공부 앱 열기')) + '">'
+      + appLink('duo', DUOLINGO_URL, T('duolingo', '듀오링고'), T('duoTip', '듀오링고 열기 (duolingo.com)'))
+      /* 말해보카는 한국어로 영어를 배우는 앱이라 한국어 화면에서만 함께 보여 줍니다 */
+      + (lang() === 'ko'
+        ? appLink('mhb', malhaebocaUrl(), T('malhaeboca', '말해보카'),
+            isAndroid() ? T('mhbTipPlay', '말해보카 앱 열기 (Google Play)') : T('mhbTip', '말해보카 공식 홈페이지 열기 (epop.ai)'))
+        : '')
       + '</div>'
       + '</div>';
   }
@@ -2428,17 +4097,18 @@ input,select{font:inherit}
 
   function strengthCardHtml(){
     var key = todayKey();
+    var h = habitMeta('strength');
     var done = isChecked(key, 'strength');
     var f = strengthFocus(key);
     return '<div class="habit habit-strength t-mint' + (done ? ' done' : '') + '">'
       + '<button type="button" class="m-top" data-habit="strength" aria-pressed="' + (done ? 'true' : 'false') + '">'
       + '<span class="ico" aria-hidden="true">💪</span>'
-      + '<span class="txt"><span class="t">근력 유지 운동</span>'
-      + '<span class="d">오늘은 ' + esc(f.focus) + ' · ' + esc(f.desc) + '</span></span>'
-      + '<span class="plus">+25분</span>'
+      + '<span class="txt"><span class="t">' + esc(h.title) + '</span>'
+      + '<span class="d">' + esc(T('strengthDesc', '오늘은 {focus} · {desc}', { focus:f.focus, desc:f.desc })) + '</span></span>'
+      + '<span class="plus">' + esc(T('plusMin', '+{n}분', { n:h.minutes })) + '</span>'
       + checkSvg()
       + '</button>'
-      + ytRow('strength:' + parseKey(key).getDay(), '유튜브로 따라하기')
+      + ytRow('strength:' + parseKey(key).getDay(), T('ytStrength', '유튜브로 따라하기'))
       + '</div>';
   }
 
@@ -2448,30 +4118,29 @@ input,select{font:inherit}
     var weekend = isWeekendKey(key);
     var prac = practiceList(key);
     var names = instNames();
+    var hm = habitMeta('music');
     var chips = names.map(function(name, i){
       var on = prac.indexOf(i) !== -1;
       return '<button type="button" class="chip' + (on ? ' on' : '') + '" data-inst="' + i + '" aria-pressed="' + (on ? 'true' : 'false') + '">🎸 ' + esc(name) + '</button>';
     }).join('');
-    var badge = weekend
-      ? '<span class="badge-week">주말</span>'
-      : '<span class="badge-week" style="color:var(--ink-3);background:var(--card-soft);border-color:var(--line)">주말 루틴</span>';
+    var badge = habitBadge({ weekend:true }, weekend);
     var ytRows = names.map(function(name, i){
       var plan = musicPlan(name);
-      if(plan.pool) return ytRow(plan.pool, plan.btn);
+      if(plan.pool) return ytRow(plan.pool, plan.pool === 'bass' ? T('bassBtn', plan.btn) : T('guitarBtn', plan.btn));
       /* 설정에서 악기 이름을 직접 바꾼 경우에만 검색으로 연결 */
       var q = rotatePick(plan.queries, key).replace(/\{name\}/g, name);
-      return '<div class="yt-row">' + ytLink(ytUrl(q), plan.btn, q) + '</div>';
+      return '<div class="yt-row">' + ytLink(ytUrl(q), T('instBtn', plan.btn), q) + '</div>';
     }).join('');
     return '<div class="habit habit-music t-amber' + (done ? ' done' : '') + (weekend ? ' weekend' : '') + '">'
       + '<button type="button" class="m-top" data-habit="music" aria-pressed="' + (done ? 'true' : 'false') + '">'
       + '<span class="ico" aria-hidden="true">🎵</span>'
-      + '<span class="txt"><span class="t">악기 연습' + badge + '</span>'
-      + '<span class="d">' + (weekend ? '주말이니 조금 더 길게' : '평일 10분도 좋아요') + '</span></span>'
-      + '<span class="plus">+15분</span>'
+      + '<span class="txt"><span class="t">' + esc(T('musicTitle', '악기 연습')) + badge + '</span>'
+      + '<span class="d">' + esc(weekend ? T('musicDescWeekend', '주말이니 조금 더 길게') : T('musicDescWeekday', '평일 10분도 좋아요')) + '</span></span>'
+      + '<span class="plus">' + esc(T('plusMin', '+{n}분', { n:hm.minutes })) + '</span>'
       + checkSvg()
       + '</button>'
-      + '<div class="chips" role="group" aria-label="오늘 연주한 악기">' + chips + '</div>'
-      + (ytRows ? '<div class="yt-rows" role="group" aria-label="악기 연습 영상">' + ytRows + '</div>' : '')
+      + '<div class="chips" role="group" aria-label="' + esc(T('chipsAria', '오늘 연주한 악기')) + '">' + chips + '</div>'
+      + (ytRows ? '<div class="yt-rows" role="group" aria-label="' + esc(T('instrRowAria', '악기 연습 영상')) + '">' + ytRows + '</div>' : '')
       + '</div>';
   }
 
@@ -2516,7 +4185,8 @@ input,select{font:inherit}
     $('#miniWeek').innerHTML = html;
     var success = 0;
     days.forEach(function(k){ if(isSuccess(k)) success++; });
-    $('#miniWeekLabel').textContent = success > 0 ? '달성 ' + success + '일' : '아직 비어 있어요';
+    $('#miniWeekLabel').textContent = success > 0 ? T('miniWeekDone', '달성 {n}일', { n:success })
+      : T('miniWeekEmpty', '아직 비어 있어요');
   }
 
   /* =================render: history================= */
@@ -2527,8 +4197,8 @@ input,select{font:inherit}
     var successDays = 0, minSum = 0;
     days.forEach(function(k){ if(isSuccess(k)) successDays++; minSum += dayMinutes(k); });
 
-    $('#hStreak').textContent = streak + '일';
-    $('#hDays').textContent = successDays + '일';
+    $('#hStreak').textContent = T('fmtDay', '{n}일', { n:streak });
+    $('#hDays').textContent = T('fmtDay', '{n}일', { n:successDays });
     $('#hMinutes').textContent = fmtMinutes(minSum);
 
     var first = parseKey(days[0]), last = parseKey(days[6]);
@@ -2550,33 +4220,40 @@ input,select{font:inherit}
     HABITS.forEach(function(h){
       var n = 0;
       days.forEach(function(k){ if(isChecked(k, h.id)) n++; });
-      var title = h.id === 'music' ? '악기 연습' : h.title;
+      var title = h.title;
       wh += '<div class="hb-row">'
         + '<span class="hb-ico">' + h.icon + '</span>'
-        + '<div class="hb-main"><div class="hb-top"><span>' + esc(title) + '</span><em>' + n + '/7일</em></div>'
+        + '<div class="hb-main"><div class="hb-top"><span>' + esc(title) + '</span><em>'
+        + esc(T('weekOf', '{n}/7일', { n:n })) + '</em></div>'
         + '<div class="hb-track"><i style="width:' + Math.round(n / 7 * 100) + '%"></i></div></div>'
         + '</div>';
     });
     $('#weekHabits').innerHTML = wh;
 
-    var cells = '', heatDays = lastNDays(28);
+    var cells = '', heatDays = lastNDays(28), hTotal = HABITS.length || 1;
     heatDays.forEach(function(k){
-      var done = dayDone(k), lvl = 0;
-      if(done >= 6) lvl = 4; else if(done >= 5) lvl = 3; else if(done >= 4) lvl = 2; else if(done >= 1) lvl = 1;
+      var done = dayDone(k), rate = done / hTotal, lvl = 0;
+      if(rate >= 0.99) lvl = 4; else if(rate >= 0.8) lvl = 3; else if(rate >= 0.6) lvl = 2; else if(done >= 1) lvl = 1;
       var d = parseKey(k);
       cells += '<div class="cell' + (lvl ? ' l' + lvl : '') + (k === today ? ' today' : '') + '" title="'
         + (d.getMonth()+1) + '/' + d.getDate() + ' · ' + done + '/' + HABITS.length + '"></div>';
     });
     $('#heatmap').innerHTML = cells;
+    var note = $('#noteCard');
+    if(note){
+      note.textContent = T('noteCard',
+        '하루 {n}개 중 {k}개 이상 채우면 ‘달성’으로 기록돼요. 모든 기록은 이 기기(브라우저)에만 저장되고 서버로 보내지 않아요.',
+        { n:HABITS.length, k:successNeed() });
+    }
   }
 
   /* =================render: coaches================= */
   function todayCoachCounts(){
-    var key = todayKey(), tally = {};
-    Object.keys(COACHES).forEach(function(c){ tally[c] = { done:0, total:0 }; });
+    var key = todayKey(), tally = {}, active = activeCoaches();
+    active.forEach(function(c){ tally[c] = { done:0, total:0 }; });
+    function own(c){ return tally[c] ? c : active[0]; }
     HABITS.forEach(function(h){
-      var c = h.id === 'challenge' ? challengeFor(key).coach : h.coach;
-      if(!tally[c]) tally[c] = { done:0, total:0 };
+      var c = own(h.id === 'challenge' ? challengeFor(key).coach : h.coach);
       tally[c].total++;
       if(isChecked(key, h.id)) tally[c].done++;
     });
@@ -2586,40 +4263,47 @@ input,select{font:inherit}
   function renderCoachCards(){
     var tally = todayCoachCounts();
     var html = '';
-    Object.keys(COACHES).forEach(function(c){
+    activeCoaches().forEach(function(c){
       var co = COACHES[c], t = tally[c] || { done:0, total:0 };
-      var accent = c === 'health' ? 'var(--mint)' : c === 'music' ? 'var(--amber)' : 'var(--violet)';
-      html += '<div class="coach-card" style="--accent:' + accent + '">'
+      var accent = c === 'health' ? 'var(--mint)' : c === 'music' ? 'var(--amber)' : c === 'life' ? 'var(--sky)' : 'var(--violet)';
+      html += '<div class="coach-card" data-coach="' + c + '" style="--accent:' + accent + '">'
         + '<span class="avatar ' + co.tone + '">' + co.emoji + '</span>'
         + '<strong>' + esc(co.name) + '</strong>'
         + '<span class="role">' + esc(co.role) + '</span>'
-        + '<span class="mini num">오늘 ' + t.done + '/' + t.total + '</span>'
+        + '<span class="mini num">' + esc(T('coachToday', '오늘 {d}/{t}', { d:t.done, t:t.total })) + '</span>'
         + '</div>';
     });
     $('#coachCards').innerHTML = html;
+    var sub = $('#coachViewSub');
+    if(sub){
+      sub.textContent = T('coachJoin', '{names} 이 함께해요',
+        { names:activeCoaches().map(function(c){ return COACHES[c].name; }).join(' · ') });
+    }
   }
 
   function renderStrip(){
     var last = state.feed.length ? state.feed[state.feed.length - 1] : null;
     var host = $('#coachStrip');
     if(!last){
-      host.innerHTML = '<span class="avatar violet">🌿</span>'
-        + '<div class="strip-body"><div class="strip-head"><b>마인드 메이</b> 심리 코치</div>'
-        + '<p>오늘도 천천히, 하나씩 채워봐요.</p></div>'
-        + '<button class="go" id="btnCheerMini" aria-label="응원받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-3.2-6.4"/><path d="M20 4v4h-4"/></svg></button>';
+      var c0 = activeCoaches()[0], co0 = COACHES[c0];
+      var nm0 = userName();
+      host.innerHTML = '<span class="avatar ' + co0.tone + '">' + co0.emoji + '</span>'
+        + '<div class="strip-body"><div class="strip-head"><b>' + esc(co0.name) + '</b> ' + esc(co0.role) + '</div>'
+        + '<p>' + esc(T('stripHello', '{name}님, 오늘도 천천히 하나씩 채워봐요.', { name:nm0 || T('memberWord', '회원') })) + '</p></div>'
+        + '<button class="go" id="btnCheerMini" aria-label="' + esc(T('cheerAria', '응원받기')) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-3.2-6.4"/><path d="M20 4v4h-4"/></svg></button>';
       return;
     }
     var co = COACHES[last.coach] || COACHES.mind;
     host.innerHTML = '<span class="avatar ' + co.tone + '">' + co.emoji + '</span>'
       + '<div class="strip-body"><div class="strip-head"><b>' + esc(co.name) + '</b> ' + esc(co.role) + ' · ' + relTime(last.ts) + '</div>'
       + '<p>' + esc(last.text) + '</p></div>'
-      + '<button class="go" id="btnCheerMini" aria-label="응원받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-3.2-6.4"/><path d="M20 4v4h-4"/></svg></button>';
+      + '<button class="go" id="btnCheerMini" aria-label="' + esc(T('cheerAria', '응원받기')) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-3.2-6.4"/><path d="M20 4v4h-4"/></svg></button>';
   }
 
   function renderFeed(){
     var host = $('#feed');
     if(!state.feed.length){
-      host.innerHTML = '<p class="feed-empty">아직 코치의 말이 없어요. 루틴을 체크하거나 응원을 받아보세요.</p>';
+      host.innerHTML = '<p class="feed-empty">' + esc(T('feedEmpty', '아직 코치의 말이 없어요. 루틴을 체크하거나 응원을 받아보세요.')) + '</p>';
       return;
     }
     var html = '';
@@ -2678,12 +4362,13 @@ input,select{font:inherit}
   }
 
   function reactCheck(id){
-    var text = fill(pick(MSG.check[id] || MSG.check.challenge, 'check-' + id));
+    var bank = MSG.check[id] || MSG.check._default;
+    var text = fill(pick(bank, 'check-' + id), { task: habitTitle(id) });
     speak(coachOfHabit(id), text);
   }
 
   function reactUncheck(id){
-    var text = fill(MSG.uncheck[id] || '체크를 풀었어요. 다시 해보면 좋아요.');
+    var text = fill(MSG.uncheck[id] || MSG.uncheck._default, { task: habitTitle(id) });
     speak(coachOfHabit(id), text);
   }
 
@@ -2691,10 +4376,11 @@ input,select{font:inherit}
     var streak = currentStreak();
     burst();
     if(navigator.vibrate){ try{ navigator.vibrate([14, 40, 18]); }catch(e){} }
-    Object.keys(COACHES).forEach(function(c, i){
+    activeCoaches().forEach(function(c, i){
       setTimeout(function(){
-        addFeed(c, MSG.allDone[c]);
-        if(i === 0) showToast(c, MSG.allDone[c]);
+        var msg = MSG.allDone[c] || MSG.allDone._default;
+        addFeed(c, fill(msg));
+        if(i === 0) showToast(c, fill(msg));
       }, i * 420);
     });
     if([3, 7, 14, 21, 30, 50, 100].indexOf(streak) !== -1){
@@ -2723,9 +4409,9 @@ input,select{font:inherit}
   }
 
   function cheer(){
-    var keys = Object.keys(COACHES);
-    var c = keys[Math.floor(Math.random() * keys.length)];
-    var text = fill(pick(MSG.cheer[c], 'cheer-' + c));
+    var active = activeCoaches();
+    var c = active[Math.floor(Math.random() * active.length)];
+    var text = fill(pick(MSG.cheer[c] || MSG.cheer.mind, 'cheer-' + c));
     speak(c, text);
     if(activeView === 'coaches'){
       var feed = $('#feed');
@@ -2789,7 +4475,7 @@ input,select{font:inherit}
       notice(pick(RPG_LINES.cleared, 'mission-clear'));
       maybeLevelUp();
     }else{
-      notice('뜻밖의 미션을 플었어요. 다시 도전할 수 있어요.');
+      notice(T('missionUndone', '뜻밖의 미션을 풀었어요. 다시 도전할 수 있어요.'));
     }
   }
 
@@ -2821,7 +4507,7 @@ input,select{font:inherit}
       text = fill(pick(MSG.both, 'both'));
     }else{
       var bank = MSG.inst[i] || MSG.inst[0] || MSG.check.music;
-      text = fill(pick(bank, 'inst-' + i)).replace(/\{name\}/g, names[i] || '악기');
+      text = fill(pick(bank, 'inst-' + i)).replace(/\{name\}/g, names[i] || T('instBtn', '악기'));
     }
     speak('music', text);
   }
@@ -2896,73 +4582,552 @@ input,select{font:inherit}
     var age = ageYears();
     var proj = projectedYears();
     var s = state.settings;
-    var html = '<p class="f-intro">오늘 체크한 루틴이 몇 분을 더했는지 그대로 보여드려요. 각 루틴의 시간은 이 앱이 정한 <b>동기부여용 가중치</b>예요.</p>';
+    var html = '<p class="f-intro">' + esc(T('fIntro', '오늘 체크한 루틴이 몇 분을 더했는지 그대로 보여드려요. 각 루틴의 시간은 이 앱이 정한 동기부여용 가중치예요.')) + '</p>';
 
     html += '<div class="f-list">';
     HABITS.forEach(function(h){
       var on = isChecked(key, h.id);
-      var title = h.id === 'challenge' ? ('오늘의 도전 · ' + challengeFor(key).title) : habitTitle(h.id);
+      var title = h.id === 'challenge'
+        ? T('fChallengeRow', '오늘의 도전 · {title}', { title:challengeFor(key).title })
+        : habitTitle(h.id);
       var sub;
-      if(h.id === 'challenge') sub = '새로운 자극 · 매일 바뀜';
+      if(h.id === 'challenge') sub = T('fSubChallenge', '새로운 자극 · 매일 바뀜');
       else if(h.id === 'music') sub = instNames().join(' · ');
-      else if(h.id === 'wake') sub = '규칙적 수면 · ' + (isSunday(key) ? '새벽미사 ' : '') + wakeTarget(key);
-      else if(h.id === 'sleep') sub = '규칙적 수면 · ' + fmtClock(state.settings.sleep);
-      else if(h.id === 'strength') sub = '근육 유지 · 10~15분';
-      else if(h.id === 'english') sub = '외국어 · 인지 자극';
-      else sub = '매일 루틴';
+      else if(h.id === 'wake') sub = T('fSubSleep', '규칙적 수면') + ' · ' + (isSunday(key) ? T('massSunday', '새벽미사') + ' ' : '') + wakeTarget(key);
+      else if(h.id === 'sleep') sub = T('fSubSleep', '규칙적 수면') + ' · ' + fmtClock(state.settings.sleep);
+      else if(h.id === 'strength') sub = T('fSubStrength', '근육 유지 · 10~15분');
+      else if(h.id === 'english') sub = T('fSubEnglish', '외국어 · 인지 자극');
+      else if(h.task) sub = (CATEGORIES[h.task.category] || CATEGORIES.life).label + ' · '
+        + (h.task.schedule === 'weekend' ? T('weekendRoutine', '주말 루틴') : T('dailyRoutine', '매일 루틴'));
+      else sub = T('dailyRoutine', '매일 루틴');
       html += '<div class="f-row' + (on ? ' on' : '') + '">'
         + '<span class="f-ico">' + h.icon + '</span>'
         + '<span class="f-name">' + esc(title) + '<small>' + esc(sub) + '</small></span>'
-        + '<span class="f-val">' + (on ? '+' : '') + h.minutes + '분</span>'
+        + '<span class="f-val">' + (on ? '+' : '') + esc(T('fmtMin', '{n}분', { n:h.minutes })) + '</span>'
         + '</div>';
     });
     var mFor = missionFor(key), mDone = missionDone(key);
     html += '<div class="f-row' + (mDone ? ' on' : '') + '">'
       + '<span class="f-ico">' + mFor.icon + '</span>'
-      + '<span class="f-name">뜻밖의 랜덤 미션<small>' + esc(mFor.t) + ' · +' + MISSION_EXP + ' EXP</small></span>'
-      + '<span class="f-val">' + (mDone ? '+' : '') + MISSION_MIN + '분</span>'
+      + '<span class="f-name">' + esc(T('fMission', '뜻밖의 랜덤 미션')) + '<small>' + esc(mFor.t) + ' · +' + MISSION_EXP + ' EXP</small></span>'
+      + '<span class="f-val">' + (mDone ? '+' : '') + esc(T('fmtMin', '{n}분', { n:MISSION_MIN })) + '</span>'
       + '</div>';
     html += '</div>';
 
-    html += '<div class="f-total"><span>오늘 합계</span><strong>+' + fmtMinutes(tm) + '</strong></div>';
-    html += '<div class="f-total" style="background:var(--card-soft);margin-top:8px"><span style="color:var(--ink-2)">지금까지 누적</span><strong style="color:var(--ink)">' + fmtTotal(tot) + '</strong></div>';
+    html += '<div class="f-total"><span>' + esc(T('fToday', '오늘 합계')) + '</span><strong>+' + fmtMinutes(tm) + '</strong></div>';
+    html += '<div class="f-total" style="background:var(--card-soft);margin-top:8px"><span style="color:var(--ink-2)">' + esc(T('fTotal', '지금까지 누적')) + '</span><strong style="color:var(--ink)">' + fmtTotal(tot) + '</strong></div>';
 
-    html += '<div class="f-block"><h3>계산 기준</h3>'
-      + '<div class="kv"><span>생년월일 · 나이</span><b>' + esc(s.birthDate) + ' · ' + (Math.round(age * 10) / 10).toFixed(1) + '세</b></div>'
-      + '<div class="kv"><span>기준 기대수명</span><b>' + Number(s.baseline).toFixed(1) + '세</b></div>'
-      + '<div class="kv"><span>지금 기대수명</span><b>' + fmtYears(proj) + '세</b></div>'
+    html += '<div class="f-block"><h3>' + esc(T('fBasis', '계산 기준')) + '</h3>'
+      + '<div class="kv"><span>' + esc(T('fBirth', '생년월일 · 나이')) + '</span><b>' + esc(s.birthDate) + ' · '
+      + esc(T('fmtYears', '{y}세', { y:(Math.round(age * 10) / 10).toFixed(1) })) + '</b></div>'
+      + '<div class="kv"><span>' + esc(T('fBase', '기준 기대수명')) + '</span><b>'
+      + esc(T('fmtYears', '{y}세', { y:Number(s.baseline).toFixed(1) })) + '</b></div>'
+      + '<div class="kv"><span>' + esc(T('fNow', '지금 기대수명')) + '</span><b>'
+      + esc(T('fmtYears', '{y}세', { y:fmtYears(proj) })) + '</b></div>'
       + '</div>';
 
-    html += '<div class="f-block"><h3>계산식</h3>'
-      + '<p class="f-intro" style="margin:0">오늘 = 체크한 루틴의 분 합계<br>'
-      + '누적 = 지금까지 모든 날의 합<br>'
-      + '현재 기대수명 = 기준 + 누적 ÷ (365.25 × 24 × 60)</p></div>';
+    html += '<div class="f-block"><h3>' + esc(T('fHow', '계산식')) + '</h3>'
+      + '<p class="f-intro" style="margin:0">' + T('fHowBody',
+        '오늘 = 체크한 루틴의 분 합계<br>누적 = 지금까지 모든 날의 합<br>현재 기대수명 = 기준 + 누적 ÷ (365.25 × 24 × 60)')
+      + '</p></div>';
 
-    html += '<div class="f-block"><h3>이렇게 쓰면</h3>'
-      + '<p class="f-intro" style="margin:0">6개를 모두 채우면 하루 <b>+80분</b>, 1년이면 약 <b>+20일</b>이 쌓여요. '
-      + '하루 1개만 해도 1년에 약 <b>+2일</b>이에요. 작은 체크가 쌓이는 걸 보려고 만든 숫자예요.</p></div>';
+    var sumMin = 0;
+    HABITS.forEach(function(h){ sumMin += h.minutes; });
+    var perYear = Math.round(sumMin * 365.2425 / 1440);
+    html += '<div class="f-block"><h3>' + esc(T('fUse', '이렇게 쓰면')) + '</h3>'
+      + '<p class="f-intro" style="margin:0">' + T('fUseBody',
+        '{n}개를 모두 채우면 하루 +{sum}분, 1년이면 약 +{year}일이 쌓여요. 하루 1개만 해도 1년에 약 +2일이에요. 작은 체크가 쌓이는 걸 보려고 만든 숫자예요.',
+        { n:HABITS.length, sum:sumMin, year:perYear }) + '</p></div>';
 
-    html += '<div class="f-note"><b>참고해 주세요.</b> 이 수치는 습관의 가치를 눈으로 보기 위한 <b>동기부여용 추정 모델</b>이에요. 의학적 예측이나 수명 보장이 아니고, 실제 수명은 유전·환경·의료·운 등 다양한 요인에 좌우돼요. 기준값(' + Number(s.baseline).toFixed(1) + '세)은 설정에서 바꿀 수 있어요.</div>';
+    html += '<div class="f-note">' + T('fNote',
+      '참고해 주세요. 이 수치는 습관의 가치를 눈으로 보기 위한 동기부여용 추정 모델이에요. 의학적 예측이나 수명 보장이 아니고, 실제 수명은 유전·환경·의료·운 등 다양한 요인에 좌우돼요. 기준값({base}세)은 설정에서 바꿀 수 있어요.',
+      { base:Number(s.baseline).toFixed(1) }) + '</div>';
     $('#formulaBody').innerHTML = html;
   }
 
   function fillSettings(){
     var s = state.settings;
+    var nm = $('#inpName');
+    if(nm) nm.value = userName();
+    var age = ageFromBirthDate(s.birthDate);
+    var ageEl = $('#inpAge');
+    if(ageEl) ageEl.value = (age == null ? '' : age);
+    var ageNote = $('#inpAgeNote');
+    if(ageNote) ageNote.textContent = age == null
+      ? T('setAgeNote', '나이를 바꾸면 기준 기대수명을 다시 계산해요')
+      : T('setAgeLine', '나이 {age}세 · 생년월일 {birth}', { age:age, birth:s.birthDate });
+    $('#inpBaseline').value = Number(s.baseline).toFixed(1);
     $('#inpWake').value = fmtClock(s.wake);
     $('#inpWakeSun').value = fmtClock(s.wakeSun);
     $('#inpSleep').value = fmtClock(s.sleep);
     $('#inpInst1').value = instNames()[0] || '';
     $('#inpInst2').value = instNames()[1] || '';
-    $('#inpBirth').value = s.birthDate;
-    $('#inpBaseline').value = Number(s.baseline).toFixed(1);
     $$('#themeSeg button').forEach(function(b){
       var on = b.getAttribute('data-theme-opt') === s.theme;
       b.classList.toggle('on', on);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
+    renderCompanion();
+    renderSettingsTasks();
+    renderSettingsCoaches();
+    closeTaskForm();
     var btn = $('#btnReset');
-    btn.textContent = '모든 기록 초기화';
+    btn.textContent = T('resetAll', '모든 기록 초기화');
     btn.classList.remove('armed');
+    resetArmed = false;
+  }
+
+  /* ---------- 설정: 태스크 ---------- */
+  var editingTaskId = null, presetSeedId = null;
+
+  function fillCategorySelect(sel, value){
+    if(!sel) return;
+    var html = '';
+    CAT_KEYS.forEach(function(k){
+      html += '<option value="' + k + '">' + esc(CATEGORIES[k].label + ' · ' + COACHES[CATEGORIES[k].coach].name) + '</option>';
+    });
+    sel.innerHTML = html;
+    if(!(value && CATEGORIES[value])) value = CAT_KEYS[0];
+    sel.value = value;
+  }
+
+  function renderSettingsTasks(){
+    var host = $('#setTasks');
+    if(!host) return;
+    var html = '';
+    var list = state.tasks || [];
+    var on = list.filter(function(t){ return t.enabled !== false; }).length;
+    var cnt = $('#setTaskCount');
+    if(cnt) cnt.textContent = T('tasksCount', '{n}개 사용 중 · 전체 {m}개', { n:on, m:list.length });
+    list.forEach(function(t){
+      var cat = CATEGORIES[t.category] || CATEGORIES.life;
+      var co = COACHES[coachForCategory(t.category)] || COACHES.life;
+      html += '<div class="task-row' + (t.enabled === false ? ' off' : '') + '" data-task-row="' + esc(t.id) + '">'
+        + '<span class="ti" aria-hidden="true">' + esc(t.icon) + '</span>'
+        + '<span class="tb"><b>' + esc(t.title) + '</b>'
+        + '<small>' + esc(cat.label + ' · ' + (t.schedule === 'weekend' ? T('weekend', '주말') : T('daily', '매일'))
+          + ' · ' + T('fmtMin', '{n}분', { n:t.minutes }) + ' · ' + co.name) + '</small></span>'
+        + '<span class="t-acts">'
+        + '<button type="button" data-task-toggle="' + esc(t.id) + '" title="' + esc(t.enabled === false ? T('tasksResume', '다시 쓰기') : T('tasksPause', '잠시 쉬기')) + '" aria-label="' + esc(t.enabled === false ? T('tasksResume', '다시 쓰기') : T('tasksPause', '잠시 쉬기')) + '">' + (t.enabled === false ? '▶' : '⏸') + '</button>'
+        + '<button type="button" data-task-edit="' + esc(t.id) + '" title="' + esc(T('editTask', '태스크 편집')) + '" aria-label="' + esc(T('editTask', '태스크 편집')) + '">✎</button>'
+        + '<button type="button" class="del" data-task-del="' + esc(t.id) + '" title="' + esc(T('deleteTask', '태스크 삭제')) + '" aria-label="' + esc(T('deleteTask', '태스크 삭제')) + '">🗑</button>'
+        + '</span></div>';
+    });
+    host.innerHTML = html || '<p class="field-note">' + esc(T('tasksEmpty', '아직 태스크가 없어요. 아래에서 추가해 보세요.')) + '</p>';
+  }
+
+  function renderPresetPicks(){
+    var host = $('#tfPresets');
+    if(!host) return;
+    var html = '';
+    TASK_PRESETS.forEach(function(p){
+      html += '<button type="button" class="pick" data-tf-preset="' + p.id + '">'
+        + '<span class="pi" aria-hidden="true">' + p.icon + '</span>'
+        + '<span><span class="pt">' + esc(p.title) + '</span><span class="pc">' + esc((CATEGORIES[p.category] || CATEGORIES.life).label)
+        + ' · ' + esc(T('fmtMin', '{n}분', { n:p.minutes })) + '</span></span>'
+        + '</button>';
+    });
+    host.innerHTML = html;
+  }
+
+  function openTaskForm(t){
+    var f = $('#taskForm');
+    if(!f) return;
+    editingTaskId = t ? t.id : null;
+    presetSeedId = null;
+    fillCategorySelect($('#tfCat'), t ? t.category : 'health');
+    f.hidden = false;
+    $('#tfTitle').value = t ? t.title : '';
+    $('#tfSched').value = t ? t.schedule : 'daily';
+    $('#tfMinutes').value = t ? t.minutes : 15;
+    $('#tfQuery').value = (t && t.link && t.link.type === 'search') ? t.link.q : '';
+    $('#tfUrl').value = (t && t.link && t.link.type === 'url') ? t.link.url : '';
+    renderPresetPicks();
+    try{ $('#tfTitle').focus(); }catch(e){}
+  }
+  function closeTaskForm(){
+    editingTaskId = null;
+    presetSeedId = null;
+    var f = $('#taskForm');
+    if(f) f.hidden = true;
+  }
+
+  function saveTaskForm(){
+    var title = String($('#tfTitle').value || '').trim().slice(0, 24);
+    if(!title){ notice(T('taskNameNotice', '태스크 이름을 적어 주세요')); return; }
+    var cat = $('#tfCat').value;
+    var sched = $('#tfSched').value === 'weekend' ? 'weekend' : 'daily';
+    var mins = Math.round(clampNum($('#tfMinutes').value, 1, 180, 15));
+    var q = String($('#tfQuery').value || '').trim().slice(0, 80);
+    var url = String($('#tfUrl').value || '').trim().slice(0, 500);
+    var existing = null;
+    (state.tasks || []).forEach(function(t){ if(t.id === editingTaskId) existing = t; });
+    var seed = presetSeedId ? presetById(presetSeedId) : null;
+    var link;
+    if(url) link = { type:'url', url:url, q:q };
+    else if(q) link = { type:'search', q:q };
+    else if(existing) link = existing.link;
+    else if(seed) link = Object.assign({}, seed.link);
+    else link = { type:'search', q:T('defaultQuery', '{title} 루틴', { title:title }) };
+    var presetKey = existing ? (existing.preset === undefined ? existing.id : existing.preset) : (seed ? seed.id : null);
+    var presetObj = presetKey ? presetById(presetKey) : null;
+    if(presetObj && title !== presetObj.title) presetKey = null;
+    var taken = (state.tasks || []).some(function(t){ return t.id === (seed ? seed.id : ''); });
+    var t = normTask({
+      id: existing ? existing.id : (seed && !taken ? seed.id : ('task' + Date.now().toString(36))),
+      title: title,
+      icon: existing ? existing.icon : (seed ? seed.icon : iconForCategory(cat)),
+      category: cat,
+      minutes: mins,
+      exp: existing ? existing.exp : (seed ? seed.exp : 20),
+      schedule: sched,
+      enabled: true,
+      preset: presetKey,
+      link: link
+    });
+    if(existing){
+      for(var i = 0; i < state.tasks.length; i++) if(state.tasks[i].id === t.id) state.tasks[i] = t;
+    }else{
+      state.tasks.push(t);
+    }
+    autoMatchCoaches();
+    rebuildHabits();
+    save();
+    renderSettingsTasks();
+    renderSettingsCoaches();
+    renderAll();
+    closeTaskForm();
+    notice(existing ? T('taskEdited', '태스크를 고쳤어요') : T('taskAdded', '태스크를 추가했어요'));
+  }
+
+  function autoMatchCoaches(){
+    var m = matchedCoaches();
+    var cur = activeCoaches().slice();
+    m.forEach(function(k){ if(cur.indexOf(k) === -1) cur.push(k); });
+    if(!cur.length) cur = ['mind'];
+    state.coaches = COACH_ORDER.filter(function(k){ return cur.indexOf(k) !== -1; });
+  }
+
+  function toggleTaskEnabled(id){
+    (state.tasks || []).forEach(function(t){ if(t.id === id) t.enabled = (t.enabled === false); });
+    rebuildHabits();
+    save();
+    renderSettingsTasks();
+    renderAll();
+    notice(T('taskToggled', '태스크를 바꿨어요'));
+  }
+
+  function deleteTask(id){
+    var btn = $('[data-task-del="' + id + '"]');
+    if(btn && btn.getAttribute('data-armed') !== '1'){
+      btn.setAttribute('data-armed', '1');
+      btn.textContent = '!';
+      btn.classList.add('armed');
+      setTimeout(function(){
+        if(document.body.contains(btn)){
+          btn.setAttribute('data-armed', '0');
+          btn.textContent = '🗑';
+          btn.classList.remove('armed');
+        }
+      }, 3200);
+      return;
+    }
+    state.tasks = (state.tasks || []).filter(function(t){ return t.id !== id; });
+    rebuildHabits();
+    save();
+    renderSettingsTasks();
+    renderAll();
+    notice(T('taskDeleted', '태스크를 지웠어요'));
+  }
+
+  function renderSettingsCoaches(){
+    var host = $('#setCoaches');
+    if(!host) return;
+    var active = activeCoaches(), html = '';
+    COACH_ORDER.forEach(function(k){
+      var co = COACHES[k], on = active.indexOf(k) !== -1;
+      html += '<button type="button" class="ct' + (on ? ' on' : '') + '" data-coach-toggle="' + k + '" aria-pressed="' + (on ? 'true' : 'false') + '">'
+        + '<span class="avatar sm ' + co.tone + '" aria-hidden="true">' + co.emoji + '</span>'
+        + '<span class="ctb"><b>' + esc(co.name) + '</b><small>' + esc(co.role) + '</small></span>'
+        + '<span class="dot2" aria-hidden="true"></span></button>';
+    });
+    host.innerHTML = html;
+  }
+
+  function toggleCoach(k){
+    var cur = activeCoaches().slice();
+    var at = cur.indexOf(k);
+    if(at === -1) cur.push(k);
+    else if(cur.length > 1) cur.splice(at, 1);
+    else { notice(T('coachMinNotice', '코치는 한 명 이상 있어야 해요')); return; }
+    state.coaches = COACH_ORDER.filter(function(x){ return cur.indexOf(x) !== -1; });
+    save();
+    renderSettingsCoaches();
+    renderAll();
+  }
+
+  /* ---------- 온보딩 ---------- */
+  var ob = { step:1, fixed:{ wake:true, sleep:true }, tasks:[], coaches:[] };
+
+  function obOpen(prefill){
+    ob.step = 1;
+    ob.tasks = [];
+    ob.fixed = { wake: state.settings.wakeOn !== false, sleep: state.settings.sleepOn !== false };
+    ob.coaches = prefill ? activeCoaches().slice() : [];
+    $('#obName').value = userName() || '';
+    var age = ageFromBirthDate(state.settings.birthDate);
+    $('#obAge').value = (age == null ? '' : age);
+    $('#obBase').value = Number(state.settings.baseline).toFixed(1);
+    $('#obAgeNote').textContent = T('obAgeNote', '나이에 맞춰 기준 기대수명을 채워 드려요');
+    $('#obWake').value = fmtClock(state.settings.wake);
+    $('#obWakeSun').value = fmtClock(state.settings.wakeSun);
+    $('#obSleep').value = fmtClock(state.settings.sleep);
+    fillCategorySelect($('#obCustomCat'), 'life');
+    $('#obCustom').hidden = true;
+    $('#obCustomTitle').value = '';
+    $('#obCustomQ').value = '';
+    if(prefill && state.tasks && state.tasks.length){
+      ob.tasks = state.tasks.filter(function(t){ return t.enabled !== false; }).map(function(t){
+        return { id:t.id, title:t.title, icon:t.icon, category:t.category, minutes:t.minutes, exp:t.exp, tone:t.tone, schedule:t.schedule, link:Object.assign({}, t.link) };
+      });
+    }
+    renderCompanion();
+    var ol = $('#obLang'); if(ol) ol.value = lang();
+    $('#onboard').classList.add('on');
+    $('#onboard').setAttribute('aria-hidden', 'false');
+    document.body.classList.add('locked');
+    obRender();
+  }
+
+  function obClose(){
+    $('#onboard').classList.remove('on');
+    $('#onboard').setAttribute('aria-hidden', 'true');
+    if(!openSheetId) document.body.classList.remove('locked');
+  }
+
+  var OB_TITLE_KO = ['내 하루를 맞춰 볼까요?', '무엇을 하고 싶으세요?', '코치와 콘텐츠를 확인해요'];
+  var OB_TITLE_KEY = ['obTitle1', 'obTitle2', 'obTitle3'];
+  var OB_SUB_KO = [
+    '이름·나이·자는 시간을 알려주세요. 기준 기대수명은 나이에 맞춰 채워 드려요.',
+    '하고 싶은 주제를 고르거나 직접 추가해 보세요. 맞는 코치와 콘텐츠가 자동으로 붙어요.',
+    '고른 주제에 맞는 코치는 자동으로 골라 뒀어요. 응원받고 싶은 코치만 남겨도 돼요.'
+  ];
+  var OB_SUB_KEY = ['obSub1', 'obSub2', 'obSub3'];
+  function obStepTitle(n){ return T(OB_TITLE_KEY[n - 1], OB_TITLE_KO[n - 1]); }
+  function obStepSub(n){ return T(OB_SUB_KEY[n - 1], OB_SUB_KO[n - 1]); }
+
+  function obRender(){
+    $$('#onboard .ob-step').forEach(function(el){
+      el.classList.toggle('on', Number(el.getAttribute('data-ob-step')) === ob.step);
+    });
+    $$('#obProg i').forEach(function(el, i){ el.classList.toggle('on', i < ob.step); });
+    $('#obKicker').textContent = state.onboarded
+      ? T('obKickerStart', 'STEP {n} / 3', { n:ob.step })
+      : T('stepKicker', 'STEP {n} / 3', { n:ob.step });
+    $('#obTitle').textContent = obStepTitle(ob.step);
+    $('#obSub').textContent = obStepSub(ob.step);
+    $('#obBack').style.display = ob.step === 1 ? 'none' : 'block';
+    $('#obNext').textContent = ob.step === 3 ? T('obStart', '하루+ 시작하기') : T('obNext', '다음');
+    $('#obBack').textContent = T('obBack', '이전');
+    $('#obClose').classList.toggle('on', !!state.onboarded);
+    $$('#onboard [data-ob-fixed]').forEach(function(b){
+      var k = b.getAttribute('data-ob-fixed');
+      var on = !!ob.fixed[k];
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    if(ob.step === 2) obRenderPick();
+    if(ob.step === 3){ obRenderCoaches(); obRenderPreview(); }
+  }
+
+  function obHasTask(id){
+    for(var i = 0; i < ob.tasks.length; i++) if(ob.tasks[i].id === id) return true;
+    return false;
+  }
+  function obTaskById(id){
+    for(var i = 0; i < ob.tasks.length; i++) if(ob.tasks[i].id === id) return ob.tasks[i];
+    return null;
+  }
+  function obRenderPick(){
+    var html = '';
+    TASK_PRESETS.forEach(function(p){
+      var on = obHasTask(p.id);
+      html += '<button type="button" class="pick' + (on ? ' on' : '') + '" data-ob-preset="' + p.id + '" aria-pressed="' + (on ? 'true' : 'false') + '">'
+        + '<span class="pi" aria-hidden="true">' + p.icon + '</span>'
+        + '<span><span class="pt">' + esc(p.title) + '</span><span class="pc">' + esc((CATEGORIES[p.category] || CATEGORIES.life).label)
+        + ' · ' + esc(T('fmtMin', '{n}분', { n:p.minutes })) + '</span></span>'
+        + '<span class="pk" aria-hidden="true">✓</span></button>';
+    });
+    $('#obPresets').innerHTML = html;
+    var sel = '';
+    ob.tasks.forEach(function(t){
+      sel += '<div class="row" data-ob-row="' + esc(t.id) + '"><span aria-hidden="true">' + esc(t.icon) + '</span>'
+        + '<span>' + esc(t.title) + ' <small>' + esc((CATEGORIES[t.category] || CATEGORIES.life).label + ' · '
+        + (t.schedule === 'weekend' ? T('weekend', '주말') : T('daily', '매일'))) + '</small></span>'
+        + '<button type="button" class="rm" data-ob-remove="' + esc(t.id) + '" aria-label="'
+        + esc(T('removeAria', '{name} 빼기', { name:t.title })) + '">✕</button></div>';
+    });
+    $('#obSelected').innerHTML = sel || '<p class="field-note">' + esc(T('obEmptySel', '아래 주제 중에서 하나 이상 골라 주세요.')) + '</p>';
+    $('#obTaskErr').textContent = '';
+  }
+
+  function obTogglePreset(id){
+    var p = presetById(id);
+    if(!p) return;
+    var at = -1;
+    ob.tasks.forEach(function(t, i){ if(t.id === id) at = i; });
+    if(at === -1){
+      ob.tasks.push({ id:p.id, title:p.title, icon:p.icon, category:p.category, minutes:p.minutes, exp:p.exp, tone:toneForCategory(p.category), schedule:p.schedule, link:Object.assign({}, p.link) });
+    }else{
+      ob.tasks.splice(at, 1);
+    }
+    obSyncCoaches();
+    obRenderPick();
+  }
+
+  function obSyncCoaches(){
+    var m = [];
+    ob.tasks.forEach(function(t){
+      var k = coachForCategory(t.category);
+      if(m.indexOf(k) === -1) m.push(k);
+    });
+    if(!ob.coaches.length) ob.coaches = m.slice();
+    m.forEach(function(k){ if(ob.coaches.indexOf(k) === -1) ob.coaches.push(k); });
+    if(!ob.coaches.length) ob.coaches = ['mind'];
+  }
+
+  function obAddCustom(){
+    var title = String($('#obCustomTitle').value || '').trim().slice(0, 24);
+    if(!title){ $('#obTaskErr').textContent = T('obNeedsCustomName', '주제 이름을 적어 주세요.'); return; }
+    var cat = $('#obCustomCat').value;
+    var sched = $('#obCustomSched').value === 'weekend' ? 'weekend' : 'daily';
+    var raw = String($('#obCustomQ').value || '').trim();
+    var link = /^https?:\/\//i.test(raw) ? { type:'url', url:raw.slice(0, 500) }
+      : { type:'search', q:(raw || T('defaultQuery', '{title} 루틴', { title:title })).slice(0, 80) };
+    ob.tasks.push({
+      id: 'my' + Date.now().toString(36),
+      title: title, icon: iconForCategory(cat), category: cat, minutes: 15, exp: 20,
+      tone: toneForCategory(cat), schedule: sched, link: link
+    });
+    $('#obCustomTitle').value = '';
+    $('#obCustomQ').value = '';
+    $('#obCustom').hidden = true;
+    $('#obTaskErr').textContent = '';
+    obSyncCoaches();
+    obRenderPick();
+  }
+
+  function obMatched(){
+    var m = [];
+    ob.tasks.forEach(function(t){
+      var k = coachForCategory(t.category);
+      if(m.indexOf(k) === -1) m.push(k);
+    });
+    return m;
+  }
+
+  function obRenderCoaches(){
+    var html = '', matched = obMatched();
+    COACH_ORDER.forEach(function(k){
+      if(matched.indexOf(k) === -1 && ob.coaches.indexOf(k) === -1) return;
+      var co = COACHES[k], on = ob.coaches.indexOf(k) !== -1;
+      var names = ob.tasks.filter(function(t){ return coachForCategory(t.category) === k; }).map(function(t){ return t.title; });
+      html += '<button type="button" class="ob-coach' + (on ? ' on' : '') + '" data-ob-coach="' + k + '" aria-pressed="' + (on ? 'true' : 'false') + '">'
+        + '<span class="avatar ' + co.tone + '" aria-hidden="true">' + co.emoji + '</span>'
+        + '<span class="cb"><b>' + esc(co.name) + '</b><small>' + esc(co.role + ' · ' + (names.length ? names.join(', ') : T('obPreviewBasic', '기본 루틴'))) + '</small></span>'
+        + '<span class="sw" aria-hidden="true"></span></button>';
+    });
+    $('#obCoaches').innerHTML = html || '<p class="field-note">' + esc(T('obNeedsCoach', '코치는 한 명 이상 필요해요.')) + '</p>';
+  }
+
+  function obRenderPreview(){
+    var html = '';
+    var wakeMin = 8, sleepMin = 10;
+    if(ob.fixed.wake) html += '<li><span aria-hidden="true">☀️</span><span>' + esc(T('wakeTitle', '기상 시간 지키기')) + '</span>'
+      + '<span class="lk">' + esc(COACHES.health.name + ' · ' + T('obPreviewBasic', '기본 루틴') + ' ' + T('plusMin', '+{n}분', { n:wakeMin })) + '</span></li>';
+    if(ob.fixed.sleep) html += '<li><span aria-hidden="true">🌙</span><span>' + esc(T('sleepTitle', '취침 시간 지키기')) + '</span>'
+      + '<span class="lk">' + esc(COACHES.health.name + ' · ' + T('obPreviewBasic', '기본 루틴') + ' ' + T('plusMin', '+{n}분', { n:sleepMin })) + '</span></li>';
+    ob.tasks.forEach(function(t){
+      var co = COACHES[coachForCategory(t.category)] || COACHES.life;
+      html += '<li><span aria-hidden="true">' + esc(t.icon) + '</span><span>' + esc(t.title) + '</span>'
+        + '<span class="lk">' + esc(co.name) + ' · ' + esc(linkLabel(t.link)) + '</span></li>';
+    });
+    html += '<li><span aria-hidden="true">🎲</span><span>' + esc(T('obPreviewChallenge', '오늘의 도전 · 뜻밖의 랜덤 미션'))
+      + '</span><span class="lk">' + esc(T('obPreviewAuto', '매일 자동으로 바뀌어요')) + '</span></li>';
+    $('#obPreview').innerHTML = html;
+  }
+
+  function obToggleCoach(k){
+    var at = ob.coaches.indexOf(k);
+    if(at === -1) ob.coaches.push(k);
+    else if(ob.coaches.length > 1) ob.coaches.splice(at, 1);
+    else { $('#obTaskErr').textContent = T('obNeedsCoach', '코치는 한 명 이상 필요해요.'); return; }
+    obRenderCoaches();
+  }
+
+  function obNext(){
+    if(ob.step === 1){
+      var nm = String($('#obName').value || '').trim();
+      if(!nm){ $('#obName').focus(); $('#obAgeNote').textContent = T('obNeedsName', '이름을 먼저 알려주세요'); return; }
+      ob.step = 2;
+      obRender();
+      return;
+    }
+    if(ob.step === 2){
+      if(!ob.tasks.length){ $('#obTaskErr').textContent = T('obNeedsTask', '주제를 하나 이상 골라 주세요.'); return; }
+      obSyncCoaches();
+      ob.step = 3;
+      obRender();
+      return;
+    }
+    obComplete();
+  }
+
+  function obBack(){
+    if(ob.step > 1){ ob.step--; obRender(); }
+  }
+
+  function obComplete(){
+    var nm = String($('#obName').value || '').trim().slice(0, 20) || T('memberWord', '친구');
+    var age = parseFloat($('#obAge').value);
+    var base = parseFloat($('#obBase').value);
+    var next = Object.assign({}, state.settings);
+    state.name = nm;
+    if(isFinite(age) && age >= 10 && age <= 100){
+      next.birthDate = birthDateFromAge(age);
+      if(!isFinite(base)) next.baseline = estimateBaseline(age);
+    }
+    if(isFinite(base)) next.baseline = Math.min(120, Math.max(50, Math.round(base * 10) / 10));
+    var w = $('#obWake').value, ws = $('#obWakeSun').value, sl = $('#obSleep').value;
+    if(/^\d{2}:\d{2}$/.test(w)) next.wake = w;
+    if(/^\d{2}:\d{2}$/.test(ws)) next.wakeSun = ws;
+    if(/^\d{2}:\d{2}$/.test(sl)) next.sleep = sl;
+    next.wakeOn = !!ob.fixed.wake;
+    next.sleepOn = !!ob.fixed.sleep;
+    state.settings = next;
+    var comp = $('#obCompanion');
+    if(comp && COMPANION_SRC[comp.value]) state.companion = comp.value;
+    var ol = $('#obLang');
+    if(ol && (ol.value === 'ko' || I18N[ol.value])) state.lang = ol.value;
+    state.tasks = normTasks(ob.tasks);
+    var chosen = COACH_ORDER.filter(function(k){ return ob.coaches.indexOf(k) !== -1; });
+    if(!chosen.length) chosen = matchedCoaches();
+    if(!chosen.length) chosen = ['mind'];
+    state.coaches = chosen;
+    state.onboarded = true;
+    rebuildHabits();
+    shown = { today:-1, total:-1, proj:-1 };
+    save();
+    obClose();
+    applyTheme();
+    seed();
+    renderAll();
+    showView('home');
+    var onlyWelcome = !state.feed.length || state.feed.every(function(m){ return /^w\d+$/.test(String(m.id)); });
+    if(onlyWelcome){ state.feed = []; seed(); }
+    notice(T('obWelcome', '{name}님의 하루+를 시작해요', { name:nm }));
+    if(!onlyWelcome) addFeed(state.coaches[0], T('obReplayWelcome',
+      '{name}님, 맞춘 루틴으로 다시 시작해요. 오늘 한 칸부터 가볍게 채워봐요.', { name:nm }));
   }
 
   var resetArmed = false, resetTimer = null;
@@ -2970,52 +5135,62 @@ input,select{font:inherit}
     var btn = $('#btnReset');
     if(!resetArmed){
       resetArmed = true;
-      btn.textContent = '정말 초기화할까요? 한 번 더 누르세요';
+      btn.textContent = T('resetArmed', '정말 초기화할까요? 한 번 더 누르세요');
       btn.classList.add('armed');
       clearTimeout(resetTimer);
       resetTimer = setTimeout(function(){
         resetArmed = false;
-        btn.textContent = '모든 기록 초기화';
+        btn.textContent = T('resetAll', '모든 기록 초기화');
         btn.classList.remove('armed');
       }, 4000);
       return;
     }
     resetArmed = false;
     clearTimeout(resetTimer);
+    var keepName = userName();
     try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
-    state = freshState();
+    state = freshState(keepName);
     state.rpg.seenLevel = 1;   /* 초기화 뒤 첫 레벨업은 다시 축하해 줍니다 */
+    rebuildHabits();
     seed();
     save();
     shown = { today:-1, total:-1, proj:-1 };
     applyTheme();
     closeSheets();
     renderAll();
-    notice('모든 기록을 지웠어요');
+    notice(T('resetNotice', '모든 기록을 지웠어요'));
+    obOpen(false);
   }
 
   function saveSettings(){
+    var nm = String($('#inpName').value || '').trim().slice(0, 20);
+    var age = parseFloat($('#inpAge').value);
     var w = $('#inpWake').value;
     var wsun = $('#inpWakeSun').value;
     var sl = $('#inpSleep').value;
     var inst1 = $('#inpInst1').value.trim();
     var inst2 = $('#inpInst2').value.trim();
-    var birth = $('#inpBirth').value;
     var base = parseFloat($('#inpBaseline').value);
     var next = Object.assign({}, state.settings);
+    if(nm) state.name = nm;
+    if(isFinite(age) && age >= 10 && age <= 100) next.birthDate = birthDateFromAge(age);
     if(/^\d{2}:\d{2}$/.test(w)) next.wake = w;
     if(/^\d{2}:\d{2}$/.test(wsun)) next.wakeSun = wsun;
     if(/^\d{2}:\d{2}$/.test(sl)) next.sleep = sl;
     if(inst1 || inst2) next.instruments = [inst1.slice(0, 12), inst2.slice(0, 12)].filter(Boolean);
-    if(/^\d{4}-\d{2}-\d{2}$/.test(birth)) next.birthDate = birth;
     if(isFinite(base)) next.baseline = Math.min(120, Math.max(50, Math.round(base * 10) / 10));
     state.settings = next;
+    var compSel = $('#inpCompanion');
+    if(compSel && COMPANION_SRC[compSel.value]) state.companion = compSel.value;
+    var langSel = $('#inpLang');
+    if(langSel) state.lang = langSel.value;
+    rebuildHabits();
     save();
     applyTheme();
     shown = { today:-1, total:-1, proj:-1 };
     renderAll();
     closeSheets();
-    notice('설정을 저장했어요');
+    notice(T('settingsSaved', '설정을 저장했어요'));
   }
 
   /* =================views / init================= */
@@ -3033,7 +5208,32 @@ input,select{font:inherit}
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  var COMPANION_SRC = { female:'./assets/knight-queen.webp', male:'./assets/knight-king.webp', unset:'./assets/knight-cute.webp' };
+  var COMPANION_ALT = { female:'altQueen', male:'altKing', unset:'altCute' };
+  function companionKey(){
+    return COMPANION_SRC[state.companion] ? state.companion : 'unset';
+  }
+  function renderCompanion(){
+    var k = companionKey(), src = COMPANION_SRC[k];
+    var alt = T(COMPANION_ALT[k], '기사 여왕 동반자');
+    var img = $('#rpgImg');
+    if(img && img.getAttribute('src') !== src){
+      img.parentNode && img.parentNode.classList.remove('no-img');
+      img.setAttribute('src', src);
+      img.setAttribute('alt', alt);
+    }else if(img){ img.setAttribute('alt', alt); }
+    ['#companionPrev', '#companionPrevSet'].forEach(function(sel){
+      var el = $(sel);
+      if(el){ el.src = src; el.alt = alt; }
+    });
+    ['#inpCompanion', '#obCompanion'].forEach(function(sel){
+      var el = $(sel); if(el) el.value = k;
+    });
+  }
+
   function renderAll(){
+    rebuildHabits();
+    renderCompanion();
     renderHeader();
     renderHero();
     renderRpg();
@@ -3049,11 +5249,18 @@ input,select{font:inherit}
   function seed(){
     if(state.feed && state.feed.length) return;
     var now = Date.now();
-    state.feed = [
-      { id:'w1', coach:'health', ts: now - 60000, text:'안녕하세요, ' + USER_NAME + '님. 건강 코치 닥터 튼튼이에요. 오늘 체크 하나하나가 기대수명으로 쌓이는 걸 보여드릴게요.' },
-      { id:'w2', coach:'mind', ts: now - 40000, text:'저는 마인드 메이예요. 루틴이 흔들리는 날엔 제가 옆에 있을게요. 완벽하지 않아도 괜찮아요.' },
-      { id:'w3', coach:'music', ts: now - 20000, text:'마에스트로 리예요. 주말엔 ' + instNames().join(' · ') + '으로 한 주를 마무리해봐요. 평일 10분도 충분해요.' }
-    ];
+    var nm = userName() || T('memberWord', '회원');
+    var insts = instNames().join(' · ') || T('musicTitle', '악기');
+    var hello = {
+      health: T('seedHealth', '안녕하세요, {name}. 건강 코치 닥터 튼튼이에요. 오늘 체크 하나하나가 기대수명으로 쌓이는 걸 보여드릴게요.', { name:nm }),
+      mind: T('seedMind', '저는 마인드 메이예요. {name}의 루틴이 흔들리는 날엔 제가 옆에 있을게요. 완벽하지 않아도 괜찮아요.', { name:nm }),
+      music: T('seedMusic', '마에스트로 리예요. {insts}으로 한 주를 마무리해봐요. 평일 10분도 충분해요.', { insts:insts }),
+      life: T('seedLife', '아키텍트 진이에요. {name}의 하루를 구조로 만들어 드릴게요. 작은 순서 하나부터 시작해요.', { name:nm })
+    };
+    var list = activeCoaches();
+    state.feed = list.map(function(c, i){
+      return { id:'w' + (i + 1), coach:c, ts: now - (list.length - i) * 20000, text: hello[c] || hello.mind };
+    });
   }
 
   function maybeMissedDayNote(){
@@ -3066,7 +5273,7 @@ input,select{font:inherit}
     var earlier = Object.keys(state.days).filter(function(k){ return k < yk; });
     if(!state.days[yk] && !earlier.length) return;
     if(isSuccess(yk)) return;
-    addFeed('mind', '어제는 조금 비었네요. 괜찮아요, 오늘 한 칸만 채우면 다시 흐름이 돌아와요.');
+    addFeed('mind', T('seedMissed', '어제는 조금 비었네요. 괜찮아요, 오늘 한 칸만 채우면 다시 흐름이 돌아와요.'));
     try{ localStorage.setItem(flagKey, '1'); }catch(e){}
   }
 
@@ -3078,8 +5285,73 @@ input,select{font:inherit}
     /* 유튜브 링크 탭은 루틴 체크를 토글하지 않음 */
     if(t.closest('a[href]')) return;
 
+    /* ---- 온보딩 ---- */
+    var obPreset = t.closest('[data-ob-preset]');
+    if(obPreset){ obTogglePreset(obPreset.getAttribute('data-ob-preset')); return; }
+    var obFixed = t.closest('[data-ob-fixed]');
+    if(obFixed){
+      var fk = obFixed.getAttribute('data-ob-fixed');
+      ob.fixed[fk] = !ob.fixed[fk];
+      obRender();
+      return;
+    }
+    var obRemove = t.closest('[data-ob-remove]');
+    if(obRemove){
+      var rid = obRemove.getAttribute('data-ob-remove');
+      ob.tasks = ob.tasks.filter(function(x){ return x.id !== rid; });
+      obRenderPick();
+      return;
+    }
+    var obCoachBtn = t.closest('[data-ob-coach]');
+    if(obCoachBtn){ obToggleCoach(obCoachBtn.getAttribute('data-ob-coach')); return; }
+    if(t.closest('#obBack')){ obBack(); return; }
+    if(t.closest('#obClose')){ obClose(); return; }
+    if(t.closest('#obNext')){ obNext(); return; }
+    if(t.closest('#obAddCustom')){ $('#obCustom').hidden = false; try{ $('#obCustomTitle').focus(); }catch(e){} return; }
+    if(t.closest('#obCustomCancel')){ $('#obCustom').hidden = true; return; }
+    if(t.closest('#obCustomSave')){ obAddCustom(); return; }
+
+    /* ---- 설정: 태스크 · 코치 ---- */
+    var tfPreset = t.closest('[data-tf-preset]');
+    if(tfPreset){
+      var pp = presetById(tfPreset.getAttribute('data-tf-preset'));
+      if(pp){
+        presetSeedId = pp.id;
+        $('#tfTitle').value = pp.title;
+        fillCategorySelect($('#tfCat'), pp.category);
+        $('#tfSched').value = pp.schedule;
+        $('#tfMinutes').value = pp.minutes;
+        $('#tfQuery').value = (pp.link && pp.link.type === 'search') ? pp.link.q : '';
+        $('#tfUrl').value = (pp.link && pp.link.type === 'url') ? pp.link.url : '';
+      }
+      return;
+    }
+    if(t.closest('#btnAddTask')){ openTaskForm(null); return; }
+    if(t.closest('#tfCancel')){ closeTaskForm(); return; }
+    if(t.closest('#tfSave')){ saveTaskForm(); return; }
+    var taskToggle = t.closest('[data-task-toggle]');
+    if(taskToggle){ toggleTaskEnabled(taskToggle.getAttribute('data-task-toggle')); return; }
+    var taskEdit = t.closest('[data-task-edit]');
+    if(taskEdit){
+      var eid = taskEdit.getAttribute('data-task-edit'), found = null;
+      (state.tasks || []).forEach(function(x){ if(x.id === eid) found = x; });
+      openTaskForm(found);
+      return;
+    }
+    var taskDel = t.closest('[data-task-del]');
+    if(taskDel){ deleteTask(taskDel.getAttribute('data-task-del')); return; }
+    var coachToggle = t.closest('[data-coach-toggle]');
+    if(coachToggle){ toggleCoach(coachToggle.getAttribute('data-coach-toggle')); return; }
+    if(t.closest('#btnReopenOnboarding')){
+      closeSheets();
+      obOpen(true);
+      return;
+    }
+
     var instEl = t.closest('[data-inst]');
     if(instEl){ toggleInstrument(Number(instEl.getAttribute('data-inst'))); return; }
+
+    if(t.closest('#obClose')){ obClose(); return; }
 
     var habitEl = t.closest('[data-habit]');
     if(habitEl && !t.closest('[data-close]')){
@@ -3118,18 +5390,34 @@ input,select{font:inherit}
         renderFeed();
         renderStrip();
         btn.dataset.armed = '0';
-        btn.textContent = '비우기';
-        notice('코치 피드를 비웠어요');
+        btn.textContent = T('clearFeed', '비우기');
+        notice(T('clearedFeedNotice', '코치 피드를 비웠어요'));
       }else{
         btn.dataset.armed = '1';
-        btn.textContent = '한 번 더 누르면 비워요';
+        btn.textContent = T('clearFeedArmed', '한 번 더 누르면 비워요');
         setTimeout(function(){
           if(!document.body.contains(btn)) return;
           btn.dataset.armed = '0';
-          btn.textContent = '비우기';
+          btn.textContent = T('clearFeed', '비우기');
         }, 3500);
       }
       return;
+    }
+  });
+
+  document.addEventListener('change', function(e){
+    var t = e.target;
+    if(!t || !t.id) return;
+    if(t.id === 'obLang' || t.id === 'inpLang'){
+      if(lang() !== t.value) setLang(t.value);
+      return;
+    }
+    if(t.id === 'obCompanion' || t.id === 'inpCompanion'){
+      if(COMPANION_SRC[t.value]){
+        state.companion = t.value;
+        renderCompanion();
+        save();
+      }
     }
   });
 
@@ -3158,14 +5446,32 @@ input,select{font:inherit}
   }
 
   /* =================boot================= */
-  seed();
+  if(state.onboarded) seed();
   applyTheme();
   maybeMissedDayNote();
   spawnMotes();
   bindRpgImage();
   maybeLevelUp();
   save();
+  applyStatic();
   renderAll();
+
+  /* 나이를 고치면 기준 기대수명을 다시 채움 */
+  function bindAgeInput(ageSel, baseSel, noteSel){
+    var a = $(ageSel), b = $(baseSel), n = $(noteSel);
+    if(!a) return;
+    a.addEventListener('input', function(){
+      var v = parseFloat(a.value);
+      if(!isFinite(v) || v < 10 || v > 100) return;
+      if(b) b.value = estimateBaseline(v).toFixed(1);
+      if(n) n.textContent = T('setAgeNoteCalc', '나이 {age}세 · 기준 기대수명을 다시 계산했어요', { age:Math.round(v) });
+    });
+  }
+  bindAgeInput('#obAge', '#obBase', '#obAgeNote');
+  bindAgeInput('#inpAge', '#inpBaseline', '#inpAgeNote');
+
+  /* 처음 온 사람과 기록을 지운 사람은 온보딩으로 안내 */
+  if(!state.onboarded) obOpen(false);
 })();
 </script>
 </body>
