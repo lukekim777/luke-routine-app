@@ -1,0 +1,49 @@
+name: APK 빌드 (Health Connect 브리지)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'android-hc-bridge/**'
+      - '.github/workflows/build-hc-apk.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    name: app-debug.apk 빌드
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: JDK 17 준비
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Android SDK 준비 (platform 36 · build-tools 36)
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platforms;android-36 build-tools;36.0.0 platform-tools'
+
+      - name: Gradle 준비 (8.11.1)
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+
+      - name: 단위 테스트 + debug APK 빌드
+        working-directory: android-hc-bridge
+        run: gradle --no-daemon :app:testDebugUnitTest :app:assembleDebug
+
+      - name: APK 아티팩트 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: android-hc-bridge/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 30
