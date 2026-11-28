@@ -17,6 +17,15 @@ CSS·JS·유튜브 영상 목록을 모두 `index.html` 한 파일에 담았고,
 | `icon-maskable-512.png` | Android 마스커블 아이콘 |
 | `apple-touch-icon.png` | iOS 홈 화면 아이콘 |
 | `icon.svg` | 벡터 아이콘 |
+| `share/index.html` | 지인 공유용 소개 페이지 (`/share/` — 상대 경로로 앱·자산 참조) |
+
+## 지인 공유 페이지
+
+`https://lukekim777.github.io/luke-routine-app/share/` 는 앱을 지인에게 소개하는
+한 페이지짜리 랜딩 페이지입니다. 본체(`index.html`)는 그대로 `/` 에 남아 있고,
+공유 페이지는 `../` 와 `../assets/knight-queen.webp` 같은 상대 경로만 써서
+로컬 파일로 열어도 GitHub Pages에서도 똑같이 동작합니다. 기록은 공유 페이지가
+아니라 앱 본체의 localStorage에만 남습니다.
 
 ## 특징
 
