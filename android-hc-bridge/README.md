@@ -32,7 +32,7 @@ GitHub 연동 토큰으로는 `.github/workflows/` 아래 파일을 푸시할 �
 
 빌드가 하는 일:
 
-- JDK 17 (temurin) + Android SDK platform 36 · build-tools 36 설치
+- JDK 17 (temurin) 준비 + Android SDK 라이선스 동의 (platform 36 · build-tools 는 빌드 중 자동 다운로드)
 - Gradle 8.11.1 로 `:app:testDebugUnitTest`(URL 생성 단위 테스트 5개) 와 `:app:assembleDebug` 실행
 - `android-hc-bridge/app/build/outputs/apk/debug/app-debug.apk` 를 아티팩트로 업로드 (30일 보관)
 
