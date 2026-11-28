@@ -10,11 +10,11 @@ import kotlin.math.roundToLong
  */
 object HealthPayload {
 
-    const val APP_URL = "https://lukekim777.github.io/luke-routine-app/"
+    const val APP_URL = "https://lukekim777.github.io/luke-routine-app/plus/"
 
     /**
      * 값이 있는 항목만 쿼리 파라미터로 붙입니다.
-     * 예) https://lukekim777.github.io/luke-routine-app/?hc_steps=8432&hc_sleep=7.5&hc_sbp=128&hc_dbp=82&hc_date=2026-11-28
+     * 예) https://lukekim777.github.io/luke-routine-app/plus/?hc_steps=8432&hc_sleep=7.5&hc_sbp=128&hc_dbp=82&hc_date=2026-11-28
      */
     fun buildUrl(
         steps: Long?,

@@ -9,9 +9,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="하루+">
 <title>하루+ · 루틴과 기대수명</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230B2A23'/%3E%3Cpath d='M32 44s-13-8.2-13-17a7.6 7.6 0 0 1 13-5.3A7.6 7.6 0 0 1 45 27c0 8.8-13 17-13 17z' fill='%2334D399'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230B2A23'/%3E%3Cpath d='M32 44s-13-8.2-13-17a7.6 7.6 0 0 1 13-5.3A7.6 7.6 0 0 1 45 27c0 8.8-13 17-13 17z' fill='%2334D399'/%3E%3C/svg%3E">
 <style>
 /* ============ tokens ============ */
 :root{
@@ -675,57 +675,6 @@ input,select{font:inherit}
   .coach-toggles{grid-template-columns:1fr}
 }
 
-/* ===== health & meal quick log ===== */
-.plan{display:flex;align-items:flex-start;gap:10px;padding:12px 13px;margin-top:12px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(120deg,var(--mint-soft),var(--card) 78%)}
-.plan .pi{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-size:16px;background:var(--card);border:1px solid var(--line);flex:0 0 auto}
-.plan .pb{flex:1;min-width:0}
-.plan b{display:block;font-size:11px;font-weight:850;color:var(--mint-deep);letter-spacing:.04em}
-.plan p{font-size:12.5px;font-weight:650;line-height:1.5;margin-top:2px;color:var(--ink)}
-.hlog{display:flex;flex-direction:column;gap:9px;padding:11px;border-radius:var(--r-lg);border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-soft)}
-.hl-block{padding:10px;border-radius:14px;border:1px solid var(--line);background:var(--card-soft);min-width:0}
-.hl-head{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;letter-spacing:-.01em}
-.hl-ico{font-size:14px;flex:0 0 auto}
-.hl-val{margin-left:auto;font-size:11.5px;font-weight:850;color:var(--mint-deep);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hl-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
-.hchip{flex:1 1 0;min-width:0;padding:8px 4px;border-radius:10px;border:1px solid var(--line-2);background:var(--card);font-size:11px;font-weight:750;color:var(--ink-2);white-space:nowrap;letter-spacing:-.02em;overflow:hidden;text-overflow:ellipsis}
-.hl-chips.two .hchip{flex:1 1 calc(50% - 3px);font-size:11px;padding:8px 6px}
-.hchip.on{background:var(--mint-soft);border-color:rgba(14,159,110,.55);color:var(--mint-deep)}
-.hchip.mood{flex:1 1 0;font-size:10.5px}
-.hl-row{display:flex;align-items:center;gap:7px;margin-top:8px;min-width:0}
-.hl-row input[type="range"]{flex:1;min-width:0;accent-color:var(--mint);height:24px}
-.hl-row input[type="number"]{width:74px;flex:0 0 auto;padding:7px 6px;border-radius:10px;border:1px solid var(--line-2);background:var(--card);color:var(--ink);font-size:13px;font-weight:850;text-align:right}
-.hl-row input[type="text"]{flex:1;min-width:0;padding:9px 10px;border-radius:10px;border:1px solid var(--line-2);background:var(--card);color:var(--ink);font-size:12.5px;font-weight:650}
-.stp{width:30px;height:30px;flex:0 0 auto;border-radius:9px;border:1px solid var(--line-2);background:var(--card);color:var(--ink-2);font-size:14px;font-weight:800;display:grid;place-items:center;line-height:1}
-.hl-bp{display:flex;gap:8px;margin-top:8px}
-.hl-bp label{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;font-size:10px;font-weight:750;color:var(--ink-3)}
-.hl-bp input{width:100%;padding:9px 6px;border-radius:10px;border:1px solid var(--line-2);background:var(--card);color:var(--ink);font-size:15px;font-weight:850;text-align:center}
-.bp-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:99px;font-size:10.5px;font-weight:850;background:var(--card);border:1px solid var(--line-2);color:var(--ink-2);margin-top:8px}
-.bp-badge.normal{background:var(--mint-soft);border-color:rgba(14,159,110,.45);color:var(--mint-deep)}
-.bp-badge.elev{background:var(--amber-soft);border-color:rgba(201,124,0,.45);color:var(--amber)}
-.bp-badge.high{background:rgba(201,75,75,.12);border-color:rgba(201,75,75,.45);color:var(--rose)}
-.hl-note{font-size:10.5px;color:var(--ink-3);font-weight:650;margin-top:6px;line-height:1.45}
-.hl-note b{color:var(--mint-deep);font-weight:850}
-.meal-list{display:flex;flex-direction:column;gap:6px;margin-top:8px}
-.meal-row{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:11px;background:var(--card);border:1px solid var(--line);min-width:0}
-.meal-thumb{width:38px;height:38px;border-radius:9px;object-fit:cover;flex:0 0 auto;border:1px solid var(--line);background:var(--card-soft)}
-.meal-noimg{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;font-size:16px;flex:0 0 auto;background:var(--card-soft);border:1px solid var(--line)}
-.meal-b{flex:1;min-width:0}
-.meal-b b{display:block;font-size:11.5px;font-weight:800;letter-spacing:-.01em}
-.meal-b small{display:block;font-size:10px;color:var(--ink-3);font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.meal-del{width:26px;height:26px;flex:0 0 auto;border-radius:8px;border:1px solid var(--line-2);background:var(--card);color:var(--ink-3);font-size:11px;display:grid;place-items:center}
-.meal-empty{font-size:10.5px;color:var(--ink-3);font-weight:650;margin-top:8px}
-.meal-act{display:flex;align-items:center;gap:7px;margin-top:8px;flex-wrap:wrap}
-.meal-act .hl-row{flex:1 1 140px;min-width:0;margin-top:0}
-.photo-btn{padding:9px 10px;border-radius:10px;border:1px dashed var(--line-2);background:var(--card);color:var(--ink-2);font-size:11px;font-weight:800;white-space:nowrap;flex:0 0 auto}
-.photo-btn.has{border-style:solid;border-color:rgba(14,159,110,.5);color:var(--mint-deep);background:var(--mint-soft)}
-.meal-thumb-prev{width:34px;height:34px;border-radius:8px;object-fit:cover;border:1px solid var(--line);flex:0 0 auto}
-.hl-foot{font-size:10.5px;color:var(--ink-3);font-weight:700;text-align:right}
-.hl-foot b{color:var(--mint-deep);font-weight:850}
-.ms-why{display:block;font-size:10.5px;font-weight:750;color:var(--mint-deep);margin-top:4px}
-@media (max-width:360px){
-  .hchip{font-size:10px;padding:7px 2px}
-  .hl-bp input{font-size:14px}
-}
 
 /* toast + confetti */
 .toast-host{position:fixed;left:0;right:0;bottom:calc(78px + var(--safe-b));z-index:60;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;padding:0 14px}
@@ -753,6 +702,17 @@ input,select{font:inherit}
 @media (min-width:521px){
   .tabbar{border-radius:20px 20px 0 0;border:1px solid var(--line);border-bottom:0}
 }
+/* ===== 오늘 컨디션 · 한 줄 칩 ===== */
+.cond{display:flex;align-items:center;gap:8px;margin:2px 0 11px;min-height:30px}
+.cond-q{font-size:11px;font-weight:800;color:var(--ink-3);letter-spacing:.02em;flex:0 0 auto}
+.cond-chips{display:flex;gap:6px;flex:1;min-width:0}
+.cond-chip{flex:1 1 0;min-width:0;padding:6px 6px;border-radius:99px;border:1px solid var(--line-2);background:var(--card);color:var(--ink-2);font-size:11.5px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.02em}
+.cond-chip.on{background:var(--mint-soft);border-color:rgba(14,159,110,.5);color:var(--mint-deep)}
+.cond-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:99px;border:1px solid var(--line-2);background:var(--card-soft);color:var(--ink-2);font-size:11.5px;font-weight:800;max-width:100%;white-space:nowrap}
+.cond-pill i{font-style:normal;font-size:9px;color:var(--ink-3)}
+.cond-chips[hidden],.cond-pill[hidden],.cond-q[hidden]{display:none}
+.ms-why{display:block;font-size:10.5px;font-weight:750;color:var(--mint-deep);margin-top:6px;line-height:1.45}
+.coach-card .say{display:block;font-size:10px;line-height:1.4;color:var(--ink-3);font-weight:650;margin-top:4px}
 </style>
 </head>
 <body>
@@ -770,6 +730,15 @@ input,select{font:inherit}
     </header>
 
     <section class="view on" id="view-home">
+      <div class="cond" id="condBar" data-mode="chips">
+        <span class="cond-q" id="condQ">오늘 컨디션</span>
+        <div class="cond-chips" id="condChips" role="group" aria-label="오늘 컨디션 한 번에 고르기">
+          <button type="button" class="cond-chip" data-cond="great">⚡ 개운</button>
+          <button type="button" class="cond-chip" data-cond="ok">🙂 보통</button>
+          <button type="button" class="cond-chip" data-cond="tired">😴 지침</button>
+        </div>
+        <button type="button" class="cond-pill" id="condPill" hidden aria-label="오늘 컨디션 바꾸기"><span id="condPillText"></span><i>▾</i></button>
+      </div>
       <section class="hero" aria-label="오늘의 기대수명 변화">
         <div class="hero-top">
           <span class="eyebrow" id="heroEyebrow">오늘 더해진 기대수명</span>
@@ -788,10 +757,6 @@ input,select{font:inherit}
         </div>
       </section>
 
-      <section class="plan" id="planCard" aria-label="오늘의 맞춤 안내" hidden>
-        <span class="pi" aria-hidden="true">🧭</span>
-        <span class="pb"><b id="planKicker">오늘의 맞춤 안내</b><p id="planText"></p></span>
-      </section>
 
       <section class="rpg" id="rpgCard" aria-label="기사 여왕 동반자">
         <div class="rpg-glow" aria-hidden="true"></div>
@@ -819,11 +784,6 @@ input,select{font:inherit}
       <div class="today-bar"><i id="todayBar"></i></div>
       <div class="list" id="habits"></div>
 
-      <div class="sec-head">
-        <h2><span class="dot" style="background:var(--sky);box-shadow:0 0 0 3px var(--sky-soft)"></span>건강·식사 기록</h2>
-        <span class="muted" id="healthDayLabel">오늘</span>
-      </div>
-      <div class="hlog" id="healthLog"></div>
 
       <div class="sec-head">
         <h2><span class="dot" style="background:var(--amber);box-shadow:0 0 0 3px var(--amber-soft)"></span>뜻밖의 랜덤 미션</h2>
@@ -1381,77 +1341,25 @@ window.HARU_I18N = {
       altQueen: 'Queen of light, knight companion',
       altKing: 'King of light, knight companion',
       altCute: 'Little knight companion',
-      healthSec: 'Health & meals',
-      healthDayShort: 'Today',
-      hlSteps: 'Steps',
-      hlSleep: 'Sleep',
-      hlBp: 'Blood pressure',
-      hlMeal: 'Meals',
-      stepsChipsAria: 'Quick step presets',
-      stepsRangeAria: 'Steps slider',
-      stepsInputAria: 'Steps',
-      stepsHint: 'Aim for 8,000 steps — reaching it adds life minutes.',
-      stepsUnit: ' steps',
-      stepsGoalHit: 'Goal reached · +{m} min, +{x} EXP',
-      stepsGoalLeft: '{n} steps to 8,000',
-      sleepChipsAria: 'Quick sleep presets',
-      sleepUnitH: '{h} h',
-      sleepDown: '30 minutes less',
-      sleepUp: '30 minutes more',
-      sleepMoodAria: 'How you feel after sleep',
-      moodTired: '😴 Tired',
-      moodOk: '🙂 Normal',
-      moodFresh: '⚡ Refreshed',
-      sleepHint: '7–8 hours is the sweet spot.',
-      bpSys: 'Systolic',
-      bpDia: 'Diastolic',
-      bpPresetAria: 'Quick blood pressure presets',
-      bpPresetNormal: 'Normal',
-      bpPresetElev: 'Elevated',
-      bpPresetHigh: 'High',
-      bpStatusNormal: 'Normal',
-      bpStatusElev: 'Elevated',
-      bpStatusHigh: 'High',
-      bpStatusNone: 'Not measured',
-      bpDisclaimer: 'Not a medical diagnosis. If 140/90 keeps showing, see a doctor.',
-      mealSlotAria: 'Meal slot',
-      mealBreakfast: 'Breakfast',
-      mealLunch: 'Lunch',
-      mealDinner: 'Dinner',
-      mealSnack: 'Snack',
-      mealStyleAria: 'Meal style',
-      mealLight: '🥗 Light · protein',
-      mealNormal: '🍚 Regular meal',
-      mealHeavy: '🍜 Eating out · heavy',
-      mealFast: '☕ Fasting',
-      mealNotePh: 'One-line note (optional)',
-      mealPhotoBtn: '📷 Photo',
-      mealPhotoAdded: '📷 Photo ✓',
-      mealPhotoAria: 'Add a meal photo',
-      mealAdd: 'Log',
-      mealDelAria: 'Delete {name}',
-      mealEmpty: 'No meals logged today.',
-      mealAdded: 'Meal logged',
-      hcImported: 'Health Connect data imported!',
-      mealPhotoFail: 'Could not read the photo.',
-      mealHint: 'Photos are shrunk on this device and never uploaded.',
-      healthBonus: 'Today’s log bonus +{m} min · +{x} EXP',
-      healthBonusNone: 'Log steps, sleep, BP or meals for a small bonus.',
-      tipNormal: '{list} logged. Your body answers what you record.',
-      planParts: '{list} logged. That is enough of a flow — one more routine if you like.',
-      mealCount: '{n} meals',
-      planKicker: 'Today’s guidance',
-      planShortSleep: '{sleep}h of sleep — recovery comes first today. Water, a light stretch, and an earlier night.',
-      planHighBp: 'Blood pressure {bp}. Go easy on salt and try three slow 4-6 breaths.',
-      planLowSteps: '{steps} so far. A 10-minute walk still turns the day around.',
-      planHeavyMeal: 'A hearty {meal}. A 10-minute walk after eating helps.',
-      planVitality: '{sleep}h sleep and {steps} — a high-energy day. Push a little if you like.',
-      planNeedData: 'Log today’s steps, sleep or blood pressure and this guidance tunes itself.',
-      msWhySleep: 'Sleep {sleep}h · recovery mission first',
-      msWhySteps: '{steps} · movement mission',
-      msWhyBp: 'BP {bp} · breathing mission',
-      msWhyMeal: '{meal} · post-meal walk mission',
-      msWhyVitality: '{sleep}h sleep, {steps} · energy mission',
+      condQ: 'Today’s condition',
+      condGreat: 'Fresh', condOk: 'Okay', condTired: 'Tired',
+      condPillAria: 'Change today’s condition',
+      msWhyCondTired: '😴 A tired day, so a gentle one-minute mission',
+      msWhyCondGreat: '⚡ Good energy, so a moving mission today',
+      msWhyLagMusic: '🎵 {task} has been empty lately, so a music mission',
+      msWhyLagMind: '🌿 {task} has been quiet, so a calming mission',
+      msWhyLagWeekend: '🎵 Weekend {task} has been empty, so a music mission',
+      msWhyLagMove: '💪 {task} has been empty lately, so light movement today',
+      coachLag: '{task} filled only {rate}% lately. One check today brings the flow back.',
+      coachTired: 'On a tired day recovery comes first. A glass of water and a one-minute stretch is plenty.',
+      coachTiredMind: 'On a tired day the goal is one, not perfect. Fill the lightest box first.',
+      coachMusicLag: '{task} was often empty on weekends. One line today brings it back.',
+      coachGreat: 'Good energy today — pick the order and push one at a time.',
+      coachBest: '{task} sits at {rate}% lately. That rhythm is the strongest thing you have.',
+      knightLag: 'Knight, {task} has been empty lately. One swing today turns the flow.',
+      knightTired: 'Knight, on a tired day a short blade still cuts. One minute is enough.',
+      knightGreat: 'Knight, today’s engine is warm. Draw the first sword early.',
+      knightBest: 'Knight, {task} holds at {rate}%. That steadiness is your armour.',
       closed: 'Close'
     },
     data: {
@@ -1610,20 +1518,6 @@ window.HARU_I18N = {
         },
         both: ['{inst1} and {inst2} both — busy fingers today!',
                'Both instruments done. Think melody on guitar, roots on bass — it is fun.']
-      },
-      hdata: {
-        tips: {
-          shortSleep: 'Sleep was {sleep}h. Recovery first today — water and a light stretch.',
-          highBp: 'Blood pressure {bp}. Less salt, and three slow breaths out.',
-          lowSteps: '{steps} so far — ten minutes of walking is enough.',
-          heavyMeal: '{meal} was hearty. A 10-minute walk helps.',
-          vitality: '{sleep}h sleep and {steps} — your engine is warm today.',
-          normal: '{steps} · {sleep}h sleep · BP {bp}. Your body answers what you log.',
-          mind: 'You logged {steps} and {sleep}h of sleep. How you feel matters more than the numbers — one slot is enough on a tired day.',
-          noBp: 'No blood pressure logged yet. One reading morning or evening shows the trend.'
-        },
-        rpg: ['{steps}, knight — today’s sword is already drawn.',
-              'Sleep {sleep}h, BP {bp}. A knight who reads the body grows strong.']
       },
       rpg: {
         start: ['Knight, time to draw today’s first sword. One small thing is enough.',
@@ -1921,77 +1815,25 @@ window.HARU_I18N = {
       altQueen: 'Reine de lumière, compagne chevalière',
       altKing: 'Roi de lumière, compagnon chevalier',
       altCute: 'Petit chevalier compagnon',
-      healthSec: 'Santé & repas',
-      healthDayShort: 'Aujourd’hui',
-      hlSteps: 'Pas',
-      hlSleep: 'Sommeil',
-      hlBp: 'Tension',
-      hlMeal: 'Repas',
-      stepsChipsAria: 'Pas rapides',
-      stepsRangeAria: 'Curseur des pas',
-      stepsInputAria: 'Nombre de pas',
-      stepsHint: 'Visez 8 000 pas — l’objectif ajoute des minutes de vie.',
-      stepsUnit: ' pas',
-      stepsGoalHit: 'Objectif atteint · +{m} min, +{x} EXP',
-      stepsGoalLeft: '{n} pas avant 8 000',
-      sleepChipsAria: 'Sommeil rapide',
-      sleepUnitH: '{h} h',
-      sleepDown: '30 minutes de moins',
-      sleepUp: '30 minutes de plus',
-      sleepMoodAria: 'Forme au réveil',
-      moodTired: '😴 Fatigué',
-      moodOk: '🙂 Normal',
-      moodFresh: '⚡ En forme',
-      sleepHint: '7 à 8 heures, l’idéal.',
-      bpSys: 'Systolique',
-      bpDia: 'Diastolique',
-      bpPresetAria: 'Tensions rapides',
-      bpPresetNormal: 'Normale',
-      bpPresetElev: 'Limite',
-      bpPresetHigh: 'Élevée',
-      bpStatusNormal: 'Normale',
-      bpStatusElev: 'Limite',
-      bpStatusHigh: 'Élevée',
-      bpStatusNone: 'Non mesurée',
-      bpDisclaimer: 'Pas un diagnostic médical. Si 140/90 persiste, consultez un médecin.',
-      mealSlotAria: 'Moment du repas',
-      mealBreakfast: 'Petit-déjeuner',
-      mealLunch: 'Déjeuner',
-      mealDinner: 'Dîner',
-      mealSnack: 'Collation',
-      mealStyleAria: 'Type de repas',
-      mealLight: '🥗 Léger · protéines',
-      mealNormal: '🍚 Repas normal',
-      mealHeavy: '🍜 Resto · copieux',
-      mealFast: '☕ Jeûne',
-      mealNotePh: 'Note en une ligne (facultatif)',
-      mealPhotoBtn: '📷 Photo',
-      mealPhotoAdded: '📷 Photo ✓',
-      mealPhotoAria: 'Ajouter une photo du repas',
-      mealAdd: 'Noter',
-      mealDelAria: 'Supprimer {name}',
-      mealEmpty: 'Aucun repas noté aujourd’hui.',
-      mealAdded: 'Repas noté',
-      hcImported: 'Données Health Connect importées !',
-      mealPhotoFail: 'Impossible de lire la photo.',
-      mealHint: 'Les photos sont réduites sur cet appareil et jamais envoyées.',
-      healthBonus: 'Bonus du jour +{m} min · +{x} EXP',
-      healthBonusNone: 'Notez pas, sommeil, tension ou repas pour un petit bonus.',
-      tipNormal: '{list} notés. Le corps répond à ce qu’on note.',
-      planParts: '{list} notés. Cela suffit comme élan — une routine de plus si vous voulez.',
-      mealCount: '{n} repas',
-      planKicker: 'Conseil du jour',
-      planShortSleep: '{sleep} h de sommeil — la récupération d’abord. Eau, étirements doux, coucher plus tôt.',
-      planHighBp: 'Tension {bp}. Moins de sel et trois respirations lentes 4-6.',
-      planLowSteps: '{steps} pour l’instant. Dix minutes de marche changent la journée.',
-      planHeavyMeal: 'Repas copieux ({meal}). Une marche de 10 minutes après le repas aide.',
-      planVitality: '{sleep} h de sommeil et {steps} — journée pleine d’énergie.',
-      planNeedData: 'Notez vos pas, votre sommeil ou votre tension : le conseil s’adapte.',
-      msWhySleep: 'Sommeil {sleep} h · mission récupération',
-      msWhySteps: '{steps} · mission mouvement',
-      msWhyBp: 'Tension {bp} · mission respiration',
-      msWhyMeal: '{meal} · mission marche digestive',
-      msWhyVitality: '{sleep} h de sommeil, {steps} · mission énergie',
+      condQ: 'Forme du jour',
+      condGreat: 'En forme', condOk: 'Moyen', condTired: 'Fatigué',
+      condPillAria: 'Changer la forme du jour',
+      msWhyCondTired: '😴 Jour de fatigue : une mission douce d’une minute',
+      msWhyCondGreat: '⚡ Belle énergie : une mission qui bouge aujourd’hui',
+      msWhyLagMusic: '🎵 {task} est vide ces temps-ci : une mission musique',
+      msWhyLagMind: '🌿 {task} est discret : une mission apaisante',
+      msWhyLagWeekend: '🎵 {task} du week-end est vide : une mission musique',
+      msWhyLagMove: '💪 {task} est vide ces temps-ci : un peu de mouvement',
+      coachLag: '{task} n’a été rempli qu’à {rate}% ces jours-ci. Une coche aujourd’hui relance le fil.',
+      coachTired: 'Un jour fatigué, la récupération passe d’abord. Un verre d’eau et une minute d’étirement suffisent.',
+      coachTiredMind: 'Un jour fatigué, l’objectif est un, pas parfait. Commencez par la case la plus légère.',
+      coachMusicLag: '{task} était souvent vide le week-end. Une ligne aujourd’hui le raccroche.',
+      coachGreat: 'Belle énergie aujourd’hui — choisissez l’ordre et avancez une chose à la fois.',
+      coachBest: '{task} tient à {rate}% ces jours-ci. Cette régularité est votre meilleure armure.',
+      knightLag: 'Chevalier, {task} est vide ces temps-ci. Un coup aujourd’hui relance le fil.',
+      knightTired: 'Chevalier, un jour fatigué, une lame courte suffit. Une minute.',
+      knightGreat: 'Chevalier, le moteur est chaud aujourd’hui. Tirez la première épée tôt.',
+      knightBest: 'Chevalier, {task} tient à {rate}%. Cette constance est votre armure.',
       closed: 'Fermer'
     },
     data: {
@@ -2150,20 +1992,6 @@ window.HARU_I18N = {
         },
         both: ['{inst1} et {inst2} — doigts actifs aujourd’hui !',
                'Deux instruments faits. Mélodie à la guitare, racines à la basse : amusez-vous.']
-      },
-      hdata: {
-        tips: {
-          shortSleep: '{sleep} h de sommeil. Priorité à la récupération : de l’eau, des étirements doux.',
-          highBp: 'Tension {bp}. Moins de sel et trois expirations lentes.',
-          lowSteps: '{steps} pour l’instant — dix minutes de marche suffisent.',
-          heavyMeal: 'Repas copieux ({meal}). Une marche de 10 minutes aide.',
-          vitality: '{sleep} h de sommeil et {steps} : belle énergie aujourd’hui.',
-          normal: '{steps} · {sleep} h de sommeil · tension {bp}. Le corps répond à ce qu’on note.',
-          mind: 'Vous avez noté {steps} et {sleep} h de sommeil. Votre ressenti compte plus que les chiffres — une case suffit un jour fatigué.',
-          noBp: 'Pas encore de tension notée. Une mesure matin ou soir montre la tendance.'
-        },
-        rpg: ['{steps}, chevalier — l’épée du jour est déjà tirée.',
-              'Sommeil {sleep} h, tension {bp}. Un chevalier qui lit son corps devient fort.']
       },
       rpg: {
         start: ['Chevalier, il est temps de tirer la première épée du jour. Une petite chose suffit.',
@@ -3150,33 +2978,6 @@ window.HARU_I18N = {
     ]
   };
 
-  /* ===== 건강·식사 기록: 하루 로그와 보너스 기준 ===== */
-  /* 미션마다 어울리는 건강 신호 — 오늘 기록에 맞춰 기본 미션을 먼저 골라요 */
-  var MISSION_TAGS = {
-    0:['sleep'], 1:['sleep'], 2:['bp'], 3:['steps'], 7:['bp'], 8:['sleep'],
-    9:['steps','vitality'], 13:['sleep'], 15:['bp'], 16:['steps','meal','vitality'],
-    19:['vitality'], 24:['steps'], 25:['bp']
-  };
-  var STEP_GOAL = 8000;
-  /* [걸음수 기준, 기대수명 분, EXP] — 가장 높은 기준 하나만 적용됩니다 */
-  var STEP_TIERS = [[10000,8,30],[8000,6,25],[6000,4,20],[3000,2,15]];
-  var MEAL_SLOTS = ['breakfast','lunch','dinner','snack'];
-  var MEAL_STYLES = ['light','normal','heavy','fast'];
-  var HDATA = {
-    tips: {
-      shortSleep: '수면이 {sleep}시간이에요. 오늘은 회복이 먼저 — 물 한 잔과 가벼운 스트레칭부터 해봐요.',
-      highBp: '혈압 {bp}로 기록됐어요. 짠 음식을 줄이고 4초 들이쉬고 6초 내쉬는 호흡을 세 번 해봐요.',
-      lowSteps: '지금 {steps}보예요. 10분만 걸어도 오늘의 흐름이 달라져요.',
-      heavyMeal: '{meal}을 든든히 드셨네요. 식후 10분 산책이 속을 편하게 해요.',
-      vitality: '수면 {sleep}시간에 {steps}! 활력이 좋은 날이에요. 조금 더 밀어붙여도 좋아요.',
-      normal: '오늘 {steps} · 수면 {sleep}시간 · 혈압 {bp}. 기록한 만큼 몸이 대답해요.',
-      mind: '오늘 {steps} · 수면 {sleep}시간을 기록했어요. 숫자보다 지금 기분이 먼저예요. 마음이 지치면 한 칸만 채워도 충분해요.',
-      noBp: '아직 혈압 기록이 없어요. 아침이나 저녁에 한 번 재보면 흐름이 보여요.'
-    },
-    rpg: ['{steps}의 기사여, 오늘의 검은 이미 뽑혔어요.',
-          '수면 {sleep}시간, 혈압 {bp}. 몸의 기록을 읽는 기사는 강해요.']
-  };
-
   /* =================i18n================= */
   var I18N = window.HARU_I18N || {};
   var LANGS = ['ko', 'en', 'fr'];
@@ -3184,8 +2985,7 @@ window.HARU_I18N = {
   var BASE = {
     coaches: COACHES, categories: CATEGORIES, presets: TASK_PRESETS,
     missions: MISSIONS, challenges: CHALLENGES, ranks: RANKS,
-    strength: STRENGTH_DAYS, msg: MSG, rpg: RPG_LINES, weekdays: WEEKDAYS,
-    health: HDATA
+    strength: STRENGTH_DAYS, msg: MSG, rpg: RPG_LINES, weekdays: WEEKDAYS
   };
   var staticNodes = null;
 
@@ -3281,7 +3081,6 @@ window.HARU_I18N = {
     WEEKDAYS = (p && p.weekdays) || BASE.weekdays;
     MSG = mergeI18n(BASE.msg, d && d.msg);
     RPG_LINES = mergeI18n(BASE.rpg, d && d.rpg);
-    HDATA = mergeI18n(BASE.health, d && d.hdata);
   }
 
   /* 정적인 화면 문구는 한국어 원문을 키 삼아 번역합니다 (마크업은 그대로) */
@@ -3322,7 +3121,6 @@ window.HARU_I18N = {
     '이름 · 나이 · 주제를 처음부터 다시 고를 수 있어요. 기록은 그대로 남아요.':'reopenHint',
     "크롬 메뉴 ⋮ → '홈 화면에 추가'를 누르면 앱처럼 열려요.":'installHint',
     '언어':'language', '동반자 캐릭터':'companion',
-    '건강·식사 기록':'healthSec',
     '이렇게 연결돼요':'obPreviewTitle', '기본 루틴':'obFixed', '기상 시간':'obWakeShort',
     '주제 이름':'obCustomTitle', '+ 직접 주제 추가':'obCustomAdd'
   };
@@ -3480,186 +3278,6 @@ window.HARU_I18N = {
     return (state.settings.instruments || []).filter(Boolean).map(instLabel);
   }
 
-  /* =================health & meal helpers================= */
-  function fmtNum(n){
-    var s = String(Math.round(Number(n) || 0));
-    return s.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
-  function healthOf(key, create){
-    var k = key || todayKey();
-    var d = state.days[k];
-    if(!d){
-      if(!create) return {};
-      d = getDay(k, true);
-    }
-    if(!d.health || typeof d.health !== 'object') d.health = {};
-    return d.health;
-  }
-  function stepsOf(key){
-    var d = state.days[key || todayKey()];
-    var v = (d && d.health) ? Number(d.health.steps) : 0;
-    return (isFinite(v) && v > 0) ? Math.round(v) : 0;
-  }
-  function sleepH(key){
-    var d = state.days[key || todayKey()];
-    var v = (d && d.health) ? Number(d.health.sleep) : 0;
-    return (isFinite(v) && v > 0) ? Math.round(v * 10) / 10 : 0;
-  }
-  function bpOf(key){
-    var d = state.days[key || todayKey()];
-    var b = (d && d.health) ? d.health.bp : null;
-    if(!b) return null;
-    var s = Number(b.sbp), dd = Number(b.dbp);
-    if(!isFinite(s) || !isFinite(dd) || s <= 0 || dd <= 0) return null;
-    return { sbp:Math.round(s), dbp:Math.round(dd) };
-  }
-  function mealsOf(key){
-    var d = state.days[key || todayKey()];
-    return (d && Array.isArray(d.meals)) ? d.meals : [];
-  }
-  function stepsBonus(n){
-    n = Number(n) || 0;
-    for(var i = 0; i < STEP_TIERS.length; i++){
-      if(n >= STEP_TIERS[i][0]) return { m:STEP_TIERS[i][1], x:STEP_TIERS[i][2] };
-    }
-    return { m:0, x:0 };
-  }
-  function sleepBonus(h){
-    h = Number(h) || 0;
-    if(h >= 7 && h <= 9) return { m:5, x:20 };
-    if((h >= 6 && h < 7) || (h > 9 && h <= 10)) return { m:3, x:12 };
-    return { m:0, x:0 };
-  }
-  /* 120/80 미만 정상, 140/90 미만 주의, 그 위는 높음 — 의학적 기준이 아니라 참고용 */
-  function bpBand(bp){
-    if(!bp) return '';
-    if(bp.sbp < 120 && bp.dbp < 80) return 'normal';
-    if(bp.sbp < 140 && bp.dbp < 90) return 'elev';
-    return 'high';
-  }
-  function bpBonusOf(bp){
-    var band = bpBand(bp);
-    if(band === 'normal') return { m:4, x:16 };
-    if(band === 'elev') return { m:2, x:10 };
-    if(band === 'high') return { m:1, x:8 };
-    return { m:0, x:0 };
-  }
-  /* 기록 자체를 격려하는 작은 보너스 — 기록을 지우면 그대로 사라집니다 */
-  function healthBonus(key){
-    var k = key || todayKey();
-    var a = stepsBonus(stepsOf(k)), b = sleepBonus(sleepH(k)), c = bpBonusOf(bpOf(k));
-    var mc = Math.min(4, mealsOf(k).length);
-    return {
-      steps:a, sleep:b, bp:c, meals:{ m:mc, x:mc * 5 },
-      m: a.m + b.m + c.m + mc,
-      x: a.x + b.x + c.x + mc * 5
-    };
-  }
-  function healthMin(key){ return healthBonus(key).m; }
-  function healthExp(key){ return healthBonus(key).x; }
-  function slotLabel(slot){
-    if(slot === 'breakfast') return T('mealBreakfast', '아침');
-    if(slot === 'lunch') return T('mealLunch', '점심');
-    if(slot === 'dinner') return T('mealDinner', '저녁');
-    return T('mealSnack', '간식');
-  }
-  function styleLabel(style){
-    if(style === 'light') return T('mealLight', '🥗 가볍게·단백질');
-    if(style === 'heavy') return T('mealHeavy', '🍜 외식·과식');
-    if(style === 'fast') return T('mealFast', '☕ 공복·단식');
-    return T('mealNormal', '🍚 일반식');
-  }
-  function sleepLabel(h){
-    h = Number(h) || 0;
-    return h > 0 ? T('sleepUnitH', '{h}시간', { h:(Math.round(h * 10) / 10) }) : '–';
-  }
-  function heavyMealSlot(key){
-    var ms = mealsOf(key);
-    for(var i = ms.length - 1; i >= 0; i--) if(ms[i] && ms[i].style === 'heavy') return ms[i].slot;
-    return '';
-  }
-  function healthVars(key){
-    var k = key || todayKey();
-    var st = stepsOf(k), sl = sleepH(k), bp = bpOf(k), heavy = heavyMealSlot(k);
-    return {
-      steps: st ? (fmtNum(st) + T('stepsUnit', '보')) : '–',
-      sleep: sl ? String(sl) : '–',
-      bp: bp ? (bp.sbp + '/' + bp.dbp) : '–',
-      meal: heavy ? slotLabel(heavy) : T('mealLunch', '점심')
-    };
-  }
-  /* 오늘 기록에서 읽은 신호 — 회복·호흡·식후 산책·움직임·활력 순서 */
-  function healthSignals(key){
-    var k = key || todayKey();
-    var st = stepsOf(k), sl = sleepH(k), bp = bpOf(k), heavy = heavyMealSlot(k);
-    var list = [];
-    if(sl && sl < 6) list.push('sleep');
-    if(bp && (bp.sbp >= 140 || bp.dbp >= 90)) list.push('bp');
-    if(heavy) list.push('meal');
-    if(st && st < 3000) list.push('steps');
-    if(!list.length && sl >= 7 && sl <= 9 && st >= 8000) list.push('vitality');
-    var any = !!(st || sl || bp || mealsOf(k).length);
-    return { list:list, any:any, steps:st, sleep:sl, bp:bp, heavy:heavy };
-  }
-  function healthParts(key){
-    var k = key || todayKey(), out = [];
-    var st = stepsOf(k), sl = sleepH(k), bp = bpOf(k), mc = mealsOf(k).length;
-    if(st) out.push(fmtNum(st) + T('stepsUnit', '보'));
-    if(sl) out.push(T('sleepUnitH', '{h}시간', { h:sl }));
-    if(bp) out.push(bp.sbp + '/' + bp.dbp);
-    if(mc) out.push(T('mealCount', '식사 {n}회', { n:mc }));
-    return out;
-  }
-  function healthTip(key){
-    var s = healthSignals(key);
-    if(!s.any) return '';
-    var v = healthVars(key);
-    if(s.list.indexOf('sleep') !== -1) return fmtVars(HDATA.tips.shortSleep, v);
-    if(s.list.indexOf('bp') !== -1) return fmtVars(HDATA.tips.highBp, v);
-    if(s.list.indexOf('meal') !== -1) return fmtVars(HDATA.tips.heavyMeal, v);
-    if(s.list.indexOf('steps') !== -1) return fmtVars(HDATA.tips.lowSteps, v);
-    if(s.list.indexOf('vitality') !== -1) return fmtVars(HDATA.tips.vitality, v);
-    if(!s.bp) return fmtVars(HDATA.tips.noBp, v);
-    return T('tipNormal', '{list} 기록했어요. 기록한 만큼 몸이 대답해요.', { list:healthParts(key).join(' · ') });
-  }
-  function healthMindTip(key){
-    var s = healthSignals(key);
-    if(!s.any) return '';
-    return fmtVars(HDATA.tips.mind, healthVars(key));
-  }
-  function planLine(key){
-    var s = healthSignals(key);
-    if(!s.any) return '';
-    var v = healthVars(key);
-    if(s.list.indexOf('sleep') !== -1)
-      return T('planShortSleep', '{sleep}시간 수면이에요. 오늘은 회복이 먼저 — 물 한 잔, 가벼운 스트레칭, 조금 이른 취침.', v);
-    if(s.list.indexOf('bp') !== -1)
-      return T('planHighBp', '혈압 {bp}이에요. 짠 음식을 줄이고 4초-6초 느린 호흡을 세 번 해봐요.', v);
-    if(s.list.indexOf('meal') !== -1)
-      return T('planHeavyMeal', '{meal}을 든든히 드셨네요. 식후 10분 걷기가 좋아요.', v);
-    if(s.list.indexOf('steps') !== -1)
-      return T('planLowSteps', '아직 {steps}이에요. 10분만 걸어도 오늘 흐름이 달라져요.', v);
-    if(s.list.indexOf('vitality') !== -1)
-      return T('planVitality', '수면 {sleep}시간에 {steps} — 활력이 좋은 날이에요. 조금 더 해봐도 좋아요.', v);
-    return T('planParts', '{list} 기록했어요. 이 흐름이면 충분해요 — 남은 루틴 하나만 더 채워봐요.',
-      { list:healthParts(key).join(' · ') });
-  }
-  function missionWhy(key){
-    var s = healthSignals(key);
-    if(!s.list.length) return '';
-    var tags = MISSION_TAGS[missionIndex(key)] || [];
-    var v = healthVars(key);
-    for(var i = 0; i < s.list.length; i++){
-      var tag = s.list[i];
-      if(tags.indexOf(tag) === -1) continue;
-      if(tag === 'sleep') return T('msWhySleep', '수면 {sleep}시간 · 회복 미션 먼저', v);
-      if(tag === 'bp') return T('msWhyBp', '혈압 {bp} · 호흡 미션', v);
-      if(tag === 'meal') return T('msWhyMeal', '{meal} · 식후 산책 미션', v);
-      if(tag === 'steps') return T('msWhySteps', '{steps} · 움직임 미션', v);
-      if(tag === 'vitality') return T('msWhyVitality', '수면 {sleep}시간, {steps} · 활력 미션', v);
-    }
-    return '';
-  }
   function fill(text, extra){
     var names = instNames();
     var out = String(text)
@@ -3891,19 +3509,7 @@ window.HARU_I18N = {
       }
       if(state.feed.length > 60) state.feed = state.feed.slice(-60);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }catch(e){
-      /* 사진 때문에 용량이 넘치면 오래된 날의 사진부터 줄이고 다시 저장합니다 */
-      var left = 6, keys2 = Object.keys(state.days).sort();
-      for(var k = 0; k < keys2.length && left > 0; k++){
-        var meals = state.days[keys2[k]] && state.days[keys2[k]].meals;
-        if(!Array.isArray(meals)) continue;
-        var had = false;
-        meals.forEach(function(m){ if(m && m.photo){ delete m.photo; had = true; } });
-        if(!had) continue;
-        left--;
-        try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); return; }catch(e2){}
-      }
-    }
+    }catch(e){ /* 용량 초과·차단 시 조용히 넘어감 */ }
   }
   function getDay(key, create){
     var d = state.days[key];
@@ -3932,7 +3538,6 @@ window.HARU_I18N = {
       for(var i = 0; i < HABITS.length; i++) if(d.habits[HABITS[i].id]) t += HABITS[i].minutes;
     }
     if(d && d.mission && d.mission.done) t += MISSION_MIN;
-    t += healthMin(key);
     return t;
   }
   function totalMinutes(){
@@ -4004,7 +3609,6 @@ window.HARU_I18N = {
       for(var i = 0; i < HABITS.length; i++) if(d.habits[HABITS[i].id]) t += habitExp(HABITS[i]);
     }
     if(d && d.mission && d.mission.done) t += MISSION_EXP;
-    t += healthExp(key);
     return t;
   }
   function totalExp(){
@@ -4027,21 +3631,176 @@ window.HARU_I18N = {
   }
   function defaultMissionIndex(key){
     var len = MISSIONS.length;
-    var sig = healthSignals(key);
-    if(sig.list.length){
-      var tag = sig.list[0], pool = [];
-      for(var j = 0; j < len; j++){
-        var tg = MISSION_TAGS[j] || [];
-        if(tg.indexOf(tag) !== -1) pool.push(j);
-      }
-      if(pool.length) return pool[((dayNumber(key) % pool.length) + pool.length) % pool.length];
+    var base = (((dayNumber(key) * 7 + 3) % len) + len) % len;
+    var pref = missionPref();
+    if(pref){
+      var pool = [];
+      for(var i = 0; i < len; i++) if(missionFeel(MISSIONS[i]) === pref.feel) pool.push(i);
+      if(pool.length) return pool[base % pool.length];
     }
-    return (((dayNumber(key) * 7 + 3) % len) + len) % len;
+    return base;
   }
   function missionIndex(key){
     var d = state.days[key];
     if(d && d.mission && typeof d.mission.i === 'number' && MISSIONS[d.mission.i]) return d.mission.i;
     return defaultMissionIndex(key);
+  }
+
+  /* =================오늘 컨디션 · 습관 패턴================= */
+  /* ① 한 번 누르는 컨디션. 아무것도 누르지 않아도 앱은 그대로 돌아갑니다. */
+  var COND_META = { great:{ icon:'⚡', key:'condGreat', ko:'개운' },
+                    ok:{ icon:'🙂', key:'condOk', ko:'보통' },
+                    tired:{ icon:'😴', key:'condTired', ko:'지침' } };
+  var condOpen = false;
+  function todayCondition(){
+    var d = state.days[todayKey()];
+    var v = d && d.condition;
+    return COND_META[v] ? v : '';
+  }
+  function condLabel(v){ var c = COND_META[v]; return c ? (c.icon + ' ' + T(c.key, c.ko)) : ''; }
+  function setCondition(v){
+    if(!COND_META[v]) return;
+    var d = getDay(todayKey(), true);
+    if(d.condition === v) delete d.condition; else d.condition = v;
+    condOpen = false;
+    save();
+    renderCondition(); renderMission(); renderRpg(); renderCoachCards(); renderStrip();
+  }
+  function renderCondition(){
+    var bar = $('#condBar');
+    if(!bar) return;
+    var cur = todayCondition();
+    var chips = $('#condChips'), pill = $('#condPill'), q = $('#condQ');
+    q.textContent = T('condQ', '오늘 컨디션');
+    chips.innerHTML = ['great', 'ok', 'tired'].map(function(v){
+      var on = cur === v;
+      return '<button type="button" class="cond-chip' + (on ? ' on' : '') + '" data-cond="' + v
+        + '" aria-pressed="' + (on ? 'true' : 'false') + '">' + esc(condLabel(v)) + '</button>';
+    }).join('');
+    var showChips = !cur || condOpen;
+    chips.hidden = !showChips;
+    q.hidden = !showChips;
+    pill.hidden = showChips;
+    if(cur) $('#condPillText').textContent = condLabel(cur);
+    pill.setAttribute('aria-label', T('condPillAria', '오늘 컨디션 바꾸기') + ' · ' + condLabel(cur));
+    bar.setAttribute('data-mode', showChips ? 'chips' : 'pill');
+  }
+
+  /* ② 기록만으로 읽는 패턴. 최근 14일 중 기록이 있는 3일부터 조용히 시작합니다. */
+  function patternHabits(){ return HABITS.filter(function(h){ return h.id !== 'challenge'; }); }
+  function patternInsights(){
+    var keys = lastNDays(14), list = patternHabits();
+    if(!list.length) return null;
+    var known = 0, per = {}, dowDone = {}, dowN = {};
+    list.forEach(function(h){ per[h.id] = { done:0, n:0 }; });
+    keys.forEach(function(k){
+      var d = state.days[k];
+      if(!d || !d.habits) return;
+      known++;
+      var dow = parseKey(k).getDay(), c = 0;
+      list.forEach(function(h){
+        per[h.id].n++;
+        if(d.habits[h.id]){ per[h.id].done++; c++; }
+      });
+      dowDone[dow] = (dowDone[dow] || 0) + c;
+      dowN[dow] = (dowN[dow] || 0) + list.length;
+    });
+    if(known < 3) return null;
+    var lag = null, best = null;
+    list.forEach(function(h){
+      var p = per[h.id];
+      if(!p.n) return;
+      var rate = p.done / p.n;
+      if(!lag || rate < lag.rate - 1e-9) lag = { id:h.id, title:h.title, coach:h.coach, rate:rate, missed:p.n - p.done, n:p.n };
+      if(!best || rate > best.rate + 1e-9) best = { id:h.id, title:h.title, coach:h.coach, rate:rate };
+    });
+    var worstDow = -1, worstRate = 2, bestDow = -1, bestRate = -1;
+    for(var w = 0; w < 7; w++){
+      if(!dowN[w]) continue;
+      var r = dowDone[w] / dowN[w];
+      if(r < worstRate){ worstRate = r; worstDow = w; }
+      if(r > bestRate){ bestRate = r; bestDow = w; }
+    }
+    var weekendLag = null;
+    list.forEach(function(h){
+      if(!h.weekend) return;
+      var p = per[h.id];
+      if(p.n && p.done === 0) weekendLag = h;
+    });
+    return { days:known, lag:lag, best:best, worstDow:worstDow, worstRate:worstRate,
+             bestDow:bestDow, bestRate:bestRate, weekendLag:weekendLag };
+  }
+  function pct(r){ return Math.round((Number(r) || 0) * 100); }
+
+  /* 랜덤 미션의 결 — 제목의 낱말로 가볍게 나눕니다 */
+  function missionFeel(m){
+    var t = String((m && m.t) || '') + ' ' + String((m && m.d) || '');
+    if(/기타|베이스|피아노|노래|리프|연주|소절|guitar|bass|piano|riff|chant|mélodie|instrument/i.test(t)) return 'music';
+    if(/숨|호흡|명상|눈 감|하늘|감사|고마운|칭찬|안부|쉬어|breath|breathe|meditat|sky|gratitude|respir|souffle|ciel/i.test(t)) return 'calm';
+    if(/스쿼트|플랭크|계단|걷|스트레칭|발끝|어깨|목|햇빛|물 한|물병|squat|plank|stair|walk|stretch|shoulder|sun|water|marche|étire|eau/i.test(t)) return 'move';
+    return 'any';
+  }
+  /* 오늘 컨디션 + 최근 패턴 → 어떤 결의 미션이 어울리는지 */
+  function missionPref(){
+    var cond = todayCondition(), ins = patternInsights();
+    if(cond === 'tired') return { feel:'calm', why:'condTired' };
+    if(cond === 'great') return { feel:'move', why:'condGreat' };
+    if(ins && ins.lag && ins.lag.rate <= 0.45){
+      if(ins.lag.coach === 'music') return { feel:'music', why:'lagMusic', task:ins.lag.title };
+      if(ins.lag.coach === 'mind') return { feel:'calm', why:'lagMind', task:ins.lag.title };
+      return { feel:'move', why:'lagMove', task:ins.lag.title };
+    }
+    if(ins && ins.weekendLag) return { feel:'music', why:'lagWeekend', task:ins.weekendLag.title };
+    return null;
+  }
+  function missionWhy(key){
+    var pref = missionPref();
+    if(!pref) return '';
+    var m = missionFor(key || todayKey());
+    if(!m || missionFeel(m) !== pref.feel) return '';
+    var v = { task:pref.task || '' };
+    if(pref.why === 'condTired') return T('msWhyCondTired', '😴 지친 날이라 1분이면 되는 가벼운 미션으로 골랐어요', v);
+    if(pref.why === 'condGreat') return T('msWhyCondGreat', '⚡ 컨디션이 좋아 오늘은 움직이는 미션으로 골랐어요', v);
+    if(pref.why === 'lagMusic') return T('msWhyLagMusic', '🎵 요즘 빠진 {task} 대신 음악 미션으로 골랐어요', v);
+    if(pref.why === 'lagMind') return T('msWhyLagMind', '🌿 요즘 빠진 {task} 대신 마음을 가라앉히는 미션으로 골랐어요', v);
+    if(pref.why === 'lagWeekend') return T('msWhyLagWeekend', '🎵 주말에 빠진 {task} — 오늘은 음악 미션으로 골랐어요', v);
+    return T('msWhyLagMove', '💪 요즘 빠진 {task} — 오늘은 가볍게 움직이는 미션으로 골랐어요', v);
+  }
+
+  /* 코치·기사가 실제 기록을 읽고 하는 한 줄 */
+  function patternLineFor(c){
+    var ins = patternInsights(), cond = todayCondition();
+    if(ins && ins.lag && ins.lag.coach === c && ins.lag.rate <= 0.6)
+      return T('coachLag', '요즘 {task} 채운 날이 {rate}%뿐이에요. 오늘 한 번이면 흐름이 돌아와요.',
+        { task:ins.lag.title, rate:pct(ins.lag.rate) });
+    if(c === 'health' && cond === 'tired')
+      return T('coachTired', '지친 날엔 회복이 먼저예요. 물 한 잔과 1분 스트레칭이면 충분해요.');
+    if(c === 'mind' && cond === 'tired')
+      return T('coachTiredMind', '지친 날의 목표는 완벽이 아니라 하나예요. 가장 가벼운 칸부터 채워봐요.');
+    if(c === 'music' && ins && ins.weekendLag)
+      return T('coachMusicLag', '{task} — 주말에 자주 비었어요. 오늘 한 소절이면 다시 붙어요.',
+        { task:ins.weekendLag.title });
+    if(c === 'life' && cond === 'great')
+      return T('coachGreat', '컨디션이 좋은 날이에요. 순서만 정해 하나씩 밀어봐요.');
+    if(ins && ins.best && ins.best.rate >= 0.8 && ins.best.coach === c)
+      return T('coachBest', '{task} — 최근 {rate}%로 잘 지키고 있어요. 그 리듬이 제일 셉니다.',
+        { task:ins.best.title, rate:pct(ins.best.rate) });
+    return '';
+  }
+  function knightPatternLine(key){
+    var ins = patternInsights(), cond = todayCondition();
+    /* 오늘 컨디션을 먼저 읽고, 없으면 최근 기록을 읽습니다 */
+    if(cond === 'tired')
+      return T('knightTired', '기사여, 지친 날의 검은 짧아도 된다. 1분이면 충분하다.');
+    if(cond === 'great')
+      return T('knightGreat', '기사여, 오늘 엔진이 따뜻하다. 첫 검을 일찍 뽑아보게.');
+    if(ins && ins.lag && ins.lag.rate <= 0.45)
+      return T('knightLag', '기사여, 요즘 빠진 루틴이 있네 — {task}. 오늘 한 번이면 흐름이 돌아온다.',
+        { task:ins.lag.title });
+    if(ins && ins.best && ins.best.rate >= 0.8)
+      return T('knightBest', '기사여, {task} {rate}%의 꾸준함이 갑옷이다.',
+        { task:ins.best.title, rate:pct(ins.best.rate) });
+    return '';
   }
   function missionFor(key){ return MISSIONS[missionIndex(key)]; }
   function missionDone(key){
@@ -4310,252 +4069,6 @@ window.HARU_I18N = {
     $('#todayBar').style.width = (ratio * 100).toFixed(1) + '%';
   }
 
-  /* =================render: plan hint================= */
-  function renderPlan(){
-    var card = $('#planCard');
-    if(!card) return;
-    var line = planLine(todayKey());
-    if(!line){ card.hidden = true; return; }
-    card.hidden = false;
-    $('#planKicker').textContent = T('planKicker', '오늘의 맞춤 안내');
-    $('#planText').textContent = line;
-  }
-
-  /* =================render: health & meal log================= */
-  var mealDraft = { slot:null, style:'normal', note:'', photo:null };
-  function draftSlot(){
-    if(mealDraft.slot) return mealDraft.slot;
-    var h = new Date().getHours();
-    return h < 10 ? 'breakfast' : h < 15 ? 'lunch' : h < 21 ? 'dinner' : 'snack';
-  }
-  function stepsNoteHtml(key){
-    var st = stepsOf(key), b = stepsBonus(st);
-    if(!st) return esc(T('stepsHint', '권장 8,000보 · 목표를 넘으면 기대수명과 EXP가 붙어요'));
-    if(st >= STEP_GOAL) return '<b>' + esc(T('stepsGoalHit', '목표 달성 · +{m}분 +{x} EXP', { m:b.m, x:b.x })) + '</b>';
-    return esc(T('stepsGoalLeft', '8,000보까지 {n}보 남았어요', { n:fmtNum(STEP_GOAL - st) }));
-  }
-  function bpBadgeText(band){
-    if(band === 'normal') return T('bpStatusNormal', '정상');
-    if(band === 'elev') return T('bpStatusElev', '주의');
-    if(band === 'high') return T('bpStatusHigh', '높음');
-    return T('bpStatusNone', '측정 전');
-  }
-  function bonusHtml(key){
-    var hb = healthBonus(key);
-    return (hb.m || hb.x)
-      ? '<b>' + esc(T('healthBonus', '오늘 기록 보너스 +{m}분 · +{x} EXP', { m:hb.m, x:hb.x })) + '</b>'
-      : esc(T('healthBonusNone', '걸음·수면·혈압·식사를 기록하면 작은 보너스가 붙어요'));
-  }
-  function mealRowsHtml(meals){
-    var out = '';
-    for(var i = meals.length - 1; i >= 0; i--){
-      var m = meals[i] || {};
-      var name = slotLabel(m.slot) + ' · ' + styleLabel(m.style);
-      var t = new Date(Number(m.ts) || Date.now());
-      var sub = (m.note ? m.note : '') || (pad2(t.getHours()) + ':' + pad2(t.getMinutes()));
-      out += '<div class="meal-row" data-meal="' + esc(m.id || '') + '">'
-        + (m.photo
-          ? '<img class="meal-thumb" src="' + esc(m.photo) + '" alt="' + esc(name) + '">'
-          : '<span class="meal-noimg" aria-hidden="true">🍽</span>')
-        + '<span class="meal-b"><b>' + esc(name) + '</b><small>' + esc(sub) + '</small></span>'
-        + '<button type="button" class="meal-del" data-meal-del="' + esc(m.id || '') + '" aria-label="'
-        + esc(T('mealDelAria', '{name} 삭제', { name:name })) + '">✕</button></div>';
-    }
-    return out;
-  }
-  function renderHealthLog(){
-    var host = $('#healthLog');
-    if(!host) return;
-    var key = todayKey();
-    var st = stepsOf(key), sl = sleepH(key), bp = bpOf(key), meals = mealsOf(key);
-    var band = bpBand(bp), mood = healthOf(key).mood || '', slot = draftSlot();
-    var html = '';
-
-    /* 걸음수 */
-    html += '<div class="hl-block" data-hl="steps">'
-      + '<div class="hl-head"><span class="hl-ico" aria-hidden="true">👟</span><b>' + esc(T('hlSteps', '걸음수')) + '</b>'
-      + '<span class="hl-val num" id="hlStepsVal">' + (st ? esc(fmtNum(st) + T('stepsUnit', '보')) : '–') + '</span></div>'
-      + '<div class="hl-chips" role="group" aria-label="' + esc(T('stepsChipsAria', '걸음수 빠른 선택')) + '">'
-      + [3000, 6000, 8000, 10000].map(function(n){
-          return '<button type="button" class="hchip' + (st === n ? ' on' : '') + '" data-steps="' + n + '">'
-            + fmtNum(n) + (n === 10000 ? '+' : '') + '</button>';
-        }).join('')
-      + '</div>'
-      + '<div class="hl-row">'
-      + '<input type="range" id="inpStepsRange" min="0" max="20000" step="100" value="' + (st || 0) + '" aria-label="' + esc(T('stepsRangeAria', '걸음수 슬라이더')) + '">'
-      + '<input type="number" id="inpSteps" min="0" max="50000" step="100" inputmode="numeric" placeholder="0" value="' + (st || '') + '" aria-label="' + esc(T('stepsInputAria', '걸음수')) + '">'
-      + '</div>'
-      + '<p class="hl-note" id="hlStepsNote">' + stepsNoteHtml(key) + '</p></div>';
-
-    /* 수면 */
-    html += '<div class="hl-block" data-hl="sleep">'
-      + '<div class="hl-head"><span class="hl-ico" aria-hidden="true">🌙</span><b>' + esc(T('hlSleep', '수면')) + '</b>'
-      + '<span class="hl-val num" id="hlSleepVal">' + esc(sleepLabel(sl)) + '</span></div>'
-      + '<div class="hl-chips" role="group" aria-label="' + esc(T('sleepChipsAria', '수면 빠른 선택')) + '">'
-      + [5, 6, 7, 8].map(function(n){
-          return '<button type="button" class="hchip' + (Math.abs(sl - n) < 0.26 ? ' on' : '') + '" data-sleep-h="' + n + '">' + n + 'h</button>';
-        }).join('')
-      + '</div>'
-      + '<div class="hl-row">'
-      + '<button type="button" class="stp" data-sleep-step="-0.5" aria-label="' + esc(T('sleepDown', '30분 줄이기')) + '">−</button>'
-      + '<input type="range" id="inpSleepRange" min="3" max="11" step="0.5" value="' + (sl || 7) + '" aria-label="' + esc(T('hlSleep', '수면')) + '">'
-      + '<button type="button" class="stp" data-sleep-step="0.5" aria-label="' + esc(T('sleepUp', '30분 늘리기')) + '">+</button>'
-      + '</div>'
-      + '<div class="hl-chips" role="group" aria-label="' + esc(T('sleepMoodAria', '잠에서 깬 기분')) + '">'
-      + [['tired', T('moodTired', '😴 피곤')], ['ok', T('moodOk', '🙂 보통')], ['fresh', T('moodFresh', '⚡ 개운')]].map(function(m){
-          return '<button type="button" class="hchip mood' + (mood === m[0] ? ' on' : '') + '" data-mood="' + m[0] + '">' + esc(m[1]) + '</button>';
-        }).join('')
-      + '</div>'
-      + '<p class="hl-note">' + esc(T('sleepHint', '7~8시간이 가장 좋아요')) + '</p></div>';
-
-    /* 혈압 */
-    html += '<div class="hl-block" data-hl="bp">'
-      + '<div class="hl-head"><span class="hl-ico" aria-hidden="true">🩺</span><b>' + esc(T('hlBp', '혈압')) + '</b>'
-      + '<span class="hl-val num">' + esc(bp ? (bp.sbp + '/' + bp.dbp) : '–') + '</span></div>'
-      + '<div class="hl-bp">'
-      + '<label>' + esc(T('bpSys', '수축기')) + '<input type="number" id="inpSbp" min="60" max="260" step="1" inputmode="numeric" placeholder="120" value="' + (bp ? bp.sbp : '') + '"></label>'
-      + '<label>' + esc(T('bpDia', '이완기')) + '<input type="number" id="inpDbp" min="30" max="180" step="1" inputmode="numeric" placeholder="80" value="' + (bp ? bp.dbp : '') + '"></label>'
-      + '</div>'
-      + '<div class="hl-chips" role="group" aria-label="' + esc(T('bpPresetAria', '혈압 빠른 선택')) + '">'
-      + [['118/76', T('bpPresetNormal', '정상')], ['132/84', T('bpPresetElev', '주의')], ['145/92', T('bpPresetHigh', '높음')]].map(function(p){
-          var ab = p[0].split('/');
-          var on = bp && bp.sbp === Number(ab[0]) && bp.dbp === Number(ab[1]);
-          return '<button type="button" class="hchip' + (on ? ' on' : '') + '" data-bp="' + p[0] + '">' + esc(p[1]) + ' ' + p[0] + '</button>';
-        }).join('')
-      + '</div>'
-      + '<span class="bp-badge ' + (band || '') + '" id="bpBadge">' + esc(bpBadgeText(band)) + '</span>'
-      + '<p class="hl-note">' + esc(T('bpDisclaimer', '의학적 진단이 아니에요. 140/90 이상이 이어지면 병원 상담을 권해요')) + '</p></div>';
-
-    /* 식사 */
-    html += '<div class="hl-block" data-hl="meals">'
-      + '<div class="hl-head"><span class="hl-ico" aria-hidden="true">🍽</span><b>' + esc(T('hlMeal', '식사')) + '</b>'
-      + '<span class="hl-val num">' + meals.length + '</span></div>'
-      + '<div class="hl-chips" role="group" aria-label="' + esc(T('mealSlotAria', '식사 시간 선택')) + '">'
-      + MEAL_SLOTS.map(function(s){
-          return '<button type="button" class="hchip' + (slot === s ? ' on' : '') + '" data-slot="' + s + '">' + esc(slotLabel(s)) + '</button>';
-        }).join('')
-      + '</div>'
-      + '<div class="hl-chips two" role="group" aria-label="' + esc(T('mealStyleAria', '식사 종류')) + '">'
-      + MEAL_STYLES.map(function(s){
-          return '<button type="button" class="hchip' + (mealDraft.style === s ? ' on' : '') + '" data-style="' + s + '">' + esc(styleLabel(s)) + '</button>';
-        }).join('')
-      + '</div>'
-      + '<div class="meal-act">'
-      + '<div class="hl-row"><input type="text" id="inpMealNote" maxlength="40" value="' + esc(mealDraft.note || '') + '" placeholder="' + esc(T('mealNotePh', '한 줄 메모 (선택)')) + '"></div>'
-      + (mealDraft.photo ? '<img class="meal-thumb-prev" src="' + esc(mealDraft.photo) + '" alt="">' : '')
-      + '<button type="button" class="photo-btn' + (mealDraft.photo ? ' has' : '') + '" id="btnMealPhoto">' + esc(mealDraft.photo ? T('mealPhotoAdded', '📷 사진 ✓') : T('mealPhotoBtn', '📷 사진')) + '</button>'
-      + '<button type="button" class="photo-btn" id="btnMealAdd">' + esc(T('mealAdd', '기록')) + '</button>'
-      + '</div>'
-      + '<input type="file" id="inpMealPhoto" accept="image/*" hidden aria-label="' + esc(T('mealPhotoAria', '식사 사진 추가')) + '">'
-      + '<div class="meal-list">' + (meals.length ? mealRowsHtml(meals) : '<p class="meal-empty">' + esc(T('mealEmpty', '오늘 기록한 식사가 없어요')) + '</p>') + '</div>'
-      + '<p class="hl-note">' + esc(T('mealHint', '사진은 이 기기에서 줄여 저장하고 서버로 보내지 않아요')) + '</p></div>';
-
-    html += '<div class="hl-foot" id="hlBonus">' + bonusHtml(key) + '</div>';
-    host.innerHTML = html;
-  }
-  function syncHealthEcho(){
-    var key = todayKey(), st = stepsOf(key), sl = sleepH(key), bp = bpOf(key), band = bpBand(bp);
-    var v = $('#hlStepsVal');
-    if(v) v.textContent = st ? fmtNum(st) + T('stepsUnit', '보') : '–';
-    var n = $('#hlStepsNote');
-    if(n) n.innerHTML = stepsNoteHtml(key);
-    $$('#healthLog [data-steps]').forEach(function(b){ b.classList.toggle('on', Number(b.getAttribute('data-steps')) === st); });
-    var slv = $('#hlSleepVal');
-    if(slv) slv.textContent = sleepLabel(sl);
-    $$('#healthLog [data-sleep-h]').forEach(function(b){ b.classList.toggle('on', Math.abs(sl - Number(b.getAttribute('data-sleep-h'))) < 0.26); });
-    var mood = healthOf(key).mood || '';
-    $$('#healthLog [data-mood]').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-mood') === mood); });
-    var rng = $('#inpStepsRange');
-    if(rng && document.activeElement !== rng) rng.value = st || 0;
-    var srng = $('#inpSleepRange');
-    if(srng && document.activeElement !== srng) srng.value = sl || 7;
-    var badge = $('#bpBadge');
-    if(badge){ badge.className = 'bp-badge ' + (band || ''); badge.textContent = bpBadgeText(band); }
-    var foot = $('#hlBonus');
-    if(foot) foot.innerHTML = bonusHtml(key);
-  }
-  function afterHealthChange(rerender){
-    save();
-    if(rerender) renderHealthLog(); else syncHealthEcho();
-    renderHero();
-    renderRpg();
-    renderPlan();
-    renderMission();
-    renderCoachCards();
-  }
-  function setSteps(n, rerender){
-    n = Math.max(0, Math.min(50000, Math.round(Number(n) || 0)));
-    var h = healthOf(todayKey(), true);
-    if(n > 0) h.steps = n; else delete h.steps;
-    afterHealthChange(rerender !== false);
-  }
-  function setSleep(hours, rerender){
-    var v = Math.max(0, Math.min(14, Math.round((Number(hours) || 0) * 2) / 2));
-    var h = healthOf(todayKey(), true);
-    if(v > 0) h.sleep = v; else delete h.sleep;
-    afterHealthChange(rerender !== false);
-  }
-  function setMood(mood){
-    var h = healthOf(todayKey(), true);
-    if(h.mood === mood) delete h.mood; else h.mood = mood;
-    afterHealthChange(true);
-  }
-  function setBp(sbp, dbp, rerender){
-    var h = healthOf(todayKey(), true);
-    var s = Number(sbp), d = Number(dbp);
-    if(isFinite(s) && isFinite(d) && s > 0 && d > 0){ h.bp = { sbp:Math.round(s), dbp:Math.round(d) }; }
-    else delete h.bp;
-    afterHealthChange(rerender !== false);
-  }
-  function compressImage(file, cb){
-    try{
-      var reader = new FileReader();
-      reader.onload = function(){
-        var img = new Image();
-        img.onload = function(){
-          try{
-            var w = Math.min(480, img.width || 480);
-            var hh = Math.max(1, Math.round((img.height || 480) * w / (img.width || 480)));
-            var cv = document.createElement('canvas');
-            cv.width = w; cv.height = hh;
-            var g = cv.getContext('2d');
-            g.drawImage(img, 0, 0, w, hh);
-            cb(cv.toDataURL('image/jpeg', 0.65));
-          }catch(e){ cb(null); }
-        };
-        img.onerror = function(){ cb(null); };
-        img.src = reader.result;
-      };
-      reader.onerror = function(){ cb(null); };
-      reader.readAsDataURL(file);
-    }catch(e){ cb(null); }
-  }
-  function addMeal(){
-    var key = todayKey();
-    var day = getDay(key, true);
-    if(!Array.isArray(day.meals)) day.meals = [];
-    day.meals.push({
-      id: 'm' + Date.now().toString(36) + Math.random().toString(16).slice(2, 5),
-      slot: draftSlot(),
-      style: mealDraft.style || 'normal',
-      note: String(mealDraft.note || '').trim().slice(0, 40),
-      photo: mealDraft.photo || '',
-      ts: Date.now()
-    });
-    mealDraft.note = '';
-    mealDraft.photo = null;
-    if(navigator.vibrate){ try{ navigator.vibrate(10); }catch(e){} }
-    afterHealthChange(true);
-    notice(T('mealAdded', '식사를 기록했어요'));
-  }
-  function deleteMeal(id){
-    var key = todayKey();
-    var d = state.days[key];
-    if(!d || !Array.isArray(d.meals)) return;
-    d.meals = d.meals.filter(function(m){ return (m && m.id) !== id; });
-    afterHealthChange(true);
-  }
-
   /* =================render: rpg companion================= */
   var pulseTimer = null, levelupTimer = null, levelupCardTimer = null;
 
@@ -4572,13 +4085,9 @@ window.HARU_I18N = {
     var line = arr[i]
       .replace(/\{done\}/g, done)
       .replace(/\{remain\}/g, Math.max(0, HABITS.length - done));
-    /* 오늘 건강 기록이 있으면 기사도 그 숫자를 읽고 말해요 */
-    var hs = healthSignals(key);
-    if(hs.any && HDATA.rpg && HDATA.rpg.length){
-      var hv = healthVars(key);
-      var li = hs.steps ? 0 : (hs.bp ? 1 : 0);
-      line = fmtVars(HDATA.rpg[li] || HDATA.rpg[0], hv);
-    }
+    /* 오늘 컨디션이나 최근 기록이 있으면 기사가 그걸 읽고 말해요 */
+    var pl = knightPatternLine(key);
+    if(pl) line = pl;
     return line;
   }
 
@@ -4683,8 +4192,8 @@ window.HARU_I18N = {
     var btn = $('[data-mission]', card);
     if(btn) btn.setAttribute('aria-pressed', done ? 'true' : 'false');
     $('#msDay').textContent = done ? T('missionDone', '오늘 완료') : T('missionNew', '매일 새로 하나');
-    var why = $('#msWhy'), w = missionWhy(key);
-    if(why){ if(w){ why.hidden = false; why.textContent = w; } else { why.hidden = true; why.textContent = ''; } }
+    var whyEl = $('#msWhy'), why = missionWhy(key);
+    if(whyEl){ whyEl.hidden = !why; whyEl.textContent = why; }
   }
 
   /* =================render: habits================= */
@@ -5003,6 +4512,7 @@ window.HARU_I18N = {
         + '<strong>' + esc(co.name) + '</strong>'
         + '<span class="role">' + esc(co.role) + '</span>'
         + '<span class="mini num">' + esc(T('coachToday', '오늘 {d}/{t}', { d:t.done, t:t.total })) + '</span>'
+        + (patternLineFor(c) ? '<span class="say">' + esc(patternLineFor(c)) + '</span>' : '')
         + '</div>';
     });
     $('#coachCards').innerHTML = html;
@@ -5017,13 +4527,12 @@ window.HARU_I18N = {
     var last = state.feed.length ? state.feed[state.feed.length - 1] : null;
     var host = $('#coachStrip');
     if(!last){
-      var ht = healthTip(todayKey());
-      var c0 = (ht && activeCoaches().indexOf('health') !== -1) ? 'health' : activeCoaches()[0], co0 = COACHES[c0];
+      var c0 = activeCoaches()[0], co0 = COACHES[c0];
       var nm0 = userName();
-      var hello0 = ht || T('stripHello', '{name}님, 오늘도 천천히 하나씩 채워봐요.', { name:nm0 || T('memberWord', '회원') });
+      var hello = patternLineFor(c0) || T('stripHello', '{name}님, 오늘도 천천히 하나씩 채워봐요.', { name:nm0 || T('memberWord', '회원') });
       host.innerHTML = '<span class="avatar ' + co0.tone + '">' + co0.emoji + '</span>'
         + '<div class="strip-body"><div class="strip-head"><b>' + esc(co0.name) + '</b> ' + esc(co0.role) + '</div>'
-        + '<p>' + esc(hello0) + '</p></div>'
+        + '<p>' + esc(hello) + '</p></div>'
         + '<button class="go" id="btnCheerMini" aria-label="' + esc(T('cheerAria', '응원받기')) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-3.2-6.4"/><path d="M20 4v4h-4"/></svg></button>';
       return;
     }
@@ -5099,8 +4608,8 @@ window.HARU_I18N = {
     var bank = MSG.check[id] || MSG.check._default;
     var text = fill(pick(bank, 'check-' + id), { task: habitTitle(id) });
     var co = coachOfHabit(id);
-    /* 닥터 튼튼·마인드 메이는 오늘 기록한 숫자를 근거로 말해요 */
-    var extra = co === 'health' ? healthTip(todayKey()) : (co === 'mind' ? healthMindTip(todayKey()) : '');
+    /* 오늘 컨디션·최근 기록이 있으면 코치가 한 마디 더 붙여요 */
+    var extra = patternLineFor(co);
     if(extra) text = text + ' ' + extra;
     speak(co, text);
   }
@@ -5952,55 +5461,6 @@ window.HARU_I18N = {
     notice(T('settingsSaved', '설정을 저장했어요'));
   }
 
-  /* ===== Health Connect 연동: URL의 hc_* 값을 오늘 기록에 합칩니다 ===== */
-  function hcNum(q, key, lo, hi, int){
-    var raw = q.get(key);
-    if(raw == null || String(raw).trim() === '') return null;
-    var v = Number(raw);
-    if(!isFinite(v)) return null;
-    if(int) v = Math.round(v);
-    if(v < lo || v > hi) return null;
-    return v;
-  }
-  function hcCleanUrl(){
-    /* ?lang= 은 그대로 두고 hc_* 만 지워, 새로고침해도 예전 값이 덮어쓰지 않게 합니다 */
-    try{
-      var u = new URL(location.href);
-      ['hc_steps', 'hc_sleep', 'hc_sbp', 'hc_dbp', 'hc_date'].forEach(function(k){ u.searchParams.delete(k); });
-      history.replaceState(null, '', u.pathname + (u.search ? u.search : '') + u.hash);
-    }catch(e){}
-  }
-  function hcImport(){
-    var q;
-    try{ q = new URLSearchParams(location.search); }catch(e){ return false; }
-    if(!q.has('hc_steps') && !q.has('hc_sleep') && !q.has('hc_sbp') && !q.has('hc_dbp')) return false;
-    var steps = hcNum(q, 'hc_steps', 0, 200000, true);
-    var sleep = hcNum(q, 'hc_sleep', 0, 24, false);
-    var sbp = hcNum(q, 'hc_sbp', 50, 260, true);
-    var dbp = hcNum(q, 'hc_dbp', 30, 180, true);
-    var dkey = todayKey();
-    var rawDate = String(q.get('hc_date') || '');
-    if(/^\d{4}-\d{2}-\d{2}$/.test(rawDate)) dkey = rawDate;
-    if(!(steps > 0) && !(sleep > 0) && sbp == null && dbp == null){ hcCleanUrl(); return false; }
-    var day = getDay(dkey, true);
-    if(!day.health || typeof day.health !== 'object') day.health = {};
-    if(steps > 0) day.health.steps = steps;
-    if(sleep > 0) day.health.sleep = Math.round(sleep * 10) / 10;
-    if(sbp != null || dbp != null){
-      var b = day.health.bp || {};
-      if(sbp != null && sbp > 0) b.sbp = sbp;
-      if(dbp != null && dbp > 0) b.dbp = dbp;
-      if(b.sbp && b.dbp) day.health.bp = { sbp:b.sbp, dbp:b.dbp };
-    }
-    save();
-    hcCleanUrl();
-    shown = { today:-1, total:-1, proj:-1 };
-    renderAll();
-    maybeLevelUp();
-    showToast('health', T('hcImported', 'Health Connect에서 건강 기록을 불러왔어요!'));
-    return true;
-  }
-
   /* =================views / init================= */
   var activeView = 'home';
   function showView(name){
@@ -6043,11 +5503,10 @@ window.HARU_I18N = {
     rebuildHabits();
     renderCompanion();
     renderHeader();
+    renderCondition();
     renderHero();
-    renderPlan();
     renderRpg();
     renderHabits();
-    renderHealthLog();
     renderMission();
     renderMiniWeek();
     renderStrip();
@@ -6161,25 +5620,11 @@ window.HARU_I18N = {
     var instEl = t.closest('[data-inst]');
     if(instEl){ toggleInstrument(Number(instEl.getAttribute('data-inst'))); return; }
 
-    /* ---- 건강·식사 간편 입력 ---- */
-    var hStep = t.closest('[data-steps]');
-    if(hStep){ setSteps(Number(hStep.getAttribute('data-steps'))); return; }
-    var hSleepH = t.closest('[data-sleep-h]');
-    if(hSleepH){ setSleep(Number(hSleepH.getAttribute('data-sleep-h'))); return; }
-    var hSleepStep = t.closest('[data-sleep-step]');
-    if(hSleepStep){ setSleep((sleepH(todayKey()) || 7) + Number(hSleepStep.getAttribute('data-sleep-step'))); return; }
-    var hMood = t.closest('[data-mood]');
-    if(hMood){ setMood(hMood.getAttribute('data-mood')); return; }
-    var hBp = t.closest('[data-bp]');
-    if(hBp){ var pr = hBp.getAttribute('data-bp').split('/'); setBp(pr[0], pr[1]); return; }
-    var mSlot = t.closest('[data-slot]');
-    if(mSlot){ mealDraft.slot = mSlot.getAttribute('data-slot'); renderHealthLog(); return; }
-    var mStyle = t.closest('[data-style]');
-    if(mStyle){ mealDraft.style = mStyle.getAttribute('data-style'); renderHealthLog(); return; }
-    if(t.closest('#btnMealPhoto')){ var fi = $('#inpMealPhoto'); if(fi) fi.click(); return; }
-    if(t.closest('#btnMealAdd')){ addMeal(); return; }
-    var mDel = t.closest('[data-meal-del]');
-    if(mDel){ deleteMeal(mDel.getAttribute('data-meal-del')); return; }
+    /* ---- 오늘 컨디션 한 줄 칩 ---- */
+    var condEl = t.closest('[data-cond]');
+    if(condEl){ setCondition(condEl.getAttribute('data-cond')); return; }
+    if(t.closest('#condPill')){ condOpen = true; renderCondition(); return; }
+
 
     if(t.closest('#obClose')){ obClose(); return; }
 
@@ -6248,44 +5693,6 @@ window.HARU_I18N = {
         renderCompanion();
         save();
       }
-      return;
-    }
-    if(t.id === 'inpSbp' || t.id === 'inpDbp'){
-      var sb = Number($('#inpSbp').value), db = Number($('#inpDbp').value);
-      if(!sb && !db) setBp('', '', false);
-      else if(sb > 0 && db > 0) setBp(sb, db, false);
-      return;
-    }
-    if(t.id === 'inpMealPhoto'){
-      var f = t.files && t.files[0];
-      if(!f) return;
-      compressImage(f, function(data){
-        if(data){ mealDraft.photo = data; renderHealthLog(); }
-        else notice(T('mealPhotoFail', '사진을 읽지 못했어요'));
-      });
-      return;
-    }
-  });
-
-  document.addEventListener('input', function(e){
-    var t = e.target;
-    if(!t || !t.id) return;
-    if(t.id === 'inpSteps' || t.id === 'inpStepsRange'){
-      var v = Number(t.value) || 0;
-      if(t.id === 'inpSteps'){ var rngEl = $('#inpStepsRange'); if(rngEl) rngEl.value = v || 0; }
-      else { var numEl = $('#inpSteps'); if(numEl) numEl.value = v || ''; }
-      setSteps(v, false);
-      return;
-    }
-    if(t.id === 'inpSleepRange'){ setSleep(Number(t.value), false); return; }
-    if(t.id === 'inpSbp' || t.id === 'inpDbp'){
-      var s = Number($('#inpSbp').value), d = Number($('#inpDbp').value);
-      if(s > 0 && d > 0) setBp(s, d, false);
-      return;
-    }
-    if(t.id === 'inpMealNote'){
-      mealDraft.note = String(t.value || '').slice(0, 40);
-      return;
     }
   });
 
@@ -6323,8 +5730,6 @@ window.HARU_I18N = {
   save();
   applyStatic();
   renderAll();
-  hcImport();
-
   /* 나이를 고치면 기준 기대수명을 다시 채움 */
   function bindAgeInput(ageSel, baseSel, noteSel){
     var a = $(ageSel), b = $(baseSel), n = $(noteSel);

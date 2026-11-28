@@ -1,13 +1,13 @@
 # 하루+ Health Connect 브리지 (android-hc-bridge)
 
 Health Connect에 쌓인 **오늘 걸음수 · 최근 수면 · 최근 혈압**을 읽어서, 루틴 앱 **하루+**
-(https://lukekim777.github.io/luke-routine-app/) 의 건강 기록 칸에 그대로 채워 넣는 미니 안드로이드 앱입니다.
+(https://lukekim777.github.io/luke-routine-app/plus/) 의 건강 기록 칸에 그대로 채워 넣는 미니 안드로이드 앱입니다.
 
 앱에서 **「하루+ 웹 앱으로 전송」** 버튼을 누르면 브라우저로 아래 주소가 열리고,
 하루+ 가 값을 받아 오늘 기록에 저장합니다. (값이 없는 항목은 주소에서 빠집니다.)
 
 ```
-https://lukekim777.github.io/luke-routine-app/?hc_steps=8432&hc_sleep=7.5&hc_sbp=128&hc_dbp=82&hc_date=2026-11-28
+https://lukekim777.github.io/luke-routine-app/plus/?hc_steps=8432&hc_sleep=7.5&hc_sbp=128&hc_dbp=82&hc_date=2026-11-28
 ```
 
 | 파라미터 | 뜻 | 범위 |

@@ -18,7 +18,7 @@ class HealthPayloadTest {
             date = LocalDate.of(2026, 11, 28)
         )
         assertEquals(
-            "https://lukekim777.github.io/luke-routine-app/" +
+            "https://lukekim777.github.io/luke-routine-app/plus/" +
                 "?hc_steps=8432&hc_sleep=7.5&hc_sbp=128&hc_dbp=82&hc_date=2026-11-28",
             url
         )
@@ -34,7 +34,7 @@ class HealthPayloadTest {
             date = LocalDate.of(2026, 11, 28)
         )
         assertEquals(
-            "https://lukekim777.github.io/luke-routine-app/?hc_steps=5210&hc_date=2026-11-28",
+            "https://lukekim777.github.io/luke-routine-app/plus/?hc_steps=5210&hc_date=2026-11-28",
             url
         )
     }
@@ -49,7 +49,7 @@ class HealthPayloadTest {
             date = null
         )
         assertEquals(
-            "https://lukekim777.github.io/luke-routine-app/?hc_sbp=135&hc_dbp=88",
+            "https://lukekim777.github.io/luke-routine-app/plus/?hc_sbp=135&hc_dbp=88",
             url
         )
     }

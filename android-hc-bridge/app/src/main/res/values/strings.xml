@@ -53,6 +53,6 @@
     <!-- 권한 사용 이유 화면 -->
     <string name="rationale_title">권한 사용 이유</string>
     <string name="rationale_heading">Health Connect를 왜 읽나요?</string>
-    <string name="rationale_body">하루+ 건강 브리지는 루크김님이 매일 쓰는 루틴 앱 ‘하루+’에 오늘의 건강 기록을 자동으로 채워 넣기 위해 아래 세 가지만 읽습니다.\n\n• 걸음수 — 오늘 0시부터 지금까지의 합계\n• 수면 — 최근 24시간 안에 끝난 수면 시간\n• 혈압 — 가장 최근 측정값(수축기/이완기)\n\n읽은 값은 이 앱 안에 저장하지 않습니다. 화면에 보여주고, 전송 버튼을 눌렀을 때 하루+ 주소(https://lukekim777.github.io/luke-routine-app/)의 주소 파라미터로만 넘깁니다. 그 밖의 기록은 읽지 않으며, 어떤 값도 외부 서버로 보내지 않습니다.\n\n권한은 언제든지 Health Connect 설정에서 끌 수 있습니다.</string>
+    <string name="rationale_body">하루+ 건강 브리지는 루크김님이 매일 쓰는 루틴 앱 ‘하루++’에 오늘의 건강 기록을 자동으로 채워 넣기 위해 아래 세 가지만 읽습니다.\n\n• 걸음수 — 오늘 0시부터 지금까지의 합계\n• 수면 — 최근 24시간 안에 끝난 수면 시간\n• 혈압 — 가장 최근 측정값(수축기/이완기)\n\n읽은 값은 이 앱 안에 저장하지 않습니다. 화면에 보여주고, 전송 버튼을 눌렀을 때 하루+ 주소(https://lukekim777.github.io/luke-routine-app/plus/)의 주소 파라미터로만 넘깁니다. 그 밖의 기록은 읽지 않으며, 어떤 값도 외부 서버로 보내지 않습니다.\n\n권한은 언제든지 Health Connect 설정에서 끌 수 있습니다.</string>
     <string name="rationale_close">닫기</string>
 </resources>
